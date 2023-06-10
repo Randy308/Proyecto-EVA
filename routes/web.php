@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SimuladorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/simulador',[SimuladorController::class,'index']);

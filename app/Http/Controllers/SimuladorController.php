@@ -12,7 +12,7 @@ class SimuladorController extends Controller
      */
     public function index()
     {
-        //
+        return view('simulador.index');
     }
 
     /**
