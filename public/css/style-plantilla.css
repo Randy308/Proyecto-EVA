@@ -37,12 +37,21 @@ li a:hover {
     height: 100%;
     border: 1px solid black;
 }
-
+.hoja{
+    background-color: white;
+    padding: 30px;
+    border: 1px solid black;
+}
 .c1 {
     background-color: whitesmoke;
+    display: grid;
+    grid-template-rows: 1fr;
 }
 .c2 {
     background-color: lightgray;
+    display: grid;
+    padding: 20px;
+    gap: 20px;
 }
 .c3 {
     background-color: whitesmoke;
