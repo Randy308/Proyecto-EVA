@@ -9,5 +9,12 @@
 </head>
 <body>
     <h1>Lorem, ipsum.</h1> 
+    <div class="container">
+        <div class="subcontedor c1">
+           
+        </div>
+        <div class="subcontedor c2"></div>
+        <div class="subcontedor c3"></div>
+    </div>
 </body>
 </html>
