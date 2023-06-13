@@ -15,6 +15,12 @@ use App\Http\Controllers\SimuladorController;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('index');
+Route::get('/plantillas', function () {
+    return view('plantillas');
+})->name('plantillas');
 
 Route::get('/simulador',[SimuladorController::class,'index']);
+});
+
+
