@@ -24,8 +24,7 @@
         </div>
         <div class="subcontedor c2">
             <div class="hoja">
-                <div id="chessboard">
-                </div>
+                
             </div>
         </div>
         <div class="subcontedor c3">

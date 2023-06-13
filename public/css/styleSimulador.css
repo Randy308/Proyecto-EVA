@@ -1,7 +1,8 @@
 #chessboard {
     width: auto;
-    height: 800px;
+    height: auto;
     display: grid;
+    
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
 }
@@ -13,6 +14,7 @@
 
 .white {
     background-color: white;
+    cursor: pointer;
 }
 
 .black {

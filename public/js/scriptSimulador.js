@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cells.forEach(cell => {
         cell.addEventListener('click', moveAlfil);
     });
-  
+    
     function moveAlfil() {
         const clickedCell = this;
         const alfilCell = alfil.parentElement;
@@ -40,4 +40,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
   });
+
   
