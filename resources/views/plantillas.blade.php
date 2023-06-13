@@ -38,10 +38,16 @@
             <input id="button" onclick="addPlantilla()" type="button" class="btn btn-primary"
                 value="Agregar Diapostiva">
 
-            <button type="button" onclick="addTablero()" class="btn btn-primary">Agregar Movimiento Alfil</button>
+            <button type="button" onclick="agregarImagen()" class="btn btn-primary">Agregar Movimiento Alfil</button>
         </div>
     </div>
-
+    <script>
+        var rutaImagen = "{{ asset('img/alfil.jpg') }}";
+        function agregarImagen(){
+            addPlantilla(rutaImagen)
+            addTablero();
+        }
+    </script>
     <script src="{{ asset('js/scriptSimulador.js') }}"></script>
 
     <script src="{{ asset('js/plantilla-app.js') }}"></script>

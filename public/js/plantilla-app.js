@@ -1,14 +1,26 @@
 const container = document.querySelector(".c1");
 const cont_hoja = document.querySelector(".hoja");
-function addPlantilla() {
-    const div = document.createElement("div");
-    div.classList.add("miniatura");
-    
-    var mi = document.createElement("input");
-    mi.type = "text";
-    mi.value = "Titulo";
-    div.appendChild(mi);
-    container.appendChild(div);
+function addPlantilla(imagenRuta) {
+    if (typeof imagenRuta === "undefined") {
+        const div = document.createElement("div");
+        div.classList.add("miniatura");
+
+        var mi = document.createElement("input");
+        mi.classList.add("miTitulo");
+        mi.type = "text";
+        mi.value = "Titulo";
+        div.appendChild(mi);
+        container.appendChild(div);
+    } else {
+        const div = document.createElement("div");
+        div.classList.add("miniatura");
+        var imagen = document.createElement('img');
+        imagen.classList.add('imagen')
+        // Paso 2: Establecer la ruta de la imagen
+        imagen.src = imagenRuta;
+        div.appendChild(imagen);
+        container.appendChild(div);
+    }
 }
 
 function addTablero() {

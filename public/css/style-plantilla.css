@@ -13,6 +13,16 @@ ul {
 li {
     float: left;
 }
+.miTitulo{
+    max-width: 100%;
+    max-height: 100%;
+}
+.imagen{
+    max-width: 100%;
+    max-height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 li a {
     display: block;
@@ -52,6 +62,7 @@ li a:hover {
     height: 215px;
     cursor: pointer;
     border: 1px solid black;
+    align-items: center;
 
 }
 .c1 {
