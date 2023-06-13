@@ -1,28 +1,31 @@
-
 const container = document.querySelector(".c1");
 const cont_hoja = document.querySelector(".hoja");
-function addPlantilla(){
+function addPlantilla() {
     const div = document.createElement("div");
     div.classList.add("miniatura");
+    
+    var mi = document.createElement("input");
+    mi.type = "text";
+    mi.value = "Titulo";
+    div.appendChild(mi);
     container.appendChild(div);
 }
 
-function addTablero(){
+function addTablero() {
     cont_hoja.innerHTML = "";
     const div = document.createElement("div");
-    div.id = 'chessboard';
+    div.id = "chessboard";
     cont_hoja.appendChild(div);
     prueba();
-
 }
 
-function prueba(){
-    const chessboard = document.getElementById('chessboard');
+function prueba() {
+    const chessboard = document.getElementById("chessboard");
     for (let row = 0; row < 8; row++) {
         for (let col = 0; col < 8; col++) {
-            const cell = document.createElement('div');
-            cell.classList.add('cell');
-            cell.classList.add((row + col) % 2 === 0 ? 'white' : 'black');
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.classList.add((row + col) % 2 === 0 ? "white" : "black");
             cell.dataset.row = row;
             cell.dataset.col = col;
             chessboard.appendChild(cell);
@@ -30,30 +33,32 @@ function prueba(){
     }
     // Crear el alfil en la posición inicial
     const initialCell = document.querySelector(`[data-row="0"][data-col="2"]`);
-    const alfil = document.createElement('div');
-    alfil.classList.add('piece');
-    alfil.textContent = '♗'; // Unicode para el símbolo del alfil
+    const alfil = document.createElement("div");
+    alfil.classList.add("piece");
+    alfil.textContent = "♗"; // Unicode para el símbolo del alfil
     initialCell.appendChild(alfil);
-  
+
     // Agregar el evento de click a las celdas del tablero
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => {
-        cell.addEventListener('click', moveAlfil);
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+        cell.addEventListener("click", moveAlfil);
     });
 
     function moveAlfil() {
         const clickedCell = this;
         const alfilCell = alfil.parentElement;
-    
+
         // Verificar si el movimiento es válido
-        const rowDiff = Math.abs(clickedCell.dataset.row - alfilCell.dataset.row);
-        const colDiff = Math.abs(clickedCell.dataset.col - alfilCell.dataset.col);
-    
+        const rowDiff = Math.abs(
+            clickedCell.dataset.row - alfilCell.dataset.row
+        );
+        const colDiff = Math.abs(
+            clickedCell.dataset.col - alfilCell.dataset.col
+        );
+
         if (rowDiff === colDiff && rowDiff !== 0) {
             // Remover el alfil de la celda actual y agregarlo a la celda seleccionada
             clickedCell.appendChild(alfil);
         }
     }
 }
-
-

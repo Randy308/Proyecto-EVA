@@ -25,9 +25,7 @@
     <div class="container">
         <div class="subcontedor c1">
 
-            <div class="miniatura">
-
-            </div>
+            
 
 
         </div>
