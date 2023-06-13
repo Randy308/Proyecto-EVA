@@ -12,37 +12,31 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Lorem, ipsum.</h2> 
+    <center><h4>Diseño</h4> </center>
     <div class="container">
         <div class="subcontedor c1">
            
             <div class="miniatura">
-  
+               
             </div>
-            <div class="miniatura">
-  
-            </div>
-            <div class="miniatura">
-  
-            </div>
-        
-            
+              
             
         </div>
         <div class="subcontedor c2">
             <div class="hoja">
                 <div id="chessboard">
-                    <!-- Aquí se generará el tablero de ajedrez -->
                 </div>
-                <script src="{{ asset('js/scriptSimulador.js')}}"></script>
             </div>
         </div>
         <div class="subcontedor c3">
             <input id="button"  onclick="addPlantilla()" type="button" class="btn btn-primary" value="Agregar Diapostiva">
+            <input id="button"  onclick="addTablero()" type="button" class="btn btn-primary" value="Agregar Tablero">
         </div>
     </div>
 
+    <script src="{{ asset('js/scriptSimulador.js')}}"></script>
 
     <script src="{{ asset('js/plantilla-app.js') }}"></script>
 </body>
 </html>
+                
