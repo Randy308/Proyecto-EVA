@@ -1,5 +1,6 @@
 body {
     background-color: white;
+    padding-bottom: 30px;
 }
 ul {
     list-style-type: none;
@@ -70,4 +71,8 @@ li a:hover {
 }
 .c3 {
     background-color: whitesmoke;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }
