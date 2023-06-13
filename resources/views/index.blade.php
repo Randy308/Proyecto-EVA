@@ -13,6 +13,7 @@
     <ul>
         <li><a class="active" href="{{route('index')}}">Inicio</a></li>
         <li><a href="{{route('plantillas')}}">Crear Plantillas</a></li>
+        <li><a href="{{route('simulador')}}">Simulador</a></li>
       </ul>
     <h1>Lorem, ipsum.</h1> 
 </body>

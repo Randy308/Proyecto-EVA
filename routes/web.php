@@ -20,7 +20,6 @@ Route::get('/plantillas', function () {
     return view('plantillas');
 })->name('plantillas');
 
-Route::get('/simulador',[SimuladorController::class,'index']);
-});
+Route::get('/simulador',[SimuladorController::class,'index'])->name('simulador');
 
 

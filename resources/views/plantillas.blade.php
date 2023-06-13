@@ -13,6 +13,15 @@
     <div class="container">
         <div class="subcontedor c1">
            
+            <div class="miniatura">
+  
+            </div>
+            <div class="miniatura">
+  
+            </div>
+        
+            
+            
         </div>
         <div class="subcontedor c2">
             <div class="hoja">
