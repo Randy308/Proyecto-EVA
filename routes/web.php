@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SimuladorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,4 +19,8 @@ Route::get('/', function () {
 Route::get('/plantillas', function () {
     return view('plantillas');
 })->name('plantillas');
+
+Route::get('/simulador',[SimuladorController::class,'index']);
+});
+
 
