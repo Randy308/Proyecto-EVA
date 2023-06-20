@@ -23,3 +23,6 @@ Route::get('/plantillas', function () {
 Route::get('/simulador',[SimuladorController::class,'index'])->name('simulador');
 
 
+Route::get('/vista', function () {
+    return view('vista');
+})->name('vista');
