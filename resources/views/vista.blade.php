@@ -56,9 +56,23 @@
     <div id="contents">
         Content here
     </div>
-
+    <div class="container">
+        <input type="text" id="htmlInput">
+        <button id="addHtmlButton">Agregar HTML</button>
+        <div id="outputDiv"></div>
+    </div>
     <input type="file" id="fileInput" class="btn">
     <button type="button" id="downloadInput" class="btn">Download</button>
 </body>
+<script>
+    var addHtmlButton = document.getElementById('addHtmlButton');
+    var htmlInput = document.getElementById('htmlInput');
+    var outputDiv = document.getElementById('outputDiv');
+
+    addHtmlButton.addEventListener('click', function() {
+        var htmlContent = htmlInput.value;
+        outputDiv.innerHTML = htmlContent;
+    });
+</script>
 
 </html>
