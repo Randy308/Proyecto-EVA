@@ -1,19 +1,31 @@
 const container = document.querySelector(".c1");
 const cont_hoja = document.querySelector(".hoja");
-function addPlantilla(imagenRuta) {
-    if (typeof imagenRuta === "undefined") {
-        const div = document.createElement("div");
-        div.classList.add("miniatura");
+var autoIncrement = 1;
 
+
+function addPlantilla(imagenRuta ,contenido) {
+    const div = document.createElement("div");
+    div.classList.add("miniatura");
+    div.id = "miniatura";
+    var mihidden = document.createElement("input");
+    mihidden.classList.add("contenido");
+    mihidden.type = "hidden";
+    mihidden.id = "oculto";
+    mihidden.value = contenido;
+    div.appendChild(mihidden);
+    container.appendChild(div);
+    if (typeof imagenRuta === "undefined") {
+        
+       
         var mi = document.createElement("input");
         mi.classList.add("miTitulo");
         mi.type = "text";
         mi.value = "Titulo";
         div.appendChild(mi);
-        container.appendChild(div);
+
     } else {
-        const div = document.createElement("div");
-        div.classList.add("miniatura");
+        
+        
         var imagen = document.createElement("img");
         imagen.classList.add("imagen");
         // Paso 2: Establecer la ruta de la imagen
