@@ -5,11 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styleSimulador.css') }}">
-    <link rel="stylesheet" href={{ asset('css/style-plantilla.css') }}>
+    <link rel="stylesheet" href="{{ asset('css/style-plantilla.css') }}">
 
     <title>Document</title>
 </head>
@@ -20,7 +26,7 @@
         <li><a class="active" href="{{ route('plantillas') }}">Crear Plantillas</a></li>
     </ul>
     <center>
-        <h4>Diseño</h4>
+        <h5>Diseño</h5>
     </center>
     <div class="container">
         <div id="c1" class="subcontedor c1">
@@ -35,12 +41,25 @@
             </div>
         </div>
         <div class="subcontedor c3">
-            <input id="button" onclick="addPlantilla()" type="button" class="btn btn-primary"
-                value="Agregar Diapostiva">
+
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownButton" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                 Agregar Diapostiva
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownButton">
+                    <button id="item1" onclick="addtitulo()" class="dropdown-item" type="button">Titulo</button>
+                    <button id="item2" class="dropdown-item" type="button">Titulo y subtitulo</button>
+                    <button id="item3" class="dropdown-item" type="button">Subtitulo y texto</button>
+                    <button id="item4" class="dropdown-item" type="button">Texto</button>
+                </ul>
+            </div>
+
+            
 
             <button type="button" id="AgregarMovAlfil" class="btn btn-primary">Agregar Movimiento Alfil</button>
-            <button type="button" id="GuardarHoja" disabled class="btn btn-primary">Guardar</button>
-            <button type="button" id="BorrarHoja" disabled class="btn btn-primary">Borrar</button>
+            <button type="button" id="GuardarHoja" disabled class="btn btn-success">Guardar</button>
+            <button type="button" id="BorrarHoja" disabled class="btn btn-danger">Borrar</button>
 
 
         </div>
@@ -49,6 +68,7 @@
         <input type="hidden" name="href_value" id="hrefValueInput">
 
     </div>
+
     <!--
     <center>
         <div class="subcontainer">
@@ -62,8 +82,7 @@
     <script src="{{ asset('js/scriptSimulador.js') }}"></script>
 
     <script src="{{ asset('js/plantilla-app.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
     <script>
         function checkFileAPI() { //check if api is supported (req HTML5)
             if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -101,7 +120,7 @@
                 const botonObstaculo = document.createElement("button");
                 botonObstaculo.textContent = "Iniciar";
                 botonObstaculo.id = "BotonIniciar";
-                botonObstaculo.classList.add("btn", "btn-primary", "botonTablero");
+                botonObstaculo.classList.add("btn", "btn-info", "botonTablero");
                 contenedorDiv.appendChild(botonObstaculo);
                 var element = document.createElement('a');
 
@@ -165,8 +184,17 @@
                 element2.disabled = false;
 
             });
+            $(document).on('click', '.Cambiar', function() {
+                var y = document.getElementById('miTitulo');
+                y.innerHTML = y.value ;
+
+            });
+
 
             $(document).on('click', '#GuardarHoja', function() {
+
+                if (document.querySelector('#chessboard')) {
+                console.log('El elemento con la clase "tablero" existe.');
                 const element1 = document.getElementById("Obstaculo");
                 element1.remove();
                 const element2 = document.getElementById("Movimiento");
@@ -175,10 +203,14 @@
                 const botonObstaculo = document.createElement("button");
                 botonObstaculo.textContent = "Iniciar";
                 botonObstaculo.id = "BotonIniciar";
-                botonObstaculo.classList.add("btn", "btn-primary", "botonTablero");
+                botonObstaculo.classList.add("btn", "btn-info", "botonTablero");
                 contenedorDiv.appendChild(botonObstaculo);
 
                 var rutaImagen = "{{ asset('img/alfil.jpg') }}";
+            
+            
+            }
+                
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();
@@ -197,8 +229,6 @@
                 agregarImagen();
 
                 function agregarImagen() {
-
-
                     addPlantilla(rutaImagen, contenido);
                 }
 
@@ -207,13 +237,8 @@
         });
     </script>
     <script>
-
-
-    var outputDiv = document.getElementById('hoja');
-
-
+        var outputDiv = document.getElementById('hoja');
         var contenedor = document.getElementById('c1');
-
         contenedor.addEventListener('click', function(event) {
             var miniatura = event.target.closest('.miniatura');
             if (miniatura) {

@@ -2,8 +2,7 @@ const container = document.querySelector(".c1");
 const cont_hoja = document.querySelector(".hoja");
 var autoIncrement = 1;
 
-
-function addPlantilla(imagenRuta ,contenido) {
+function addPlantilla(imagenRuta, contenido) {
     const div = document.createElement("div");
     div.classList.add("miniatura");
     div.id = "miniatura";
@@ -15,17 +14,13 @@ function addPlantilla(imagenRuta ,contenido) {
     div.appendChild(mihidden);
     container.appendChild(div);
     if (typeof imagenRuta === "undefined") {
-        
-       
         var mi = document.createElement("input");
         mi.classList.add("miTitulo");
         mi.type = "text";
         mi.value = "Titulo";
         div.appendChild(mi);
-
+        addtitulo();
     } else {
-        
-        
         var imagen = document.createElement("img");
         imagen.classList.add("imagen");
         // Paso 2: Establecer la ruta de la imagen
@@ -34,7 +29,25 @@ function addPlantilla(imagenRuta ,contenido) {
         container.appendChild(div);
     }
 }
-
+function addtitulo() {
+    var element1 = document.getElementById("GuardarHoja");
+    element1.disabled = false;
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "diapositiva";
+    var mi = document.createElement("textarea");
+    mi.classList.add("miTitulo",'tituloDiapositiva');
+    mi.id = "miTitulo";
+    mi.type = "text";
+    mi.textContent = "Titulo";
+    div.appendChild(mi);
+    var boton = document.createElement("input");
+    boton.classList.add("Cambiar");
+    boton.type = "button";
+    boton.value = "Cambiar Texto";
+    div.appendChild(boton);
+    cont_hoja.appendChild(div);
+}
 function addTablero() {
     cont_hoja.innerHTML = "";
     const div = document.createElement("div");
@@ -231,7 +244,7 @@ function botonObstaculoDinamico() {
     const contenedorDiv = document.querySelector(".hoja");
     const botonObstaculo = document.createElement("button");
     botonObstaculo.textContent = "Agregar Obstaculo";
-    botonObstaculo.id = 'Obstaculo';
+    botonObstaculo.id = "Obstaculo";
     botonObstaculo.classList.add("btn", "btn-primary", "botonTablero");
     cont_hoja.appendChild(botonObstaculo);
 
@@ -246,7 +259,7 @@ function botonObstaculoDinamico() {
 
     const botonMovimiento = document.createElement("button");
     botonMovimiento.textContent = "Habilitar Movimiento";
-    botonMovimiento.id = 'Movimiento';
+    botonMovimiento.id = "Movimiento";
     botonMovimiento.classList.add("btn", "btn-primary", "botonTablero");
     cont_hoja.appendChild(botonMovimiento);
     botonMovimiento.disabled = true;
