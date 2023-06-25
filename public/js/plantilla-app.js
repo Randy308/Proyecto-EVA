@@ -72,7 +72,6 @@ function prueba() {
     }
 
     //AGREGAR BOTONES
-    const contenedorDiv = document.querySelector(".hoja");
     const botonObstaculo = document.createElement("button");
     botonObstaculo.textContent = "Agregar Obstaculo";
     botonObstaculo.id = "Obstaculo";
@@ -94,6 +93,7 @@ function prueba() {
     botonMovimiento.classList.add("btn", "btn-primary", "botonTablero");
     cont_hoja.appendChild(botonMovimiento);
     botonMovimiento.disabled = true;
+
     // Asignar evento de clic al botón
     botonMovimiento.addEventListener("click", function () {
         console.log("¡Has hecho clic en el botón movimiento!");
@@ -101,6 +101,28 @@ function prueba() {
         botonObstaculo.disabled = false;
         eliminarEventoPieza();
         agregarMovimiento();
+    });
+
+    const botonMejorCamino = document.createElement("button");
+    botonMejorCamino.textContent = "Habilitar Camino";
+    botonMejorCamino.id = "Camino";
+    botonMejorCamino.classList.add("btn", "btn-primary", "botonTablero");
+    cont_hoja.appendChild(botonMejorCamino);
+    //botonMejorCamino.disabled = true;
+
+    // Asignar evento de clic al botón
+    botonMejorCamino.addEventListener("click", function () {
+        console.log("¡Has hecho clic en el botón movimiento!");
+        console.log(findBestPath(7,7));
+        const path = findBestPath(7, 7);
+
+        if (path !== null) {
+            // Resaltar el camino en el tablero
+            highlightPath(path);
+        } else {
+            console.log("No se encontró un camino válido.");
+        }
+
     });
 
     // Crear el alfil en la posición inicial
@@ -152,7 +174,8 @@ function prueba() {
     function agregarCelda() {
         const clickedCell = this;
         const div = clickedCell;
-
+        div.classList.add("obstaculo");
+        console.log(clickedCell);
         // Obtener los atributos del div
         const atributos = div.attributes;
         agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
@@ -235,13 +258,146 @@ function prueba() {
 
         return resultado;
     }
+
+    
+    //mejor camino
+    function findBestPath(destRow, destCol) {
+        console.log(destRow);
+        console.log(destCol);
+        const queue = [];
+        const visited = new Set();
+        const startCell = alfil.parentElement;
+        const path = {};
+        path[startCell.dataset.row + "-" + startCell.dataset.col] = null;
+      
+        queue.push(startCell);
+        visited.add(startCell);
+      
+        while (queue.length > 0) {
+          const currentCell = queue.shift();
+      
+          if (
+            parseInt(currentCell.dataset.row) === destRow &&
+            parseInt(currentCell.dataset.col) === destCol
+          ) {
+            return reconstructPath(path, currentCell);
+          }
+      
+          const neighbors = getValidNeighbors(currentCell);
+      
+          for (const neighbor of neighbors) {
+            if (!visited.has(neighbor)) {
+              queue.push(neighbor);
+              visited.add(neighbor);
+              path[neighbor.dataset.row + "-" + neighbor.dataset.col] = currentCell;
+            }
+          }
+        }
+      
+        return null;
+    }
+      
+    function getValidNeighbors(cell) {
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+        const neighbors = [];
+      
+        // Movimientos del alfil: diagonales
+        for (let i = -7; i <= 7; i++) {
+          if (i !== 0) {
+            const newRow = row + i;
+            const newCol = col + i;
+      
+            if (isValidCell(newRow, newCol)) {
+              const neighbor = document.querySelector(
+                `[data-row="${newRow}"][data-col="${newCol}"]`
+              );
+              neighbors.push(neighbor);
+            }
+      
+            const newRow2 = row + i;
+            const newCol2 = col - i;
+      
+            if (isValidCell(newRow2, newCol2)) {
+              const neighbor2 = document.querySelector(
+                `[data-row="${newRow2}"][data-col="${newCol2}"]`
+              );
+              neighbors.push(neighbor2);
+            }
+          }
+        }
+      
+        return neighbors;
+    }
+      
+    function isValidCell(row, col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
+      
+    function reconstructPath(path, destination) {
+        const pathCells = [];
+        let currentCell = destination;
+      
+        while (currentCell !== null) {
+          pathCells.push(currentCell);
+          currentCell = path[currentCell.dataset.row + "-" + currentCell.dataset.col];
+        }
+      
+        pathCells.reverse();
+        highlightPath(pathCells);
+        return pathCells;
+    }
+    
+    function highlightPath(cells) {
+        const highlightedClass = "highlighted";
+      
+        // Remover la clase de resaltado de todas las celdas
+        const allCells = document.querySelectorAll(".cell");
+        allCells.forEach((cell) => {
+          cell.classList.remove(highlightedClass);
+          cell.classList.remove("bg-danger");
+        });
+      
+        // Agregar la clase de resaltado a las celdas en el camino
+        cells.forEach((cell) => {
+          cell.classList.add(highlightedClass);
+          cell.classList.add("bg-danger");
+        });
+      
+        // Agregar la clase de resaltado a las celdas intermedias en el camino
+        for (let i = 0; i < cells.length - 1; i++) {
+          const currentCell = cells[i];
+          const nextCell = cells[i + 1];
+          const rowDiff = parseInt(nextCell.dataset.row) - parseInt(currentCell.dataset.row);
+          const colDiff = parseInt(nextCell.dataset.col) - parseInt(currentCell.dataset.col);
+          const rowDirection = rowDiff > 0 ? 1 : -1;
+          const colDirection = colDiff > 0 ? 1 : -1;
+      
+          let currentRow = parseInt(currentCell.dataset.row) + rowDirection;
+          let currentCol = parseInt(currentCell.dataset.col) + colDirection;
+      
+          while (
+            currentRow !== parseInt(nextCell.dataset.row) &&
+            currentCol !== parseInt(nextCell.dataset.col)
+          ) {
+            const intermediateCell = document.querySelector(
+              `[data-row="${currentRow}"][data-col="${currentCol}"]`
+            );
+            intermediateCell.classList.add(highlightedClass);
+            intermediateCell.classList.add("bg-danger");
+            currentRow += rowDirection;
+            currentCol += colDirection;
+          }
+        }
+    }
+      
+      
 }
 
 function botonObstaculoDinamico() {
     const element1 = document.getElementById("BotonIniciar");
     element1.remove();
     //AGREGAR BOTONES
-    const contenedorDiv = document.querySelector(".hoja");
     const botonObstaculo = document.createElement("button");
     botonObstaculo.textContent = "Agregar Obstaculo";
     botonObstaculo.id = "Obstaculo";
@@ -398,4 +554,7 @@ function botonObstaculoDinamico() {
 
         return resultado;
     }
+
+    
+      
 }
