@@ -261,137 +261,101 @@ function prueba() {
 
     
     //mejor camino
-    function findBestPath(destRow, destCol) {
-        console.log(destRow);
-        console.log(destCol);
+    function findBestPath(targetRow, targetCol) {
+        const startCell = alfil.parentElement;
         const queue = [];
         const visited = new Set();
-        const startCell = alfil.parentElement;
-        const path = {};
-        path[startCell.dataset.row + "-" + startCell.dataset.col] = null;
+        const paths = new Map();
       
-        queue.push(startCell);
-        visited.add(startCell);
+        const startNode = { row: parseInt(startCell.dataset.row), col: parseInt(startCell.dataset.col) };
+        queue.push(startNode);
+        visited.add(`${startNode.row},${startNode.col}`);
+        paths.set(`${startNode.row},${startNode.col}`, []);
       
         while (queue.length > 0) {
-          const currentCell = queue.shift();
+          const currentNode = queue.shift();
+          const { row, col } = currentNode;
       
-          if (
-            parseInt(currentCell.dataset.row) === destRow &&
-            parseInt(currentCell.dataset.col) === destCol
-          ) {
-            return reconstructPath(path, currentCell);
+          if (row === targetRow && col === targetCol) {
+            return paths.get(`${row},${col}`);
           }
       
-          const neighbors = getValidNeighbors(currentCell);
+          const neighbors = getValidNeighbors(row, col);
       
           for (const neighbor of neighbors) {
-            if (!visited.has(neighbor)) {
-              queue.push(neighbor);
-              visited.add(neighbor);
-              path[neighbor.dataset.row + "-" + neighbor.dataset.col] = currentCell;
+            const { neighborRow, neighborCol } = neighbor;
+            const key = `${neighborRow},${neighborCol}`;
+      
+            if (!visited.has(key)) {
+              queue.push({ row: neighborRow, col: neighborCol });
+              visited.add(key);
+              paths.set(key, [...paths.get(`${row},${col}`), neighbor]);
             }
           }
         }
       
         return null;
-    }
+      }
       
-    function getValidNeighbors(cell) {
-        const row = parseInt(cell.dataset.row);
-        const col = parseInt(cell.dataset.col);
+      function getValidNeighbors(row, col) {
+        const directions = [
+          { row: -1, col: -1 }, // Top-left
+          { row: -1, col: 1 },  // Top-right
+          { row: 1, col: -1 },  // Bottom-left
+          { row: 1, col: 1 }    // Bottom-right
+        ];
+      
         const neighbors = [];
       
-        // Movimientos del alfil: diagonales
-        for (let i = -7; i <= 7; i++) {
-          if (i !== 0) {
-            const newRow = row + i;
-            const newCol = col + i;
+        for (const direction of directions) {
+          const neighborRow = row + direction.row;
+          const neighborCol = col + direction.col;
       
-            if (isValidCell(newRow, newCol)) {
-              const neighbor = document.querySelector(
-                `[data-row="${newRow}"][data-col="${newCol}"]`
-              );
-              neighbors.push(neighbor);
-            }
-      
-            const newRow2 = row + i;
-            const newCol2 = col - i;
-      
-            if (isValidCell(newRow2, newCol2)) {
-              const neighbor2 = document.querySelector(
-                `[data-row="${newRow2}"][data-col="${newCol2}"]`
-              );
-              neighbors.push(neighbor2);
-            }
+          if (isValidCell(neighborRow, neighborCol) && !hasObstacle(neighborRow, neighborCol)) {
+            neighbors.push({ neighborRow, neighborCol });
           }
         }
       
         return neighbors;
-    }
+      }
       
-    function isValidCell(row, col) {
+      function isValidCell(row, col) {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
-    }
+      }
       
-    function reconstructPath(path, destination) {
-        const pathCells = [];
-        let currentCell = destination;
+      function hasObstacle(row, col) {
+        const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+        return cell.classList.contains('obstaculo');
+      }
       
-        while (currentCell !== null) {
-          pathCells.push(currentCell);
-          currentCell = path[currentCell.dataset.row + "-" + currentCell.dataset.col];
-        }
-      
-        pathCells.reverse();
-        highlightPath(pathCells);
-        return pathCells;
-    }
-    
-    function highlightPath(cells) {
-        const highlightedClass = "highlighted";
-      
-        // Remover la clase de resaltado de todas las celdas
-        const allCells = document.querySelectorAll(".cell");
-        allCells.forEach((cell) => {
-          cell.classList.remove(highlightedClass);
-          cell.classList.remove("bg-danger");
-        });
-      
-        // Agregar la clase de resaltado a las celdas en el camino
+
+    function highlightPath(path) {
+        // Restaurar el color original de todas las celdas
+        const cells = document.querySelectorAll(".cell");
         cells.forEach((cell) => {
-          cell.classList.add(highlightedClass);
-          cell.classList.add("bg-danger");
+            cell.classList.remove("bg-warning");
         });
+
+        console.log("--------------");
+        console.log(path);
       
-        // Agregar la clase de resaltado a las celdas intermedias en el camino
-        for (let i = 0; i < cells.length - 1; i++) {
-          const currentCell = cells[i];
-          const nextCell = cells[i + 1];
-          const rowDiff = parseInt(nextCell.dataset.row) - parseInt(currentCell.dataset.row);
-          const colDiff = parseInt(nextCell.dataset.col) - parseInt(currentCell.dataset.col);
-          const rowDirection = rowDiff > 0 ? 1 : -1;
-          const colDirection = colDiff > 0 ? 1 : -1;
-      
-          let currentRow = parseInt(currentCell.dataset.row) + rowDirection;
-          let currentCol = parseInt(currentCell.dataset.col) + colDirection;
-      
-          while (
-            currentRow !== parseInt(nextCell.dataset.row) &&
-            currentCol !== parseInt(nextCell.dataset.col)
-          ) {
-            const intermediateCell = document.querySelector(
-              `[data-row="${currentRow}"][data-col="${currentCol}"]`
-            );
-            intermediateCell.classList.add(highlightedClass);
-            intermediateCell.classList.add("bg-danger");
-            currentRow += rowDirection;
-            currentCol += colDirection;
-          }
-        }
+        // Resaltar el camino en el tablero
+        path.forEach((step) => {
+            console.log("############");
+            console.log(step);
+          const row = step.neighborRow;
+          const col = step.neighborCol;
+          console.log(row+" "+col);
+          console.log(`[data-row="${row}"][data-col="${col}"]`);
+          const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+          console.log("=====================");
+          console.log(cell);
+          cell.classList.add("bg-warning");
+        });
     }
       
       
+        
 }
 
 function botonObstaculoDinamico() {
