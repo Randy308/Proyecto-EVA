@@ -71,62 +71,129 @@ function prueba() {
         }
     }
 
+    //Contenedor para botones del tablero
+    const contenedorBtn = document.createElement("div");
+    contenedorBtn.id = "contenedorBtn";
+    contenedorBtn.classList.add("row");
+    cont_hoja.appendChild(contenedorBtn);
+
+    const contenedorBtnes = document.getElementById("contenedorBtn");
+    for (let i = 0; i < 4; i++) {
+        const contenedorCol = document.createElement("div");
+        contenedorCol.id = "columna-"+(i+1);
+        contenedorCol.classList.add("col-3");
+        contenedorBtnes.appendChild(contenedorCol);
+    }
+
     //AGREGAR BOTONES
+    const divColumna1 = document.getElementById("columna-1");
+
     const botonObstaculo = document.createElement("button");
     botonObstaculo.textContent = "Agregar Obstaculo";
-    botonObstaculo.id = "Obstaculo";
+    botonObstaculo.id = "btnObstaculo";
     botonObstaculo.classList.add("btn", "btn-primary", "botonTablero");
-    cont_hoja.appendChild(botonObstaculo);
+    divColumna1.appendChild(botonObstaculo);
 
     // Asignar evento de clic al botón
     botonObstaculo.addEventListener("click", function () {
-        console.log("¡Has hecho clic en el botón obstaculo!");
-        botonObstaculo.disabled = true;
-        botonMovimiento.disabled = false;
         eliminarMovimiento();
         agregarEventoPieza();
+        const boton = document.getElementById("btnMovimiento");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonObstaculo.style.display = "none"
+        divColumna1.appendChild(botonObstaculo);
     });
 
     const botonMovimiento = document.createElement("button");
     botonMovimiento.textContent = "Habilitar Movimiento";
-    botonMovimiento.id = "Movimiento";
+    botonMovimiento.id = "btnMovimiento";
     botonMovimiento.classList.add("btn", "btn-primary", "botonTablero");
-    cont_hoja.appendChild(botonMovimiento);
-    botonMovimiento.disabled = true;
+    botonMovimiento.style.display = "none";
+    divColumna1.appendChild(botonMovimiento);
 
     // Asignar evento de clic al botón
     botonMovimiento.addEventListener("click", function () {
-        console.log("¡Has hecho clic en el botón movimiento!");
-        botonMovimiento.disabled = true;
-        botonObstaculo.disabled = false;
         eliminarEventoPieza();
         agregarMovimiento();
+        const boton = document.getElementById("btnObstaculo");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonMovimiento.style.display = "none";
+        divColumna1.appendChild(botonMovimiento);
     });
+
+    const divColumna2 = document.getElementById("columna-2");
 
     const botonMejorCamino = document.createElement("button");
     botonMejorCamino.textContent = "Habilitar Camino";
-    botonMejorCamino.id = "Camino";
+    botonMejorCamino.id = "btnCamino";
     botonMejorCamino.classList.add("btn", "btn-primary", "botonTablero");
-    cont_hoja.appendChild(botonMejorCamino);
-    //botonMejorCamino.disabled = true;
+    divColumna2.appendChild(botonMejorCamino);
 
     // Asignar evento de clic al botón
     botonMejorCamino.addEventListener("click", function () {
-        console.log("¡Has hecho clic en el botón movimiento!");
-        console.log(findBestPath(7,7));
-        const path = findBestPath(7, 7);
+        const path = findBestPath(0,6);
 
         if (path !== null) {
             // Resaltar el camino en el tablero
             highlightPath(path);
+            const boton = document.getElementById("btnOcultarCamino");
+            boton.style.display = "";
+            divColumna2.appendChild(boton);
+            botonMejorCamino.style.display = "none";
+            divColumna2.appendChild(botonMejorCamino);
         } else {
             console.log("No se encontró un camino válido.");
         }
 
     });
 
+    const botonOcultarCamino = document.createElement("button");
+    botonOcultarCamino.textContent = "Ocultar Camino";
+    botonOcultarCamino.id = "btnOcultarCamino";
+    botonOcultarCamino.classList.add("btn", "btn-primary", "botonTablero");
+    botonOcultarCamino.style.display = "none";
+    divColumna2.appendChild(botonOcultarCamino);
+
+    // Asignar evento de clic al botón
+    botonOcultarCamino.addEventListener("click", function () {
+        eliminarCamino();
+        const boton = document.getElementById("btnCamino");
+        boton.style.display = "";
+        divColumna2.appendChild(boton);
+        botonOcultarCamino.style.display = "none";
+        divColumna2.appendChild(botonOcultarCamino);
+    });
+
+    const divColumna3 = document.getElementById("columna-3");
+
+    const botonPosicionAlfil = document.createElement("button");
+    botonPosicionAlfil.textContent = "Cambiar Posicion Alfil";
+    botonPosicionAlfil.id = "btnPosicionAlfil";
+    botonPosicionAlfil.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna3.appendChild(botonPosicionAlfil);
+
+    // Asignar evento de clic al botón
+    botonPosicionAlfil.addEventListener("click", function () {
+        
+    });
+
+    const divColumna4 = document.getElementById("columna-4");
+
+    const botonPosicionFinal = document.createElement("button");
+    botonPosicionFinal.textContent = "Cambiar Posicion Final";
+    botonPosicionFinal.id = "btnPosicionFinal";
+    botonPosicionFinal.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna4.appendChild(botonPosicionFinal);
+
+    // Asignar evento de clic al botón
+    botonPosicionFinal.addEventListener("click", function () {
+
+    });
+
     // Crear el alfil en la posición inicial
-    const initialCell = document.querySelector(`[data-row="0"][data-col="2"]`);
+    const initialCell = document.querySelector(`[data-row="7"][data-col="1"]`);
     const alfil = document.createElement("div");
     alfil.setAttribute("id", "alfil");
     alfil.classList.add("piece");
@@ -179,6 +246,13 @@ function prueba() {
         // Obtener los atributos del div
         const atributos = div.attributes;
         agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+    }
+
+    function eliminarCamino() {
+        const cells = document.querySelectorAll(".bg-warning");
+        cells.forEach((cell) => {
+            cell.classList.remove("bg-warning");
+        });
     }
 
     agregarMovimiento();
@@ -358,7 +432,7 @@ function prueba() {
         
 }
 
-function botonObstaculoDinamico() {
+/*function botonObstaculoDinamico() {
     const element1 = document.getElementById("BotonIniciar");
     element1.remove();
     //AGREGAR BOTONES
@@ -521,4 +595,4 @@ function botonObstaculoDinamico() {
 
     
       
-}
+}*/
