@@ -36,7 +36,7 @@ function addtitulo() {
     const div = document.createElement("div");
     div.id = "diapositiva";
     var mi = document.createElement("textarea");
-    mi.classList.add("miTitulo",'tituloDiapositiva');
+    mi.classList.add("miTitulo", "tituloDiapositiva");
     mi.id = "miTitulo";
     mi.type = "text";
     mi.textContent = "Titulo";
@@ -56,7 +56,7 @@ function addTablero() {
     prueba();
 }
 
-function prueba() {
+function dibujarTablero() {
     const chessboard = document.getElementById("chessboard");
 
     // Crear las celdas del tablero
@@ -70,7 +70,36 @@ function prueba() {
             chessboard.appendChild(cell);
         }
     }
+}
+function agregarNotacionAlgebraica() {
+    const chessboard = document.getElementById("hoja");
+    const letras = ["a", "b", "c", "d", "e", "f", "g", "h"];
+    const numeros = ["8", "7", "6", "5", "4", "3", "2", "1"];
 
+    // Agregar letras en la parte superior
+    const letrasContainer = document.createElement("div");
+    letrasContainer.classList.add("notacion-letras");
+    letras.forEach(letra => {
+        const letraElement = document.createElement("div");
+        letraElement.textContent = letra;
+        letrasContainer.appendChild(letraElement);
+    });
+    chessboard.appendChild(letrasContainer);
+
+    // Agregar números en el lateral derecho
+    const numerosContainer = document.createElement("div");
+    numerosContainer.classList.add("notacion-numeros");
+    numeros.forEach(numero => {
+        const numeroElement = document.createElement("div");
+        numeroElement.textContent = numero;
+        numerosContainer.appendChild(numeroElement);
+    });
+    chessboard.appendChild(numerosContainer);
+}
+
+function prueba() {
+    dibujarTablero();
+    
     const meta = document.querySelector(`[data-row="0"][data-col="6"]`);
     meta.classList.add("bg-success");
 
@@ -90,7 +119,6 @@ function prueba() {
 
     //AGREGAR BOTONES
     const divColumna1 = document.getElementById("columna-1");
-
     const botonObstaculo = document.createElement("button");
     botonObstaculo.textContent = "Agregar Obstaculo";
     botonObstaculo.id = "btnObstaculo";
@@ -272,7 +300,13 @@ function prueba() {
         console.log(clickedCell);
         // Obtener los atributos del div
         const atributos = div.attributes;
-        agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        var contenido = div.innerHTML.trim();
+        if (contenido === "") {
+            console.log("El div está vacío");
+            agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        } else {
+            console.log("El div no está vacío");
+        }
     }
 
     function eliminarCamino() {
@@ -380,6 +414,7 @@ function prueba() {
                 console.log("Hay un obstáculo en el camino del alfil.");
             }
         }
+        mostrarMovimientosAlfil();
     }
 
     function hasObstacleInPath(clickedCell) {
@@ -555,7 +590,7 @@ function botonObstaculoDinamico() {
         botonObstaculo.style.display = "none"
         divColumna1.appendChild(botonObstaculo);
     });
-
+    añadirEventoAlfil();
     const botonMovimiento = document.createElement("button");
     botonMovimiento.textContent = "Habilitar Movimiento";
     botonMovimiento.id = "btnMovimiento";
@@ -712,7 +747,6 @@ function botonObstaculoDinamico() {
             cell.removeEventListener("click", agregarCelda);
         });
     }
-
     function agregarCelda() {
         const clickedCell = this;
         const div = clickedCell;
@@ -720,7 +754,13 @@ function botonObstaculoDinamico() {
         console.log(clickedCell);
         // Obtener los atributos del div
         const atributos = div.attributes;
-        agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        var contenido = div.innerHTML.trim();
+        if (contenido === "") {
+            console.log("El div está vacío");
+            agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        } else {
+            console.log("El div no está vacío");
+        }
     }
 
     function eliminarCamino() {
@@ -828,6 +868,7 @@ function botonObstaculoDinamico() {
                 console.log("Hay un obstáculo en el camino del alfil.");
             }
         }
+        mostrarMovimientosAlfil();
     }
 
     function hasObstacleInPath(clickedCell) {

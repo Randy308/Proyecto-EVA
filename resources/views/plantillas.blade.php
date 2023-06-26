@@ -43,9 +43,9 @@
         <div class="subcontedor c3">
 
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownButton" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                 Agregar Diapostiva
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Agregar Diapostiva
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownButton">
                     <button id="item1" onclick="addtitulo()" class="dropdown-item" type="button">Titulo</button>
@@ -55,7 +55,7 @@
                 </ul>
             </div>
 
-            
+
 
             <button type="button" id="AgregarMovAlfil" class="btn btn-primary">Agregar Movimiento Alfil</button>
             <button type="button" id="GuardarHoja" disabled class="btn btn-success">Guardar</button>
@@ -195,7 +195,7 @@
             });
             $(document).on('click', '.Cambiar', function() {
                 var y = document.getElementById('miTitulo');
-                y.innerHTML = y.value ;
+                y.innerHTML = y.value;
 
             });
 
@@ -224,11 +224,6 @@
                 botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
                 contenedorDiv.appendChild(botonObstaculo);
 
-                var rutaImagen = "{{ asset('img/alfil.jpg') }}";
-            
-            
-            }
-                
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();
