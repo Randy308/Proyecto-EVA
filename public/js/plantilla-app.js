@@ -71,6 +71,9 @@ function prueba() {
         }
     }
 
+    const meta = document.querySelector(`[data-row="0"][data-col="6"]`);
+    meta.classList.add("bg-success");
+
     //Contenedor para botones del tablero
     const contenedorBtn = document.createElement("div");
     contenedorBtn.id = "contenedorBtn";
@@ -133,6 +136,7 @@ function prueba() {
 
     // Asignar evento de clic al botón
     botonMejorCamino.addEventListener("click", function () {
+
         const path = findBestPath(0,6);
 
         if (path !== null) {
@@ -176,6 +180,15 @@ function prueba() {
 
     // Asignar evento de clic al botón
     botonPosicionAlfil.addEventListener("click", function () {
+        eliminarEventoPieza();
+        agregarMovimiento();
+        const boton = document.getElementById("btnObstaculo");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonMovimiento.style.display = "none";
+        divColumna1.appendChild(botonMovimiento);
+
+
         const contenedorAlfil = buscarCeldaAlfil();
         console.log(contenedorAlfil);
         const divAlfil = document.getElementById("alfil");
@@ -183,6 +196,7 @@ function prueba() {
         //contenedorAlfil.removeChild(divAlfil);
         divAlfil.remove();
         cambiarPosicionAlfil();
+
     });
 
     const divColumna4 = document.getElementById("columna-4");
@@ -457,17 +471,15 @@ function prueba() {
         console.log(path);
       
         // Resaltar el camino en el tablero
+        var contador = 0;
         path.forEach((step) => {
-            console.log("############");
-            console.log(step);
-          const row = step.neighborRow;
-          const col = step.neighborCol;
-          console.log(row+" "+col);
-          console.log(`[data-row="${row}"][data-col="${col}"]`);
-          const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
-          console.log("=====================");
-          console.log(cell);
-          cell.classList.add("bg-warning");
+            const row = step.neighborRow;
+            const col = step.neighborCol;
+            const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+            if((path.length-1) != contador){
+                cell.classList.add("bg-warning");
+            }
+            contador++;
         });
     }
       
