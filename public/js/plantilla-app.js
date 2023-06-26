@@ -573,7 +573,6 @@ function botonObstaculoDinamico() {
     element1.remove();
     //AGREGAR BOTONES
     const divColumna1 = document.getElementById("columna-1");
-
     const botonObstaculo = document.createElement("button");
     botonObstaculo.textContent = "Agregar Obstaculo";
     botonObstaculo.id = "btnObstaculo";
@@ -590,7 +589,7 @@ function botonObstaculoDinamico() {
         botonObstaculo.style.display = "none"
         divColumna1.appendChild(botonObstaculo);
     });
-    añadirEventoAlfil();
+
     const botonMovimiento = document.createElement("button");
     botonMovimiento.textContent = "Habilitar Movimiento";
     botonMovimiento.id = "btnMovimiento";
@@ -703,10 +702,7 @@ function botonObstaculoDinamico() {
 
         cambiarPosicionFinal();
     });
-
-    // Crear el alfil en la posición inicial
-    //agregarPieza(7,1,"♗","alfil");
-
+    
     function agregarPieza(row, col, symbol, nombre) {
         const cell = document.querySelector(
             `[data-row="${row}"][data-col="${col}"]`
@@ -747,6 +743,7 @@ function botonObstaculoDinamico() {
             cell.removeEventListener("click", agregarCelda);
         });
     }
+
     function agregarCelda() {
         const clickedCell = this;
         const div = clickedCell;
