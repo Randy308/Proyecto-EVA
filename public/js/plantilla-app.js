@@ -188,12 +188,8 @@ function prueba() {
         botonMovimiento.style.display = "none";
         divColumna1.appendChild(botonMovimiento);
 
-
-        const contenedorAlfil = buscarCeldaAlfil();
-        console.log(contenedorAlfil);
+        //const contenedorAlfil = buscarCeldaAlfil();
         const divAlfil = document.getElementById("alfil");
-        console.log(divAlfil);
-        //contenedorAlfil.removeChild(divAlfil);
         divAlfil.remove();
         cambiarPosicionAlfil();
 
@@ -209,7 +205,20 @@ function prueba() {
 
     // Asignar evento de clic al botón
     botonPosicionFinal.addEventListener("click", function () {
+        eliminarEventoPieza();
+        eliminarMovimiento();
 
+        /*agregarMovimiento();
+        const boton = document.getElementById("btnObstaculo");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonMovimiento.style.display = "none";
+        divColumna1.appendChild(botonMovimiento);*/
+
+        const puntoFinal = document.querySelector(".bg-success");
+        puntoFinal.classList.remove("bg-success");
+
+        cambiarPosicionFinal();
     });
 
     // Crear el alfil en la posición inicial
@@ -290,11 +299,48 @@ function prueba() {
     function agregarAlfil(){
         const clickedCell = this;
         const div = clickedCell;
+        console.log("----------------------------");
+        console.log(div);
         const atributos = div.attributes;
         if(buscarCeldaAlfil() == null){
             agregarPieza(atributos[1].value, atributos[2].value, "♗", "alfil");
         }else{
             eliminarEventoPosicionAlfil();
+        }
+    }
+
+    function cambiarPosicionFinal() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", agregarMeta);
+        });
+    }
+
+    function eliminarEventoPosicionFinal() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", agregarMeta);
+        });
+    }
+
+    function agregarMeta(){
+        const clickedCell = this;
+        const divPadre = clickedCell;
+        console.log("----------------------------");
+        console.log(divPadre);
+        const puntoFinal = document.querySelector(".bg-success");
+        console.log("##########################");
+        console.log(puntoFinal);
+        if(puntoFinal == null){
+            console.log(verificarCeldaOcupada(divPadre,".alfil"));
+            console.log(verificarCeldaOcupada(divPadre,".peon"));
+            if(!verificarCeldaOcupada(divPadre,".alfil")){
+                if(!verificarCeldaOcupada(divPadre,".peon")){
+                    divPadre.classList.add("bg-success");
+                    eliminarEventoPosicionFinal();
+                    agregarMovimiento();
+                }
+            }
         }
     }
 
@@ -482,9 +528,6 @@ function prueba() {
             contador++;
         });
     }
-      
-      
-        
 }
 
 /*function botonObstaculoDinamico() {
