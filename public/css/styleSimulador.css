@@ -10,6 +10,9 @@
 .cell {
     border: 1px solid black;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .white {
@@ -22,7 +25,8 @@
 }
 
 .piece {
-    font-size: 60px;
+
+    transform: scale(3.5);
     text-align: center;
 }
 

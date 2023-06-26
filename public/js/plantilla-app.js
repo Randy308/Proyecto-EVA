@@ -671,7 +671,7 @@ function prueba() {
     }
 }
 
-function botonObstaculoDinamico() {
+function cargarScriptDinamico() {
     const element1 = document.getElementById("BotonIniciar");
     element1.remove();
     //AGREGAR BOTONES
@@ -802,7 +802,7 @@ function botonObstaculoDinamico() {
 
         cambiarPosicionFinal();
     });
-
+    agregarEventoAlfil();
     function agregarPieza(row, col, symbol, nombre) {
         const cell = document.querySelector(
             `[data-row="${row}"][data-col="${col}"]`
@@ -814,7 +814,7 @@ function botonObstaculoDinamico() {
         piece.classList.add("piece", nombre);
         piece.textContent = symbol;
         cell.appendChild(piece);
-        agregarEventoAlfil();
+        
     }
 
     function agregarMovimiento() {
@@ -891,6 +891,19 @@ function botonObstaculoDinamico() {
         } else {
             eliminarEventoPosicionAlfil();
         }
+    }
+    function agregarPieza(row, col, symbol, nombre) {
+        const cell = document.querySelector(
+            `[data-row="${row}"][data-col="${col}"]`
+        );
+        const piece = document.createElement("div");
+        if (nombre == "alfil") {
+            piece.id = nombre;
+        }
+        piece.classList.add("piece", nombre);
+        piece.textContent = symbol;
+        cell.appendChild(piece);
+        agregarEventoAlfil();
     }
 
     function cambiarPosicionFinal() {

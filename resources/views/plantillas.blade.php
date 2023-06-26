@@ -165,7 +165,7 @@
             $(document).on('click', '#BotonIniciar', function() {
                 // Código para el evento click del contenido dinámico
                 console.log("¡Haz hecho clic en el botón!");
-                botonObstaculoDinamico();
+                cargarScriptDinamico();
 
             });
             $(document).on('click', '#AgregarMovAlfil', function() {

@@ -15,6 +15,7 @@ li {
 }
 #alfil {
     cursor: crosshair;
+    
 }
 
 .notacion-letras {
@@ -34,6 +35,9 @@ li {
   
 .movimientoPosible {
     background-color: yellow; /* Puedes ajustar el color según tus preferencias */
+}
+.movimientoPosible:hover {
+    background-color: lightgray;
 }
 .diapositiva {
     position: absolute; /* Position child div relative to parent */
