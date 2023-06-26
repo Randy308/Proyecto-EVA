@@ -7,18 +7,38 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #161B22;
+    background-color: #161b22;
 }
 
 li {
     float: left;
 }
-.diapositiva{
+#alfil {
+    cursor: move;
+}
 
+.notacion-letras {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+.notacion-numeros {
+    width: auto;
+    height: auto;
+    display: grid;
+    padding: 10px;
+    font-weight: bold;
+  }
   
+.movimientoPosible {
+    background-color: yellow; /* Puedes ajustar el color según tus preferencias */
+}
+.diapositiva {
     position: absolute; /* Position child div relative to parent */
-      top: 0; /* Position child div at the top */
-      left: 0; /* Position child div at the left */
+    top: 0; /* Position child div at the top */
+    left: 0; /* Position child div at the left */
     max-width: 100%;
     width: 100%;
     align-items: center;
@@ -27,21 +47,19 @@ li {
 }
 .tituloDiapositiva {
     font-size: 68px;
-
 }
-.miTitulo{
+.miTitulo {
     max-width: 100%;
     width: 100%;
     text-align: center;
     height: 250px;
     max-height: 100%;
-    
 }
-.imagen{
+.imagen {
     max-width: 100%;
     max-height: 100%;
     margin-left: auto;
-    
+
     margin-right: auto;
     display: block;
     width: 90%;
@@ -56,7 +74,7 @@ li a {
 }
 
 li a:hover {
-    background-color: #0D1117;
+    background-color: #0d1117;
 }
 
 .container {
@@ -71,14 +89,14 @@ li a:hover {
     height: 100%;
     border: 1px solid black;
 }
-.hoja{
+.hoja {
+
     background-color: white;
     padding: 30px;
     border: 1px solid black;
 }
 
-.miniatura{
-    
+.miniatura {
     flex: 0 0 auto;
     background-color: white;
     padding: 30px;
@@ -87,9 +105,6 @@ li a:hover {
     cursor: pointer;
     border: 1px solid black;
     align-items: center;
-
-    
-
 }
 .c1 {
     background-color: whitesmoke;
@@ -98,14 +113,14 @@ li a:hover {
     flex-wrap: nowrap;
     padding: 10px;
     gap: 10px;
-    overflow:auto;
+    overflow: auto;
 }
 .c2 {
     background-color: lightgray;
     display: grid;
     padding: 20px;
     gap: 20px;
-    overflow:auto;
+    overflow: auto;
 }
 .c3 {
     background-color: whitesmoke;

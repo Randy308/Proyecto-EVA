@@ -7,22 +7,22 @@
     grid-template-rows: repeat(8, 1fr);
 }
 
-
 .cell {
     border: 1px solid black;
     box-sizing: border-box;
 }
 
 .white {
-    background-color: white;
+    background-color: #F0D9B5;
     cursor: pointer;
 }
 
 .black {
-    background-color: gray;
+    background-color: #B58863;
 }
 
 .piece {
     font-size: 60px;
     text-align: center;
 }
+

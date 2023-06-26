@@ -43,9 +43,9 @@
         <div class="subcontedor c3">
 
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownButton" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                 Agregar Diapostiva
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Agregar Diapostiva
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownButton">
                     <button id="item1" onclick="addtitulo()" class="dropdown-item" type="button">Titulo</button>
@@ -55,7 +55,7 @@
                 </ul>
             </div>
 
-            
+
 
             <button type="button" id="AgregarMovAlfil" class="btn btn-primary">Agregar Movimiento Alfil</button>
             <button type="button" id="GuardarHoja" disabled class="btn btn-success">Guardar</button>
@@ -186,7 +186,7 @@
             });
             $(document).on('click', '.Cambiar', function() {
                 var y = document.getElementById('miTitulo');
-                y.innerHTML = y.value ;
+                y.innerHTML = y.value;
 
             });
 
@@ -194,23 +194,30 @@
             $(document).on('click', '#GuardarHoja', function() {
 
                 if (document.querySelector('#chessboard')) {
-                console.log('El elemento con la clase "tablero" existe.');
-                const element1 = document.getElementById("Obstaculo");
-                element1.remove();
-                const element2 = document.getElementById("Movimiento");
-                element2.remove();
-                const contenedorDiv = document.querySelector(".hoja");
-                const botonObstaculo = document.createElement("button");
-                botonObstaculo.textContent = "Iniciar";
-                botonObstaculo.id = "BotonIniciar";
-                botonObstaculo.classList.add("btn", "btn-info", "botonTablero");
-                contenedorDiv.appendChild(botonObstaculo);
+                    console.log('El elemento con la clase "tablero" existe.');
+                    const element1 = document.getElementById("Obstaculo");
+                    element1.remove();
+                    const element2 = document.getElementById("Movimiento");
+                    element2.remove();
+                    const celdas = document.querySelectorAll('.cell');
+                    // Recorrer todas las celdas y verificar si son posibles movimientos del alfil
+                    celdas.forEach(celda => {
+                        celda.classList.remove(
+                        'movimientoPosible'); // Remover clase CSS de movimientos previos
 
-                var rutaImagen = "{{ asset('img/alfil.jpg') }}";
-            
-            
-            }
-                
+                    });
+                    const contenedorDiv = document.querySelector(".hoja");
+                    const botonObstaculo = document.createElement("button");
+                    botonObstaculo.textContent = "Iniciar";
+                    botonObstaculo.id = "BotonIniciar";
+                    botonObstaculo.classList.add("btn", "btn-info", "botonTablero");
+                    contenedorDiv.appendChild(botonObstaculo);
+
+                    var rutaImagen = "{{ asset('img/alfil.jpg') }}";
+
+
+                }
+
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();

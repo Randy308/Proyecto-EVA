@@ -36,7 +36,7 @@ function addtitulo() {
     const div = document.createElement("div");
     div.id = "diapositiva";
     var mi = document.createElement("textarea");
-    mi.classList.add("miTitulo",'tituloDiapositiva');
+    mi.classList.add("miTitulo", "tituloDiapositiva");
     mi.id = "miTitulo";
     mi.type = "text";
     mi.textContent = "Titulo";
@@ -56,7 +56,7 @@ function addTablero() {
     prueba();
 }
 
-function prueba() {
+function dibujarTablero() {
     const chessboard = document.getElementById("chessboard");
 
     // Crear las celdas del tablero
@@ -71,8 +71,126 @@ function prueba() {
         }
     }
 
+    
+}
+function agregarNotacionAlgebraica() {
+    const chessboard = document.getElementById("hoja");
+    const letras = ["a", "b", "c", "d", "e", "f", "g", "h"];
+    const numeros = ["8", "7", "6", "5", "4", "3", "2", "1"];
+
+    // Agregar letras en la parte superior
+    const letrasContainer = document.createElement("div");
+    letrasContainer.classList.add("notacion-letras");
+    letras.forEach(letra => {
+        const letraElement = document.createElement("div");
+        letraElement.textContent = letra;
+        letrasContainer.appendChild(letraElement);
+    });
+    chessboard.appendChild(letrasContainer);
+
+    // Agregar números en el lateral derecho
+    const numerosContainer = document.createElement("div");
+    numerosContainer.classList.add("notacion-numeros");
+    numeros.forEach(numero => {
+        const numeroElement = document.createElement("div");
+        numeroElement.textContent = numero;
+        numerosContainer.appendChild(numeroElement);
+    });
+    chessboard.appendChild(numerosContainer);
+}
+
+function agregarAlfil() {
+    // Crear el alfil en la posición inicial
+    const initialCell = document.querySelector(`[data-row="0"][data-col="2"]`);
+    const alfil = document.createElement("div");
+    alfil.setAttribute("id", "alfil");
+    alfil.classList.add("piece");
+    alfil.draggable = true;
+    alfil.textContent = "♗"; // Unicode para el símbolo del alfil
+    initialCell.appendChild(alfil);
+}
+function añadirEventoAlfil(){
+
+    const alfil = document.getElementById('alfil');
+    alfil.addEventListener("click", function () {
+        console.log("¡Has hecho clic sobre el alfil");
+        mostrarMovimientosAlfil();
+
+
+    });
+}
+function eliminarPosiblesMovimientos(){
+    const celdas = document.querySelectorAll('.cell');
+    // Recorrer todas las celdas y verificar si son posibles movimientos del alfil
+    celdas.forEach(celda => {
+      celda.classList.remove('movimientoPosible'); // Remover clase CSS de movimientos previos
+      
+    });
+}
+function mostrarMovimientosAlfil() {
+    const alfilCell = alfil.parentElement;
+  
+    // Obtener la posición del alfil
+    const filaAlfil = parseInt(alfilCell.dataset.row);
+    const columnaAlfil = parseInt(alfilCell.dataset.col);
+  
+    // Obtener todas las celdas del tablero
+    const celdas = document.querySelectorAll('.cell');
+  
+    // Recorrer todas las celdas y verificar si son posibles movimientos del alfil
+    celdas.forEach(celda => {
+      const filaCelda = parseInt(celda.dataset.row);
+      const columnaCelda = parseInt(celda.dataset.col);
+  
+      const filaDiff = Math.abs(filaCelda - filaAlfil);
+      const columnaDiff = Math.abs(columnaCelda - columnaAlfil);
+  
+      // Verificar si la celda es una diagonal válida para el alfil
+      if (filaDiff === columnaDiff && filaDiff !== 0) {
+        // Verificar si hay obstáculos en el camino
+        if (!hasObstacleInPath(celda)) {
+          // Agregar clase CSS para resaltar el movimiento posible
+          var contenido = celda.innerHTML.trim();
+          if (contenido === "") {
+              console.log("El div está vacío");
+              celda.classList.add('movimientoPosible');
+          } else {
+              console.log("El div no está vacío");
+          }
+          
+        } else {
+          celda.classList.remove('movimientoPosible'); // Remover clase CSS de movimientos previos
+        }
+      } else {
+        celda.classList.remove('movimientoPosible'); // Remover clase CSS de movimientos previos
+      }
+    });
+  }
+
+  function hasObstacleInPath(clickedCell) {
+    const alfilCell = alfil.parentElement;
+    const rowDiff = parseInt(clickedCell.dataset.row) - parseInt(alfilCell.dataset.row);
+    const colDiff = parseInt(clickedCell.dataset.col) - parseInt(alfilCell.dataset.col);
+    const rowDirection = rowDiff > 0 ? 1 : -1;
+    const colDirection = colDiff > 0 ? 1 : -1;
+  
+    let currentRow = parseInt(alfilCell.dataset.row) + rowDirection;
+    let currentCol = parseInt(alfilCell.dataset.col) + colDirection;
+  
+    while (currentRow !== parseInt(clickedCell.dataset.row) && currentCol !== parseInt(clickedCell.dataset.col)) {
+      const cell = document.querySelector(`[data-row="${currentRow}"][data-col="${currentCol}"]`);
+      if (cell.hasChildNodes()) {
+        return true; // Hay un obstáculo en el camino
+      }
+      currentRow += rowDirection;
+      currentCol += colDirection;
+    }
+  
+    return false; // No hay obstáculos en el camino
+  }
+function prueba() {
+    dibujarTablero();
     //AGREGAR BOTONES
-    const contenedorDiv = document.querySelector(".hoja");
     const botonObstaculo = document.createElement("button");
     botonObstaculo.textContent = "Agregar Obstaculo";
     botonObstaculo.id = "Obstaculo";
@@ -102,15 +220,8 @@ function prueba() {
         eliminarEventoPieza();
         agregarMovimiento();
     });
-
-    // Crear el alfil en la posición inicial
-    const initialCell = document.querySelector(`[data-row="0"][data-col="2"]`);
-    const alfil = document.createElement("div");
-    alfil.setAttribute("id", "alfil");
-    alfil.classList.add("piece");
-    alfil.textContent = "♗"; // Unicode para el símbolo del alfil
-    initialCell.appendChild(alfil);
-
+    agregarAlfil();
+    añadirEventoAlfil();
     function agregarPieza(row, col, symbol, nombre) {
         const cell = document.querySelector(
             `[data-row="${row}"][data-col="${col}"]`
@@ -152,10 +263,15 @@ function prueba() {
     function agregarCelda() {
         const clickedCell = this;
         const div = clickedCell;
-
-        // Obtener los atributos del div
+        const contenedorHijo = document.querySelectorAll(".peon");
         const atributos = div.attributes;
-        agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        var contenido = div.innerHTML.trim();
+        if (contenido === "") {
+            console.log("El div está vacío");
+            agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        } else {
+            console.log("El div no está vacío");
+        }
     }
 
     agregarMovimiento();
@@ -193,6 +309,7 @@ function prueba() {
                 console.log("Hay un obstáculo en el camino del alfil.");
             }
         }
+        mostrarMovimientosAlfil();
     }
 
     function hasObstacleInPath(clickedCell) {
@@ -241,7 +358,6 @@ function botonObstaculoDinamico() {
     const element1 = document.getElementById("BotonIniciar");
     element1.remove();
     //AGREGAR BOTONES
-    const contenedorDiv = document.querySelector(".hoja");
     const botonObstaculo = document.createElement("button");
     botonObstaculo.textContent = "Agregar Obstaculo";
     botonObstaculo.id = "Obstaculo";
@@ -256,7 +372,7 @@ function botonObstaculoDinamico() {
         eliminarMovimiento();
         agregarEventoPieza();
     });
-
+    añadirEventoAlfil();
     const botonMovimiento = document.createElement("button");
     botonMovimiento.textContent = "Habilitar Movimiento";
     botonMovimiento.id = "Movimiento";
@@ -311,15 +427,20 @@ function botonObstaculoDinamico() {
             cell.removeEventListener("click", agregarCelda);
         });
     }
-
     function agregarCelda() {
         const clickedCell = this;
         const div = clickedCell;
-
-        // Obtener los atributos del div
         const atributos = div.attributes;
-        agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        var contenido = div.innerHTML.trim();
+        if (contenido === "") {
+            console.log("El div está vacío");
+            agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        } else {
+            console.log("El div no está vacío");
+        }
     }
+
+    
 
     agregarMovimiento();
 
@@ -356,6 +477,7 @@ function botonObstaculoDinamico() {
                 console.log("Hay un obstáculo en el camino del alfil.");
             }
         }
+        mostrarMovimientosAlfil();
     }
 
     function hasObstacleInPath(clickedCell) {
