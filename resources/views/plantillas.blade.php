@@ -112,10 +112,19 @@
             });
 
             $("#downloadInput").click(function() {
-                const element1 = document.getElementById("Obstaculo");
+                const element1 = document.getElementById("btnObstaculo");
                 element1.remove();
-                const element2 = document.getElementById("Movimiento");
+                const element2 = document.getElementById("btnMovimiento");
                 element2.remove();
+                const element3 = document.getElementById("btnOcultarCamino");
+                element3.remove();
+                const element4 = document.getElementById("btnCamino");
+                element4.remove();
+                const element5 = document.getElementById("btnPosicionAlfil");
+                element5.remove();
+                const element6 = document.getElementById("btnPosicionFinal");
+                element6.remove();
+
                 const contenedorDiv = document.querySelector(".hoja");
                 const botonObstaculo = document.createElement("button");
                 botonObstaculo.textContent = "Iniciar";
@@ -195,15 +204,24 @@
 
                 if (document.querySelector('#chessboard')) {
                 console.log('El elemento con la clase "tablero" existe.');
-                const element1 = document.getElementById("Obstaculo");
+                const element1 = document.getElementById("btnObstaculo");
                 element1.remove();
-                const element2 = document.getElementById("Movimiento");
+                const element2 = document.getElementById("btnMovimiento");
                 element2.remove();
+                const element3 = document.getElementById("btnOcultarCamino");
+                element3.remove();
+                const element4 = document.getElementById("btnCamino");
+                element4.remove();
+                const element5 = document.getElementById("btnPosicionAlfil");
+                element5.remove();
+                const element6 = document.getElementById("btnPosicionFinal");
+                element6.remove();
+
                 const contenedorDiv = document.querySelector(".hoja");
                 const botonObstaculo = document.createElement("button");
                 botonObstaculo.textContent = "Iniciar";
                 botonObstaculo.id = "BotonIniciar";
-                botonObstaculo.classList.add("btn", "btn-info", "botonTablero");
+                botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
                 contenedorDiv.appendChild(botonObstaculo);
 
                 var rutaImagen = "{{ asset('img/alfil.jpg') }}";
