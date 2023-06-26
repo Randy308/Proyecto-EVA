@@ -14,7 +14,7 @@ li {
     float: left;
 }
 #alfil {
-    cursor: move;
+    cursor: crosshair;
 }
 
 .notacion-letras {

@@ -79,8 +79,6 @@
     </center>-->
 
 
-    <script src="{{ asset('js/scriptSimulador.js') }}"></script>
-
     <script src="{{ asset('js/plantilla-app.js') }}"></script>
 
     <script>
@@ -216,6 +214,13 @@
                     element5.remove();
                     const element6 = document.getElementById("btnPosicionFinal");
                     element6.remove();
+                    
+
+                    const celdas = document.querySelectorAll('.cell');
+                    celdas.forEach(celda => {
+                        celda.classList.remove(
+                        'movimientoPosible'); // Remover clase CSS de movimientos previos
+                    });
 
                     const contenedorDiv = document.querySelector(".hoja");
                     const botonObstaculo = document.createElement("button");
