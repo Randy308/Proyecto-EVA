@@ -176,7 +176,13 @@ function prueba() {
 
     // Asignar evento de clic al botón
     botonPosicionAlfil.addEventListener("click", function () {
-        
+        const contenedorAlfil = buscarCeldaAlfil();
+        console.log(contenedorAlfil);
+        const divAlfil = document.getElementById("alfil");
+        console.log(divAlfil);
+        //contenedorAlfil.removeChild(divAlfil);
+        divAlfil.remove();
+        cambiarPosicionAlfil();
     });
 
     const divColumna4 = document.getElementById("columna-4");
@@ -193,18 +199,16 @@ function prueba() {
     });
 
     // Crear el alfil en la posición inicial
-    const initialCell = document.querySelector(`[data-row="7"][data-col="1"]`);
-    const alfil = document.createElement("div");
-    alfil.setAttribute("id", "alfil");
-    alfil.classList.add("piece");
-    alfil.textContent = "♗"; // Unicode para el símbolo del alfil
-    initialCell.appendChild(alfil);
+    agregarPieza(7,1,"♗","alfil");
 
     function agregarPieza(row, col, symbol, nombre) {
         const cell = document.querySelector(
             `[data-row="${row}"][data-col="${col}"]`
         );
         const piece = document.createElement("div");
+        if(nombre == "alfil"){
+            piece.id = nombre;
+        }
         piece.classList.add("piece", nombre);
         piece.textContent = symbol;
         cell.appendChild(piece);
@@ -255,6 +259,31 @@ function prueba() {
         });
     }
 
+    function cambiarPosicionAlfil() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", agregarAlfil);
+        });
+    }
+
+    function eliminarEventoPosicionAlfil() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", agregarAlfil);
+        });
+    }
+
+    function agregarAlfil(){
+        const clickedCell = this;
+        const div = clickedCell;
+        const atributos = div.attributes;
+        if(buscarCeldaAlfil() == null){
+            agregarPieza(atributos[1].value, atributos[2].value, "♗", "alfil");
+        }else{
+            eliminarEventoPosicionAlfil();
+        }
+    }
+
     agregarMovimiento();
 
     function moveAlfil() {
@@ -276,7 +305,7 @@ function prueba() {
                 const divPadre = clickedCell; // Obtén una referencia al div padre
                 //const divHijo = document.querySelectorAll('.peon'); // Obtén una referencia al div hijo
 
-                if (verificarCeldaOcupada(divPadre)) {
+                if (verificarCeldaOcupada(divPadre,".peon")) {
                     console.log(
                         "El div hijo está contenido dentro del div padre."
                     );
@@ -321,12 +350,26 @@ function prueba() {
         return false;
     }
 
-    function verificarCeldaOcupada(contenedorPadre) {
-        const contenedorHijo = document.querySelectorAll(".peon");
+    function verificarCeldaOcupada(contenedorPadre,nombreClass) {
+        const contenedorHijo = document.querySelectorAll(nombreClass);
         resultado = false;
         contenedorHijo.forEach((contenedor) => {
             if (contenedorPadre.contains(contenedor)) {
                 resultado = true;
+            }
+        });
+
+        return resultado;
+    }
+
+    function buscarCeldaAlfil() {
+        var resultado = null
+        const cells = document.querySelectorAll(".cell");
+        const contenedorAlfil = document.getElementById("alfil");
+        cells.forEach((cell) => {
+            
+            if (cell.contains(contenedorAlfil)) {
+                resultado = cell;
             }
         });
 
