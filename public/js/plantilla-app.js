@@ -2,7 +2,7 @@ const container = document.querySelector(".c1");
 const cont_hoja = document.querySelector(".hoja");
 var autoIncrement = 1;
 
-function addPlantilla(imagenRuta, contenido) {
+function addPlantilla(imagenRuta, contenido, expr) {
     const div = document.createElement("div");
     div.classList.add("miniatura");
     div.id = "miniatura";
@@ -13,13 +13,33 @@ function addPlantilla(imagenRuta, contenido) {
     mihidden.value = contenido;
     div.appendChild(mihidden);
     container.appendChild(div);
+
     if (typeof imagenRuta === "undefined") {
-        var mi = document.createElement("input");
-        mi.classList.add("miTitulo");
-        mi.type = "text";
-        mi.value = "Titulo";
-        div.appendChild(mi);
-        addtitulo();
+        
+
+        switch (expr) {
+            case "Titulo":
+                console.log("add Titulo.");
+                var mi = document.createElement("span");
+                mi.classList.add("miniaturaTitulo");
+                //mi.type = "text";
+                mi.textContent  = "Titulo";
+                div.appendChild(mi);
+                //addtitulo();
+                break;
+            case "Titulo y subtitulo":
+                console.log("Titulo y subtitulo");
+            case "Subtitulo y texto":
+                console.log("add Subtitulo y texto");
+                // Expected output: "Mangoes and papayas are $2.79 a pound."
+                break;
+            case "Texto":
+                console.log("add Texto");
+                // Expected output: "Mangoes and papayas are $2.79 a pound."
+                break;
+            default:
+                console.log(`Sorry, we are out of ${expr}.`);
+        }
     } else {
         var imagen = document.createElement("img");
         imagen.classList.add("imagen");
@@ -30,6 +50,10 @@ function addPlantilla(imagenRuta, contenido) {
     }
 }
 function addtitulo() {
+    //var hojaTexto = document.createElement('div');
+    //hojaTexto.classList.add("hojaTexto");
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Titulo";
     var element1 = document.getElementById("GuardarHoja");
     element1.disabled = false;
     cont_hoja.innerHTML = "";
@@ -41,11 +65,12 @@ function addtitulo() {
     mi.type = "text";
     mi.textContent = "Titulo";
     div.appendChild(mi);
+    const containerc3 = document.querySelector(".c3");
     var boton = document.createElement("input");
     boton.classList.add("Cambiar");
     boton.type = "button";
-    boton.value = "Cambiar Texto";
-    div.appendChild(boton);
+    boton.value = "Cambiar Titulo";
+    containerc3.appendChild(boton);
     cont_hoja.appendChild(div);
 }
 function addTablero() {
@@ -63,9 +88,9 @@ function agregarEventoAlfil() {
         console.log("¡Has hecho clic sobre el alfil");
         if (bandera) {
             console.log("eliminando los movientos del alfil");
-            const celdas = document.querySelectorAll('.cell');
-            celdas.forEach(celda => {
-                celda.classList.remove('movimientoPosible'); // Remover clase CSS de movimientos previos
+            const celdas = document.querySelectorAll(".cell");
+            celdas.forEach((celda) => {
+                celda.classList.remove("movimientoPosible"); // Remover clase CSS de movimientos previos
             });
             bandera = false;
         } else {
@@ -814,7 +839,6 @@ function cargarScriptDinamico() {
         piece.classList.add("piece", nombre);
         piece.textContent = symbol;
         cell.appendChild(piece);
-        
     }
 
     function agregarMovimiento() {

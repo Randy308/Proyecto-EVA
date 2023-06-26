@@ -98,17 +98,41 @@ li a:hover {
     background-color: white;
     padding: 30px;
     border: 1px solid black;
+    align-items: center;
+    gap: 10px;
+    
 }
-
+#diapositiva{
+    flex: 0 0 auto;
+    background-color: white;
+    padding: 20px;
+    width: auto;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    vertical-align:middle;
+    align-items: center;
+}
+.miniaturaTitulo{
+    text-align: center;
+    font-size: 30px;
+    background-color: lightgray;
+    width:  100%;
+}
 .miniatura {
     flex: 0 0 auto;
     background-color: white;
-    padding: 30px;
+    padding: 20px;
     width: auto;
     height: 215px;
     cursor: pointer;
+    display: flex;
     border: 1px solid black;
     align-items: center;
+   
+}
+.miniatura:hover {
+    background-color: gray;
 }
 .c1 {
     background-color: whitesmoke;

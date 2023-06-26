@@ -66,7 +66,7 @@
     </div>
     <div>
         <input type="hidden" name="href_value" id="hrefValueInput">
-
+        <input type="hidden" name="href_value" id="diapositivaInput">
     </div>
 
     <!--
@@ -184,6 +184,9 @@
                 hrefValueInput.value = hrefValue;
                 document.body.removeChild(element);
                 var contenido = hrefValueInput.value;
+
+                var diapositivaInput = document.getElementById("diapositivaInput");
+                diapositivaInput.value = 'Titulo';
                 addTablero();
                 var element1 = document.getElementById("GuardarHoja");
                 element1.disabled = false;
@@ -232,6 +235,7 @@
             
             
                 }
+                document.querySelector('.Cambiar')?.remove();
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();
@@ -246,11 +250,13 @@
                 hrefValueInput.value = hrefValue;
                 document.body.removeChild(element);
                 var contenido = hrefValueInput.value;
+                var diapositivaInput = document.getElementById("diapositivaInput");
+                var expr = diapositivaInput.value;
 
                 agregarImagen();
 
                 function agregarImagen() {
-                    addPlantilla(rutaImagen, contenido);
+                    addPlantilla(rutaImagen, contenido, expr);
                 }
 
             });
