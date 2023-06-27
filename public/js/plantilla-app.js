@@ -653,6 +653,7 @@ function prueba() {
                 console.log("Hay un obstáculo en el camino del alfil.");
             }
         }
+        //eliminarPosiblesMovimientos();
         //mostrarMovimientosAlfil();
     }
 
@@ -1125,6 +1126,8 @@ function cargarScriptDinamico() {
                 console.log("Hay un obstáculo en el camino del alfil.");
             }
         }
+        
+        
         //mostrarMovimientosAlfil();
     }
 

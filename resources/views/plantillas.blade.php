@@ -109,7 +109,7 @@
                     reader.readAsText(this.files[0]);
 
                 };
-                botonObstaculoDinamico();
+                //botonObstaculoDinamico();
             });
 
             $("#downloadInput").click(function() {
