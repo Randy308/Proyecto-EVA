@@ -49,9 +49,124 @@ function addPlantilla(imagenRuta, contenido, expr) {
         container.appendChild(div);
     }
 }
+function limpiarBotonesAuxiliares(){
+    document.querySelector('.Cambiar')?.remove();
+    document.querySelector('.CambiarTexto')?.remove();
+    document.querySelector('.CambiarSubtitulo')?.remove();
+}
+function addTexto() {
+    //var hojaTexto = document.createElement('div');
+    //hojaTexto.classList.add("hojaTexto");
+    limpiarBotonesAuxiliares();
+    
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Titulo";
+    var element1 = document.getElementById("GuardarHoja");
+    element1.disabled = false;
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "diapositiva";
+    var mi = document.createElement("textarea");
+    mi.classList.add("miTexto");
+    mi.id = "miTexto";
+    mi.type = "text";
+    mi.textContent = "texto";
+    
+    div.appendChild(mi);
+    const containerc3 = document.querySelector(".c3");
+    var botonTexto = document.createElement("input");
+    botonTexto.classList.add("CambiarTexto");
+    botonTexto.type = "button";
+    botonTexto.value = "Cambiar Texto";
+
+    containerc3.appendChild(botonTexto);
+    cont_hoja.appendChild(div);
+}
+
+function addSubtituloTexto() {
+    //var hojaTexto = document.createElement('div');
+    //hojaTexto.classList.add("hojaTexto");
+    limpiarBotonesAuxiliares();
+    
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Titulo";
+    var element1 = document.getElementById("GuardarHoja");
+    element1.disabled = false;
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "diapositiva";
+    var mi = document.createElement("textarea");
+    mi.classList.add("miTexto");
+    mi.id = "miTexto";
+    mi.type = "text";
+    mi.textContent = "texto";
+    var miSubTitulo = document.createElement("textarea");
+    miSubTitulo.classList.add("miSubTitulo", "subtituloDiapositiva");
+    miSubTitulo.id = "miSubTitulo";
+    miSubTitulo.type = "text";
+    miSubTitulo.textContent = "Subtítulo";
+    
+    
+    div.appendChild(miSubTitulo);
+    div.appendChild(mi);
+    const containerc3 = document.querySelector(".c3");
+    var botonTexto = document.createElement("input");
+    botonTexto.classList.add("CambiarTexto");
+    botonTexto.type = "button";
+    botonTexto.value = "Cambiar Texto";
+
+    containerc3.appendChild(botonTexto);
+    var botonSubtitulo = document.createElement("input");
+    botonSubtitulo.classList.add("CambiarSubtitulo");
+    botonSubtitulo.type = "button";
+    botonSubtitulo.value = "Cambiar Subtitulo";
+    
+    containerc3.appendChild(botonSubtitulo);
+    cont_hoja.appendChild(div);
+}
+
+function addtituloSubtitulo() {
+    //var hojaTexto = document.createElement('div');
+    //hojaTexto.classList.add("hojaTexto");
+    limpiarBotonesAuxiliares();
+    
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Titulo";
+    var element1 = document.getElementById("GuardarHoja");
+    element1.disabled = false;
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "diapositiva";
+    var mi = document.createElement("textarea");
+    mi.classList.add("miTitulo", "tituloDiapositiva");
+    mi.id = "miTitulo";
+    mi.type = "text";
+    mi.textContent = "Titulo";
+    var miSubTitulo = document.createElement("textarea");
+    miSubTitulo.classList.add("miSubTitulo", "subtituloDiapositiva");
+    miSubTitulo.id = "miSubTitulo";
+    miSubTitulo.type = "text";
+    miSubTitulo.textContent = "Subtítulo";
+    
+    div.appendChild(mi);
+    div.appendChild(miSubTitulo);
+    const containerc3 = document.querySelector(".c3");
+    var boton = document.createElement("input");
+    boton.classList.add("Cambiar");
+    boton.type = "button";
+    boton.value = "Cambiar Titulo";
+    var botonSubtitulo = document.createElement("input");
+    botonSubtitulo.classList.add("CambiarSubtitulo");
+    botonSubtitulo.type = "button";
+    botonSubtitulo.value = "Cambiar Subtitulo";
+    containerc3.appendChild(boton);
+    containerc3.appendChild(botonSubtitulo);
+    cont_hoja.appendChild(div);
+}
 function addtitulo() {
     //var hojaTexto = document.createElement('div');
     //hojaTexto.classList.add("hojaTexto");
+    limpiarBotonesAuxiliares();
     var diapositivaInput = document.getElementById("diapositivaInput");
     diapositivaInput.value = "Titulo";
     var element1 = document.getElementById("GuardarHoja");

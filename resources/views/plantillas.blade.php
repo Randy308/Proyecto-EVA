@@ -49,9 +49,11 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownButton">
                     <button id="item1" onclick="addtitulo()" class="dropdown-item" type="button">Titulo</button>
-                    <button id="item2" class="dropdown-item" type="button">Titulo y subtitulo</button>
-                    <button id="item3" class="dropdown-item" type="button">Subtitulo y texto</button>
-                    <button id="item4" class="dropdown-item" type="button">Texto</button>
+                    <button id="item2" onclick="addtituloSubtitulo()" class="dropdown-item" type="button">Titulo y
+                        subtitulo</button>
+                    <button id="item3" onclick="addSubtituloTexto()" class="dropdown-item" type="button">Subtitulo
+                        y texto</button>
+                    <button id="item4" onclick="addTexto()" class="dropdown-item" type="button">Texto</button>
                 </ul>
             </div>
 
@@ -201,6 +203,16 @@
             });
 
 
+            $(document).on('click', '.CambiarTexto', function() {
+                var y = document.getElementById('miTexto');
+                y.innerHTML = y.value;
+
+            });
+            $(document).on('click', '.CambiarSubtitulo', function() {
+                var y = document.getElementById('miSubTitulo');
+                y.innerHTML = y.value;
+
+            });
             $(document).on('click', '#GuardarHoja', function() {
 
                 if (document.querySelector('#chessboard')) {
@@ -217,12 +229,12 @@
                     element5.remove();
                     const element6 = document.getElementById("btnPosicionFinal");
                     element6.remove();
-                    
+
 
                     const celdas = document.querySelectorAll('.cell');
                     celdas.forEach(celda => {
                         celda.classList.remove(
-                        'movimientoPosible'); // Remover clase CSS de movimientos previos
+                            'movimientoPosible'); // Remover clase CSS de movimientos previos
                     });
 
                     const contenedorDiv = document.querySelector(".hoja");
@@ -232,10 +244,12 @@
                     botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
                     contenedorDiv.appendChild(botonObstaculo);
                     var rutaImagen = "{{ asset('img/alfil.jpg') }}";
-            
-            
+
+
                 }
                 document.querySelector('.Cambiar')?.remove();
+                document.querySelector('.CambiarSubtitulo')?.remove();
+                document.querySelector('.CambiarTexto')?.remove();
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();
