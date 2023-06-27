@@ -39,6 +39,9 @@ li {
 .movimientoPosible:hover {
     background-color: lightgray;
 }
+textarea{
+    border: 1px solid black;
+}
 .diapositiva {
     position: absolute; /* Position child div relative to parent */
     top: 0; /* Position child div at the top */

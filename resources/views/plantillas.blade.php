@@ -68,17 +68,18 @@
     </div>
     <div>
         <input type="hidden" name="href_value" id="hrefValueInput">
+        <input type="hidden" name="contador_value" id="contadorInput">
         <input type="hidden" name="href_value" id="diapositivaInput">
     </div>
 
-    <!--
+
     <center>
         <div class="subcontainer">
             <input type="file" id="fileInput" class="btn">
 
             <button type="button" id="downloadInput" class="btn btn-primary ">Guardar Documento</button>
         </div>
-    </center>-->
+    </center>
 
 
     <script src="{{ asset('js/plantilla-app.js') }}"></script>
@@ -112,56 +113,66 @@
             });
 
             $("#downloadInput").click(function() {
-                const element1 = document.getElementById("btnObstaculo");
-                element1.remove();
-                const element2 = document.getElementById("btnMovimiento");
-                element2.remove();
-                const element3 = document.getElementById("btnOcultarCamino");
-                element3.remove();
-                const element4 = document.getElementById("btnCamino");
-                element4.remove();
-                const element5 = document.getElementById("btnPosicionAlfil");
-                element5.remove();
-                const element6 = document.getElementById("btnPosicionFinal");
-                element6.remove();
+                if(document.getElementById('chessboard')){
+                document.getElementById('BotonIniciar')?.remove();
+                document.getElementById('btnObstaculo')?.remove();
+                document.getElementById('btnMovimiento')?.remove();
+                document.getElementById('btnOcultarCamino')?.remove();
+                document.getElementById('btnCamino')?.remove();
+                document.getElementById('btnPosicionAlfil')?.remove();
+                document.getElementById('btnPosicionFinal')?.remove();
+
 
                 const contenedorDiv = document.querySelector(".hoja");
-                const botonObstaculo = document.createElement("button");
-                botonObstaculo.textContent = "Iniciar";
-                botonObstaculo.id = "BotonIniciar";
-                botonObstaculo.classList.add("btn", "btn-info", "botonTablero");
-                contenedorDiv.appendChild(botonObstaculo);
+                    const botonObstaculo = document.createElement("button");
+                    botonObstaculo.textContent = "Iniciar";
+                    botonObstaculo.id = "BotonIniciar";
+                    botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
+                    contenedorDiv.appendChild(botonObstaculo);
+            
+            }
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();
                 // do scrubbing here
                 //
-                var inputs = document.createElement('input');
-                //inputs.se
-                //element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(filecontents));
-                element.setAttribute('href', encodeURIComponent(filecontents));
+
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(
+                    filecontents));
                 element.setAttribute('download', 'output.html');
 
                 element.style.display = 'none';
                 document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
+
+
+                //var element = document.createElement('a');
+
+                //filecontents = $('#hoja').html();
+                // do scrubbing here
                 //
-                var hrefValueInput = document.getElementById('hrefValueInput');
-                var hrefValue = element.getAttribute('href');
-                hrefValueInput.value = hrefValue;
+                //var inputs = document.createElement('input');
+                //inputs.se
+                //element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(filecontents));
+                //element.setAttribute('href', encodeURIComponent(filecontents));
+                //element.setAttribute('download', 'output.html');
+
+                //element.style.display = 'none';
+                //document.body.appendChild(element);
+                //
+                //var hrefValueInput = document.getElementById('hrefValueInput');
+                //var hrefValue = element.getAttribute('href');
+                //hrefValueInput.value = hrefValue;
 
                 // Submit the form programmatically
                 //var form = document.querySelector('form');
                 //form.submit();
                 //element.click();
 
-                document.body.removeChild(element);
-
-
-
-
-
-
-
+                //document.body.removeChild(element);
 
             });
             $(document).on('click', '#BotonIniciar', function() {

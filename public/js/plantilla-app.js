@@ -1,7 +1,7 @@
 const container = document.querySelector(".c1");
 const cont_hoja = document.querySelector(".hoja");
 var autoIncrement = 1;
-
+var numeroDiapositivas = 0;
 function addPlantilla(imagenRuta, contenido, expr) {
     const div = document.createElement("div");
     div.classList.add("miniatura");
@@ -13,6 +13,9 @@ function addPlantilla(imagenRuta, contenido, expr) {
     mihidden.value = contenido;
     div.appendChild(mihidden);
     container.appendChild(div);
+    var contadorInput = document.getElementById("contadorInput");
+    numeroDiapositivas++;
+    contadorInput.value = numeroDiapositivas
 
     if (typeof imagenRuta === "undefined") {
         
