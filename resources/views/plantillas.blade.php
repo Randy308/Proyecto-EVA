@@ -23,7 +23,7 @@
 <body>
     <ul>
         <li><a href="{{ route('index') }}">Inicio</a></li>
-        <li><a class="active" href="{{ route('plantillas') }}">Crear Plantillas</a></li>
+        <li><a class="active" href="{{ route('plantillas') }}">Crear Curso</a></li>
     </ul>
     <center>
         <h5>Diseño</h5>
