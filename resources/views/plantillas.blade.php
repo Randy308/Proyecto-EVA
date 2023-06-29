@@ -67,6 +67,19 @@
         </div>
     </div>
     <div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-header">
+
+                    <h2>¡Objetivo alcanzado!</h2>
+                </div>
+                <div class="modal-body">
+                    <p class="textoNumeroDePasos" id="textoNumeroDePasos"></p>
+                </div>
+            </div>
+        </div>
+
         <input type="hidden" name="href_value" id="hrefValueInput">
         <input type="hidden" name="contador_value" id="contadorInput">
         <input type="hidden" name="actual_value" id="actualInput">
@@ -267,8 +280,9 @@
                     botonObstaculo.textContent = "Iniciar";
                     botonObstaculo.id = "BotonIniciar";
                     botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
-                    if(!document.getElementById('BotonIniciar')){
-                    contenedorDiv.appendChild(botonObstaculo);}
+                    if (!document.getElementById('BotonIniciar')) {
+                        contenedorDiv.appendChild(botonObstaculo);
+                    }
                     var rutaImagen = "{{ asset('img/alfil.jpg') }}";
 
 
@@ -307,7 +321,7 @@
                 document.getElementById('hoja').innerHTML = '';
                 var contadorInput = document.getElementById('contadorInput');
                 contadorInput.value = contadorInput.value - 1;
-                
+
                 var diapoActual = document.querySelector('.onfocus');
                 if (diapoActual) {
                     diapoActual.parentNode.removeChild(diapoActual);

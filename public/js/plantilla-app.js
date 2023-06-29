@@ -2,6 +2,7 @@ const container = document.querySelector(".c1");
 const cont_hoja = document.querySelector(".hoja");
 var autoIncrement = 1;
 var numeroDiapositivas = 0;
+var numeroMovimientosAlfil = 0;
 function addPlantilla(imagenRuta, contenido, expr) {
     const div = document.createElement("div");
     div.classList.add("miniatura");
@@ -15,22 +16,20 @@ function addPlantilla(imagenRuta, contenido, expr) {
     container.appendChild(div);
     var contadorInput = document.getElementById("contadorInput");
     numeroDiapositivas++;
-    contadorInput.value = numeroDiapositivas
-    var indiceDiapositiva = document.createElement('input');
-    indiceDiapositiva.type='hidden';
-    indiceDiapositiva.value=numeroDiapositivas;
-    indiceDiapositiva.classList.add('indiceDiapositiva');
+    contadorInput.value = numeroDiapositivas;
+    var indiceDiapositiva = document.createElement("input");
+    indiceDiapositiva.type = "hidden";
+    indiceDiapositiva.value = numeroDiapositivas;
+    indiceDiapositiva.classList.add("indiceDiapositiva");
     div.appendChild(indiceDiapositiva);
     if (typeof imagenRuta === "undefined") {
-        
-
         switch (expr) {
             case "Titulo":
                 console.log("add Titulo.");
                 var mi = document.createElement("span");
                 mi.classList.add("miniaturaTitulo");
                 //mi.type = "text";
-                mi.textContent  = "Titulo";
+                mi.textContent = "Titulo";
                 div.appendChild(mi);
                 //addtitulo();
                 break;
@@ -38,13 +37,13 @@ function addPlantilla(imagenRuta, contenido, expr) {
                 var mi = document.createElement("span");
                 mi.classList.add("miniaturaTitulo");
                 //mi.type = "text";
-                mi.textContent  = "Titulo";
+                mi.textContent = "Titulo";
                 div.appendChild(mi);
 
                 var Subtitulo = document.createElement("span");
-                Subtitulo.classList.add("miniaturaSubTitulo");           
+                Subtitulo.classList.add("miniaturaSubTitulo");
                 Subtitulo.id = "miSubTitulo";
-                Subtitulo.textContent  = "Subtitulo";
+                Subtitulo.textContent = "Subtitulo";
                 div.appendChild(Subtitulo);
 
                 console.log("Titulo y subtitulo");
@@ -52,16 +51,16 @@ function addPlantilla(imagenRuta, contenido, expr) {
             case "Subtitulo y texto":
                 console.log("add Subtitulo y texto");
                 var Subtitulo = document.createElement("span");
-                Subtitulo.classList.add("miniaturaSubTitulo");           
+                Subtitulo.classList.add("miniaturaSubTitulo");
                 Subtitulo.classList.add("miSubTitulo");
                 Subtitulo.id = "miSubTitulo";
-                Subtitulo.textContent  = "Subtitulo";
+                Subtitulo.textContent = "Subtitulo";
                 div.appendChild(Subtitulo);
                 var texto = document.createElement("span");
-                texto.classList.add("miniaturaTexto");              
+                texto.classList.add("miniaturaTexto");
                 texto.classList.add("miTexto");
                 texto.id = "miTexto";
-                texto.textContent  = "Texto";
+                texto.textContent = "Texto";
                 div.appendChild(texto);
                 // Expected output: "Mangoes and papayas are $2.79 a pound."
                 break;
@@ -72,7 +71,7 @@ function addPlantilla(imagenRuta, contenido, expr) {
                 //mi.type = "text";
                 mi.classList.add("miTexto");
                 mi.id = "miTexto";
-                mi.textContent  = "Texto";
+                mi.textContent = "Texto";
                 div.appendChild(mi);
                 // Expected output: "Mangoes and papayas are $2.79 a pound."
                 break;
@@ -88,17 +87,16 @@ function addPlantilla(imagenRuta, contenido, expr) {
         container.appendChild(div);
     }
 }
-function limpiarBotonesAuxiliares(){
-    
-    document.querySelector('.Cambiar')?.remove();
-    document.querySelector('.CambiarTexto')?.remove();
-    document.querySelector('.CambiarSubtitulo')?.remove();
+function limpiarBotonesAuxiliares() {
+    document.querySelector(".Cambiar")?.remove();
+    document.querySelector(".CambiarTexto")?.remove();
+    document.querySelector(".CambiarSubtitulo")?.remove();
 }
 function addTexto() {
     //var hojaTexto = document.createElement('div');
     //hojaTexto.classList.add("hojaTexto");
     limpiarBotonesAuxiliares();
-    
+
     var diapositivaInput = document.getElementById("diapositivaInput");
     diapositivaInput.value = "Texto";
     var element1 = document.getElementById("GuardarHoja");
@@ -111,7 +109,7 @@ function addTexto() {
     mi.id = "miTexto";
     mi.type = "text";
     mi.textContent = "texto";
-    
+
     div.appendChild(mi);
     const containerc3 = document.querySelector(".c3");
     var botonTexto = document.createElement("input");
@@ -127,7 +125,7 @@ function addSubtituloTexto() {
     //var hojaTexto = document.createElement('div');
     //hojaTexto.classList.add("hojaTexto");
     limpiarBotonesAuxiliares();
-    
+
     var diapositivaInput = document.getElementById("diapositivaInput");
     diapositivaInput.value = "Subtitulo y texto";
     var element1 = document.getElementById("GuardarHoja");
@@ -145,8 +143,7 @@ function addSubtituloTexto() {
     miSubTitulo.id = "miSubTitulo";
     miSubTitulo.type = "text";
     miSubTitulo.textContent = "Subtítulo";
-    
-    
+
     div.appendChild(miSubTitulo);
     div.appendChild(mi);
     const containerc3 = document.querySelector(".c3");
@@ -163,7 +160,7 @@ function addtituloSubtitulo() {
     //var hojaTexto = document.createElement('div');
     //hojaTexto.classList.add("hojaTexto");
     limpiarBotonesAuxiliares();
-    
+
     var diapositivaInput = document.getElementById("diapositivaInput");
     diapositivaInput.value = "Titulo y subtitulo";
     var element1 = document.getElementById("GuardarHoja");
@@ -181,7 +178,7 @@ function addtituloSubtitulo() {
     miSubTitulo.id = "miSubTitulo";
     miSubTitulo.type = "text";
     miSubTitulo.textContent = "Subtítulo";
-    
+
     div.appendChild(mi);
     div.appendChild(miSubTitulo);
     const containerc3 = document.querySelector(".c3");
@@ -361,7 +358,33 @@ function agregarNotacionAlgebraica() {
     });
     chessboard.appendChild(numerosContainer);
 }
+function mensajeExito() {
+    var alfilElement = document.querySelector(".bg-success .alfil");
 
+    // Verificar si el elemento existe
+    if (alfilElement) {
+        // Mostrar el modal de éxito
+        var mensaje =document.getElementById('textoNumeroDePasos');
+        mensaje.textContent  = `El alfil ha llegado a su objetivo en el tablero después de ${numeroMovimientosAlfil} movimientos.`;
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+        console.log(numeroMovimientosAlfil);
+        numeroMovimientosAlfil = 0;
+        modal.style.display = "block";
+
+        // Cerrar el modal al hacer clic en la "x"
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        // Cerrar el modal al hacer clic fuera de él
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    }
+}
 function prueba() {
     dibujarTablero();
 
@@ -676,11 +699,13 @@ function prueba() {
                         "El div hijo no está contenido dentro del div padre."
                     );
                     clickedCell.appendChild(alfil);
+                    numeroMovimientosAlfil++;
                 }
             } else {
                 console.log("Hay un obstáculo en el camino del alfil.");
             }
         }
+        mensajeExito();
         //eliminarPosiblesMovimientos();
         //mostrarMovimientosAlfil();
     }
@@ -1148,14 +1173,15 @@ function cargarScriptDinamico() {
                     console.log(
                         "El div hijo no está contenido dentro del div padre."
                     );
+                    numeroMovimientosAlfil++;
                     clickedCell.appendChild(alfil);
                 }
             } else {
                 console.log("Hay un obstáculo en el camino del alfil.");
             }
         }
-        
-        
+        mensajeExito();
+
         //mostrarMovimientosAlfil();
     }
 
