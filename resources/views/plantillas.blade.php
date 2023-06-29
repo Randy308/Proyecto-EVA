@@ -355,7 +355,7 @@
                 var hiddenInput = miniatura.querySelector('input#oculto[type="hidden"]');
                 var hiddenInputValue = hiddenInput.value;
                 outputDiv.innerHTML = decodeURIComponent(hiddenInputValue);
-                //console.log('Valor del hidden input:', decodeURIComponent(hiddenInputValue));
+                console.log('Valor del hidden input:', decodeURIComponent(hiddenInputValue));
             }
         });
     </script>

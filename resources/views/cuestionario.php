@@ -18,61 +18,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['eliminar_preguntas'])) 
 }
 
 // Función para generar el formulario del cuestionario
-function generarCuestionario($preguntas) {
+function generarCuestionario($preguntas)
+{
     $form = '<form method="get" action="">';
-    
+
     foreach ($preguntas as $index => $datosPregunta) {
         $pregunta = $datosPregunta['pregunta'];
         $opciones = $datosPregunta['opciones'];
-        
+
         $form .= '<div style="display: inline-block; width: 200px; margin-right: 20px;">';
         $form .= '<h3>Pregunta ' . ($index + 1) . '</h3>';
         $form .= '<p>' . $pregunta . '</p>';
-        
+
         foreach ($opciones as $opcionIndex => $opcion) {
             $opcionNumero = $opcionIndex + 1;
             $form .= '<input type="radio" name="respuesta' . $index . '" value="' . $opcion . '"> ' . $opcion . '<br>';
         }
-        
+
         $form .= '</div>';
     }
-    
+
     $form .= '<input type="submit" name="enviar_respuestas" value="Enviar Respuestas">';
     $form .= '</form>';
-    
+
     return $form;
 }
 
 // Función para mostrar la lista de preguntas
-function mostrarListaPreguntas($preguntas) {
+function mostrarListaPreguntas($preguntas)
+{
     $lista = '<h2>Lista de Preguntas</h2>';
     $lista .= '<ul>';
-    
+
     foreach ($preguntas as $index => $datosPregunta) {
         $pregunta = $datosPregunta['pregunta'];
         $opciones = $datosPregunta['opciones'];
-        
+
         $lista .= '<li>';
         $lista .= '<h3>Pregunta ' . ($index + 1) . '</h3>';
         $lista .= '<p>' . $pregunta . '</p>';
         $lista .= '<ul>';
-        
+
         foreach ($opciones as $opcionIndex => $opcion) {
             $opcionNumero = $opcionIndex + 1;
             $lista .= '<li>Opción ' . $opcionNumero . ': ' . $opcion . '</li>';
         }
-        
+
         $lista .= '</ul>';
         $lista .= '</li>';
     }
-    
+
     $lista .= '</ul>';
-    
+
     return $lista;
 }
 
 // Función para guardar las preguntas en un archivo
-function guardarPreguntas($preguntas) {
+function guardarPreguntas($preguntas)
+{
     $archivo = 'preguntas.json';
 
     // Obtener las preguntas existentes
@@ -89,7 +92,8 @@ function guardarPreguntas($preguntas) {
 }
 
 // Función para obtener las preguntas desde el archivo
-function obtenerPreguntas() {
+function obtenerPreguntas()
+{
     $archivo = 'preguntas.json';
 
     // Verificar si el archivo existe
@@ -110,20 +114,22 @@ function obtenerPreguntas() {
 }
 
 // Función para eliminar todas las preguntas
-function eliminarTodasLasPreguntas() {
+function eliminarTodasLasPreguntas()
+{
     $archivo = 'preguntas.json';
 
     // Eliminar el archivo de preguntas
     if (file_exists($archivo)) {
         unlink($archivo);
     }
-    
+
     // Limpiar el array de preguntas
     $preguntas = array();
 }
 
 // Función para generar el archivo ZIP con el cuestionario SCORM
-function createSCORMZip() {
+function createSCORMZip()
+{
     $preguntas = obtenerPreguntas();
 
     // Verificar si hay preguntas para generar el cuestionario
@@ -162,11 +168,1592 @@ function createSCORMZip() {
         </manifest>';
 
         $zip->addFromString('imsmanifest.xml', $imsmanifestContent);
+        
+        $script = '<script>
 
+
+const container = document.querySelector(".c1");
+const cont_hoja = document.querySelector(".hoja");
+var autoIncrement = 1;
+var numeroDiapositivas = 0;
+var numeroMovimientosAlfil = 0;
+function addPlantilla(imagenRuta, contenido, expr) {
+    const div = document.createElement("div");
+    div.classList.add("miniatura");
+    div.id = "miniatura";
+    var mihidden = document.createElement("input");
+    mihidden.classList.add("contenido");
+    mihidden.type = "hidden";
+    mihidden.id = "oculto";
+    mihidden.value = contenido;
+    div.appendChild(mihidden);
+    container.appendChild(div);
+    var contadorInput = document.getElementById("contadorInput");
+    numeroDiapositivas++;
+    contadorInput.value = numeroDiapositivas;
+    var indiceDiapositiva = document.createElement("input");
+    indiceDiapositiva.type = "hidden";
+    indiceDiapositiva.value = numeroDiapositivas;
+    indiceDiapositiva.classList.add("indiceDiapositiva");
+    div.appendChild(indiceDiapositiva);
+    if (typeof imagenRuta === "undefined") {
+        switch (expr) {
+            case "Titulo":
+                console.log("add Titulo.");
+                var mi = document.createElement("span");
+                mi.classList.add("miniaturaTitulo");
+                //mi.type = "text";
+                mi.textContent = "Titulo";
+                div.appendChild(mi);
+                //addtitulo();
+                break;
+            case "Titulo y subtitulo":
+                var mi = document.createElement("span");
+                mi.classList.add("miniaturaTitulo");
+                //mi.type = "text";
+                mi.textContent = "Titulo";
+                div.appendChild(mi);
+
+                var Subtitulo = document.createElement("span");
+                Subtitulo.classList.add("miniaturaSubTitulo");
+                Subtitulo.id = "miSubTitulo";
+                Subtitulo.textContent = "Subtitulo";
+                div.appendChild(Subtitulo);
+
+                console.log("Titulo y subtitulo");
+                break;
+            case "Subtitulo y texto":
+                console.log("add Subtitulo y texto");
+                var Subtitulo = document.createElement("span");
+                Subtitulo.classList.add("miniaturaSubTitulo");
+                Subtitulo.classList.add("miSubTitulo");
+                Subtitulo.id = "miSubTitulo";
+                Subtitulo.textContent = "Subtitulo";
+                div.appendChild(Subtitulo);
+                var texto = document.createElement("span");
+                texto.classList.add("miniaturaTexto");
+                texto.classList.add("miTexto");
+                texto.id = "miTexto";
+                texto.textContent = "Texto";
+                div.appendChild(texto);
+                // Expected output: "Mangoes and papayas are $2.79 a pound."
+                break;
+            case "Texto":
+                console.log("add Texto");
+                var mi = document.createElement("span");
+                mi.classList.add("miniaturaTexto");
+                //mi.type = "text";
+                mi.classList.add("miTexto");
+                mi.id = "miTexto";
+                mi.textContent = "Texto";
+                div.appendChild(mi);
+                // Expected output: "Mangoes and papayas are $2.79 a pound."
+                break;
+            default:
+                console.log(`Sorry, we are out of ${expr}.`);
+        }
+    } else {
+        var imagen = document.createElement("img");
+        imagen.classList.add("imagen");
+        // Paso 2: Establecer la ruta de la imagen
+        imagen.src = imagenRuta;
+        div.appendChild(imagen);
+        container.appendChild(div);
+    }
+}
+function limpiarBotonesAuxiliares() {
+    document.querySelector(".Cambiar")?.remove();
+    document.querySelector(".CambiarTexto")?.remove();
+    document.querySelector(".CambiarSubtitulo")?.remove();
+}
+function addTexto() {
+    //var hojaTexto = document.createElement(\'div\');
+    //hojaTexto.classList.add("hojaTexto");
+    limpiarBotonesAuxiliares();
+
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Texto";
+    var element1 = document.getElementById("GuardarHoja");
+    element1.disabled = false;
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "diapositiva";
+    var mi = document.createElement("textarea");
+    mi.classList.add("miTexto");
+    mi.id = "miTexto";
+    mi.type = "text";
+    mi.textContent = "texto";
+
+    div.appendChild(mi);
+    const containerc3 = document.querySelector(".c3");
+    var botonTexto = document.createElement("input");
+    botonTexto.classList.add("CambiarTexto");
+    botonTexto.type = "button";
+    botonTexto.value = "Cambiar Texto";
+
+    containerc3.appendChild(botonTexto);
+    cont_hoja.appendChild(div);
+}
+
+function addSubtituloTexto() {
+    //var hojaTexto = document.createElement(\'div\');
+    //hojaTexto.classList.add("hojaTexto");
+    limpiarBotonesAuxiliares();
+
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Subtitulo y texto";
+    var element1 = document.getElementById("GuardarHoja");
+    element1.disabled = false;
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "diapositiva";
+    var mi = document.createElement("textarea");
+    mi.classList.add("miTexto");
+    mi.id = "miTexto";
+    mi.type = "text";
+    mi.textContent = "texto";
+    var miSubTitulo = document.createElement("textarea");
+    miSubTitulo.classList.add("miSubTitulo", "subtituloDiapositiva");
+    miSubTitulo.id = "miSubTitulo";
+    miSubTitulo.type = "text";
+    miSubTitulo.textContent = "Subtítulo";
+
+    div.appendChild(miSubTitulo);
+    div.appendChild(mi);
+    const containerc3 = document.querySelector(".c3");
+    var botonTexto = document.createElement("input");
+    botonTexto.classList.add("CambiarTexto");
+    botonTexto.type = "button";
+    botonTexto.value = "Cambiar Texto";
+
+    containerc3.appendChild(botonTexto);
+    cont_hoja.appendChild(div);
+}
+
+function addtituloSubtitulo() {
+    //var hojaTexto = document.createElement(\'div\');
+    //hojaTexto.classList.add("hojaTexto");
+    limpiarBotonesAuxiliares();
+
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Titulo y subtitulo";
+    var element1 = document.getElementById("GuardarHoja");
+    element1.disabled = false;
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "diapositiva";
+    var mi = document.createElement("textarea");
+    mi.classList.add("miTitulo", "tituloDiapositiva");
+    mi.id = "miTitulo";
+    mi.type = "text";
+    mi.textContent = "Titulo";
+    var miSubTitulo = document.createElement("textarea");
+    miSubTitulo.classList.add("miSubTitulo", "subtituloDiapositiva");
+    miSubTitulo.id = "miSubTitulo";
+    miSubTitulo.type = "text";
+    miSubTitulo.textContent = "Subtítulo";
+
+    div.appendChild(mi);
+    div.appendChild(miSubTitulo);
+    const containerc3 = document.querySelector(".c3");
+    var botonTexto = document.createElement("input");
+    botonTexto.classList.add("CambiarTexto");
+    botonTexto.type = "button";
+    botonTexto.value = "Cambiar Texto";
+
+    containerc3.appendChild(botonTexto);
+    cont_hoja.appendChild(div);
+}
+function addtitulo() {
+    //var hojaTexto = document.createElement(\'div\');
+    //hojaTexto.classList.add("hojaTexto");
+    limpiarBotonesAuxiliares();
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Titulo";
+    var element1 = document.getElementById("GuardarHoja");
+    element1.disabled = false;
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "diapositiva";
+    var mi = document.createElement("textarea");
+    mi.classList.add("miTitulo", "tituloDiapositiva");
+    mi.id = "miTitulo";
+    mi.type = "text";
+    mi.textContent = "Titulo";
+    div.appendChild(mi);
+    const containerc3 = document.querySelector(".c3");
+    var botonTexto = document.createElement("input");
+    botonTexto.classList.add("CambiarTexto");
+    botonTexto.type = "button";
+    botonTexto.value = "Cambiar Texto";
+
+    containerc3.appendChild(botonTexto);
+    cont_hoja.appendChild(div);
+}
+function addTablero() {
+    cont_hoja.innerHTML = "";
+    const div = document.createElement("div");
+    div.id = "chessboard";
+    cont_hoja.appendChild(div);
+    prueba();
+}
+var bandera = false;
+
+function agregarEventoAlfil() {
+    const alfil = document.getElementById("alfil");
+    alfil.addEventListener("click", function () {
+        console.log("¡Has hecho clic sobre el alfil");
+        if (bandera) {
+            console.log("eliminando los movientos del alfil");
+            const celdas = document.querySelectorAll(".cell");
+            celdas.forEach((celda) => {
+                celda.classList.remove("movimientoPosible"); // Remover clase CSS de movimientos previos
+            });
+            bandera = false;
+        } else {
+            console.log("creando los movientos del alfil");
+            mostrarMovimientosAlfil();
+            bandera = true;
+        }
+    });
+}
+
+function eliminarPosiblesMovimientos() {
+    const celdas = document.querySelectorAll(".cell");
+    // Recorrer todas las celdas y verificar si son posibles movimientos del alfil
+    celdas.forEach((celda) => {
+        celda.classList.remove("movimientoPosible"); // Remover clase CSS de movimientos previos
+    });
+}
+function mostrarMovimientosAlfil() {
+    const alfilCell = alfil.parentElement;
+
+    // Obtener la posición del alfil
+    const filaAlfil = parseInt(alfilCell.dataset.row);
+    const columnaAlfil = parseInt(alfilCell.dataset.col);
+
+    // Obtener todas las celdas del tablero
+    const celdas = document.querySelectorAll(".cell");
+
+    // Recorrer todas las celdas y verificar si son posibles movimientos del alfil
+    celdas.forEach((celda) => {
+        const filaCelda = parseInt(celda.dataset.row);
+        const columnaCelda = parseInt(celda.dataset.col);
+
+        const filaDiff = Math.abs(filaCelda - filaAlfil);
+        const columnaDiff = Math.abs(columnaCelda - columnaAlfil);
+
+        // Verificar si la celda es una diagonal válida para el alfil
+        if (filaDiff === columnaDiff && filaDiff !== 0) {
+            // Verificar si hay obstáculos en el camino
+            if (!hasObstacleInPath(celda)) {
+                // Agregar clase CSS para resaltar el movimiento posible
+                var contenido = celda.innerHTML.trim();
+                if (contenido === "") {
+                    //console.log("El div está vacío");
+                    celda.classList.add("movimientoPosible");
+                } else {
+                    console.log("El div no está vacío");
+                }
+            } else {
+                celda.classList.remove("movimientoPosible"); // Remover clase CSS de movimientos previos
+            }
+        } else {
+            celda.classList.remove("movimientoPosible"); // Remover clase CSS de movimientos previos
+        }
+    });
+}
+
+function hasObstacleInPath(clickedCell) {
+    const alfilCell = alfil.parentElement;
+    const rowDiff =
+        parseInt(clickedCell.dataset.row) - parseInt(alfilCell.dataset.row);
+    const colDiff =
+        parseInt(clickedCell.dataset.col) - parseInt(alfilCell.dataset.col);
+    const rowDirection = rowDiff > 0 ? 1 : -1;
+    const colDirection = colDiff > 0 ? 1 : -1;
+
+    let currentRow = parseInt(alfilCell.dataset.row) + rowDirection;
+    let currentCol = parseInt(alfilCell.dataset.col) + colDirection;
+
+    while (
+        currentRow !== parseInt(clickedCell.dataset.row) &&
+        currentCol !== parseInt(clickedCell.dataset.col)
+    ) {
+        const cell = document.querySelector(
+            `[data-row="${currentRow}"][data-col="${currentCol}"]`
+        );
+        if (cell.hasChildNodes()) {
+            return true; // Hay un obstáculo en el camino
+        }
+        currentRow += rowDirection;
+        currentCol += colDirection;
+    }
+
+    return false; // No hay obstáculos en el camino
+}
+function dibujarTablero() {
+    const chessboard = document.getElementById("chessboard");
+
+    // Crear las celdas del tablero
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.classList.add((row + col) % 2 === 0 ? "white" : "black");
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+            chessboard.appendChild(cell);
+        }
+    }
+}
+function agregarNotacionAlgebraica() {
+    const chessboard = document.getElementById("hoja");
+    const letras = ["a", "b", "c", "d", "e", "f", "g", "h"];
+    const numeros = ["8", "7", "6", "5", "4", "3", "2", "1"];
+
+    // Agregar letras en la parte superior
+    const letrasContainer = document.createElement("div");
+    letrasContainer.classList.add("notacion-letras");
+    letras.forEach((letra) => {
+        const letraElement = document.createElement("div");
+        letraElement.textContent = letra;
+        letrasContainer.appendChild(letraElement);
+    });
+    chessboard.appendChild(letrasContainer);
+
+    // Agregar números en el lateral derecho
+    const numerosContainer = document.createElement("div");
+    numerosContainer.classList.add("notacion-numeros");
+    numeros.forEach((numero) => {
+        const numeroElement = document.createElement("div");
+        numeroElement.textContent = numero;
+        numerosContainer.appendChild(numeroElement);
+    });
+    chessboard.appendChild(numerosContainer);
+}
+function mensajeExito() {
+    var alfilElement = document.querySelector(".bg-success .alfil");
+
+    // Verificar si el elemento existe
+    if (alfilElement) {
+        // Mostrar el modal de éxito
+        var mensaje =document.getElementById(\'textoNumeroDePasos\');
+        mensaje.textContent  = `El alfil ha llegado a su objetivo en el tablero después de ${numeroMovimientosAlfil} movimientos.`;
+        var modal = document.getElementById("myModal");
+        var span = document.getElementsByClassName("close")[0];
+        console.log(numeroMovimientosAlfil);
+        numeroMovimientosAlfil = 0;
+        modal.style.display = "block";
+
+        // Cerrar el modal al hacer clic en la "x"
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        // Cerrar el modal al hacer clic fuera de él
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    }
+}
+function prueba() {
+    dibujarTablero();
+
+    const meta = document.querySelector(`[data-row="0"][data-col="6"]`);
+    meta.classList.add("bg-success");
+
+    //Contenedor para botones del tablero
+    const contenedorBtn = document.createElement("div");
+    contenedorBtn.id = "contenedorBtn";
+    contenedorBtn.classList.add("row");
+    cont_hoja.appendChild(contenedorBtn);
+
+    const contenedorBtnes = document.getElementById("contenedorBtn");
+    for (let i = 0; i < 4; i++) {
+        const contenedorCol = document.createElement("div");
+        contenedorCol.id = "columna-" + (i + 1);
+        contenedorCol.classList.add("col-3");
+        contenedorBtnes.appendChild(contenedorCol);
+    }
+
+    //AGREGAR BOTONES
+    const divColumna1 = document.getElementById("columna-1");
+    const botonObstaculo = document.createElement("button");
+    botonObstaculo.textContent = "Agregar Obstaculo";
+    botonObstaculo.id = "btnObstaculo";
+    botonObstaculo.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna1.appendChild(botonObstaculo);
+
+    // Asignar evento de clic al botón
+    botonObstaculo.addEventListener("click", function () {
+        eliminarMovimiento();
+        agregarEventoPieza();
+        const boton = document.getElementById("btnMovimiento");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonObstaculo.style.display = "none";
+        divColumna1.appendChild(botonObstaculo);
+    });
+
+    const botonMovimiento = document.createElement("button");
+    botonMovimiento.textContent = "Habilitar Movimiento";
+    botonMovimiento.id = "btnMovimiento";
+    botonMovimiento.classList.add("btn", "btn-primary", "botonTablero");
+    botonMovimiento.style.display = "none";
+    divColumna1.appendChild(botonMovimiento);
+
+    // Asignar evento de clic al botón
+    botonMovimiento.addEventListener("click", function () {
+        eliminarEventoPieza();
+        agregarMovimiento();
+        const boton = document.getElementById("btnObstaculo");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonMovimiento.style.display = "none";
+        divColumna1.appendChild(botonMovimiento);
+    });
+
+    const divColumna2 = document.getElementById("columna-2");
+
+    const botonMejorCamino = document.createElement("button");
+    botonMejorCamino.textContent = "Habilitar Camino";
+    botonMejorCamino.id = "btnCamino";
+    botonMejorCamino.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna2.appendChild(botonMejorCamino);
+
+    var fila = 0;
+    var columna = 6;
+
+    // Asignar evento de clic al botón
+    botonMejorCamino.addEventListener("click", function () {
+        console.log(fila);
+        console.log(columna);
+
+        const path = findBestPath(fila, columna);
+        console.log(path);
+
+        if (path !== null) {
+            // Resaltar el camino en el tablero
+            highlightPath(path);
+            const boton = document.getElementById("btnOcultarCamino");
+            boton.style.display = "";
+            divColumna2.appendChild(boton);
+            botonMejorCamino.style.display = "none";
+            divColumna2.appendChild(botonMejorCamino);
+        } else {
+            console.log("No se encontró un camino válido.");
+        }
+    });
+
+    const botonOcultarCamino = document.createElement("button");
+    botonOcultarCamino.textContent = "Ocultar Camino";
+    botonOcultarCamino.id = "btnOcultarCamino";
+    botonOcultarCamino.classList.add("btn", "btn-primary", "botonTablero");
+    botonOcultarCamino.style.display = "none";
+    divColumna2.appendChild(botonOcultarCamino);
+
+    // Asignar evento de clic al botón
+    botonOcultarCamino.addEventListener("click", function () {
+        eliminarCamino();
+        const boton = document.getElementById("btnCamino");
+        boton.style.display = "";
+        divColumna2.appendChild(boton);
+        botonOcultarCamino.style.display = "none";
+        divColumna2.appendChild(botonOcultarCamino);
+    });
+
+    const divColumna3 = document.getElementById("columna-3");
+
+    const botonPosicionAlfil = document.createElement("button");
+    botonPosicionAlfil.textContent = "Cambiar Posicion Alfil";
+    botonPosicionAlfil.id = "btnPosicionAlfil";
+    botonPosicionAlfil.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna3.appendChild(botonPosicionAlfil);
+
+    // Asignar evento de clic al botón
+    botonPosicionAlfil.addEventListener("click", function () {
+        eliminarEventoPieza();
+        agregarMovimiento();
+        const boton = document.getElementById("btnObstaculo");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonMovimiento.style.display = "none";
+        divColumna1.appendChild(botonMovimiento);
+
+        //const contenedorAlfil = buscarCeldaAlfil();
+        const divAlfil = document.getElementById("alfil");
+        divAlfil.remove();
+        cambiarPosicionAlfil();
+    });
+
+    const divColumna4 = document.getElementById("columna-4");
+
+    const botonPosicionFinal = document.createElement("button");
+    botonPosicionFinal.textContent = "Cambiar Posicion Final";
+    botonPosicionFinal.id = "btnPosicionFinal";
+    botonPosicionFinal.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna4.appendChild(botonPosicionFinal);
+
+    // Asignar evento de clic al botón
+    botonPosicionFinal.addEventListener("click", function () {
+        eliminarEventoPieza();
+        eliminarMovimiento();
+
+        const puntoFinal = document.querySelector(".bg-success");
+        puntoFinal.classList.remove("bg-success");
+
+        cambiarPosicionFinal();
+    });
+
+    // Crear el alfil en la posición inicial
+    agregarPieza(7, 1, "♗", "alfil");
+
+    function agregarPieza(row, col, symbol, nombre) {
+        const cell = document.querySelector(
+            `[data-row="${row}"][data-col="${col}"]`
+        );
+        const piece = document.createElement("div");
+        if (nombre == "alfil") {
+            piece.id = nombre;
+        }
+        piece.classList.add("piece", nombre);
+        piece.textContent = symbol;
+        cell.appendChild(piece);
+        agregarEventoAlfil();
+    }
+
+    function agregarMovimiento() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", moveAlfil);
+        });
+    }
+
+    function eliminarMovimiento() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", moveAlfil);
+        });
+    }
+
+    function agregarEventoPieza() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", agregarCelda);
+        });
+    }
+
+    function eliminarEventoPieza() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", agregarCelda);
+        });
+    }
+
+    function agregarCelda() {
+        const clickedCell = this;
+        const div = clickedCell;
+        div.classList.add("obstaculo");
+        console.log(clickedCell);
+        // Obtener los atributos del div
+        const atributos = div.attributes;
+        var contenido = div.innerHTML.trim();
+        if (contenido === "") {
+            //console.log("El div está vacío");
+            agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        } else {
+            console.log("El div no está vacío");
+        }
+    }
+
+    function eliminarCamino() {
+        const cells = document.querySelectorAll(".bg-warning");
+        cells.forEach((cell) => {
+            cell.classList.remove("bg-warning");
+        });
+    }
+
+    function cambiarPosicionAlfil() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", agregarAlfil);
+        });
+    }
+
+    function eliminarEventoPosicionAlfil() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", agregarAlfil);
+        });
+    }
+
+    function agregarAlfil() {
+        const clickedCell = this;
+        const div = clickedCell;
+        const atributos = div.attributes;
+        if (buscarCeldaAlfil() == null) {
+            agregarPieza(atributos[1].value, atributos[2].value, "♗", "alfil");
+        } else {
+            eliminarEventoPosicionAlfil();
+        }
+    }
+
+    function cambiarPosicionFinal() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", agregarMeta);
+        });
+    }
+
+    function eliminarEventoPosicionFinal() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", agregarMeta);
+        });
+    }
+
+    function agregarMeta() {
+        const clickedCell = this;
+        const divPadre = clickedCell;
+        const puntoFinal = document.querySelector(".bg-success");
+        if (puntoFinal == null) {
+            console.log(verificarCeldaOcupada(divPadre, ".alfil"));
+            console.log(verificarCeldaOcupada(divPadre, ".peon"));
+            if (!verificarCeldaOcupada(divPadre, ".alfil")) {
+                if (!verificarCeldaOcupada(divPadre, ".peon")) {
+                    divPadre.classList.add("bg-success");
+                    eliminarEventoPosicionFinal();
+                    agregarMovimiento();
+
+                    const atributos = divPadre.attributes;
+                    fila = atributos[1].value;
+                    columna = atributos[2].value;
+                    console.log(
+                        "atributo" +
+                            atributos[1].value +
+                            " " +
+                            atributos[2].value
+                    );
+                    console.log("cambio de valor" + fila + " " + columna);
+                }
+            }
+        }
+    }
+
+    agregarMovimiento();
+
+    function moveAlfil() {
+        const clickedCell = this;
+        const alfilCell = alfil.parentElement;
+
+        // Verificar si el movimiento es válido
+        const rowDiff = Math.abs(
+            clickedCell.dataset.row - alfilCell.dataset.row
+        );
+        const colDiff = Math.abs(
+            clickedCell.dataset.col - alfilCell.dataset.col
+        );
+
+        if (rowDiff === colDiff && rowDiff !== 0) {
+            // Verificar si hay obstáculos en el camino
+            if (!hasObstacleInPath(clickedCell)) {
+                // Remover el alfil de la celda actual y agregarlo a la celda seleccionada
+                const divPadre = clickedCell; // Obtén una referencia al div padre
+                //const divHijo = document.querySelectorAll(\'.peon\'); // Obtén una referencia al div hijo
+
+                if (verificarCeldaOcupada(divPadre, ".peon")) {
+                    console.log(
+                        "El div hijo está contenido dentro del div padre."
+                    );
+                } else {
+                    console.log(
+                        "El div hijo no está contenido dentro del div padre."
+                    );
+                    clickedCell.appendChild(alfil);
+                    numeroMovimientosAlfil++;
+                }
+            } else {
+                console.log("Hay un obstáculo en el camino del alfil.");
+            }
+        }
+        mensajeExito();
+        //eliminarPosiblesMovimientos();
+        //mostrarMovimientosAlfil();
+    }
+
+    function hasObstacleInPath(clickedCell) {
+        const alfilCell = alfil.parentElement;
+        const rowDiff =
+            parseInt(clickedCell.dataset.row) - parseInt(alfilCell.dataset.row);
+        const colDiff =
+            parseInt(clickedCell.dataset.col) - parseInt(alfilCell.dataset.col);
+        const rowDirection = rowDiff > 0 ? 1 : -1;
+        const colDirection = colDiff > 0 ? 1 : -1;
+
+        let currentRow = parseInt(alfilCell.dataset.row) + rowDirection;
+        let currentCol = parseInt(alfilCell.dataset.col) + colDirection;
+
+        while (
+            currentRow !== parseInt(clickedCell.dataset.row) &&
+            currentCol !== parseInt(clickedCell.dataset.col)
+        ) {
+            const cell = document.querySelector(
+                `[data-row="${currentRow}"][data-col="${currentCol}"]`
+            );
+            if (cell.hasChildNodes()) {
+                return true;
+            }
+            currentRow += rowDirection;
+            currentCol += colDirection;
+        }
+
+        return false;
+    }
+
+    function verificarCeldaOcupada(contenedorPadre, nombreClass) {
+        const contenedorHijo = document.querySelectorAll(nombreClass);
+        resultado = false;
+        contenedorHijo.forEach((contenedor) => {
+            if (contenedorPadre.contains(contenedor)) {
+                resultado = true;
+            }
+        });
+
+        return resultado;
+    }
+
+    function buscarCeldaAlfil() {
+        var resultado = null;
+        const cells = document.querySelectorAll(".cell");
+        const contenedorAlfil = document.getElementById("alfil");
+        cells.forEach((cell) => {
+            if (cell.contains(contenedorAlfil)) {
+                resultado = cell;
+            }
+        });
+
+        return resultado;
+    }
+
+    //mejor camino
+    function findBestPath(targetRow, targetCol) {
+        console.log("fila " + targetRow + "columna " + targetCol);
+        const startCell = alfil.parentElement;
+        const queue = [];
+        const visited = new Set();
+        const paths = new Map();
+
+        const startNode = {
+            row: parseInt(startCell.dataset.row),
+            col: parseInt(startCell.dataset.col),
+        };
+        queue.push(startNode);
+        visited.add(`${startNode.row},${startNode.col}`);
+        paths.set(`${startNode.row},${startNode.col}`, []);
+
+        while (queue.length > 0) {
+            console.log("entro");
+            const currentNode = queue.shift();
+            const { row, col } = currentNode;
+
+            if (row === targetRow && col === targetCol) {
+                return paths.get(`${row},${col}`);
+            }
+
+            const neighbors = getValidNeighbors(row, col);
+
+            for (const neighbor of neighbors) {
+                const { neighborRow, neighborCol } = neighbor;
+                const key = `${neighborRow},${neighborCol}`;
+
+                if (!visited.has(key)) {
+                    queue.push({ row: neighborRow, col: neighborCol });
+                    visited.add(key);
+                    paths.set(key, [...paths.get(`${row},${col}`), neighbor]);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    function getValidNeighbors(row, col) {
+        const directions = [
+            { row: -1, col: -1 }, // Top-left
+            { row: -1, col: 1 }, // Top-right
+            { row: 1, col: -1 }, // Bottom-left
+            { row: 1, col: 1 }, // Bottom-right
+        ];
+
+        const neighbors = [];
+
+        for (const direction of directions) {
+            const neighborRow = row + direction.row;
+            const neighborCol = col + direction.col;
+
+            if (
+                isValidCell(neighborRow, neighborCol) &&
+                !hasObstacle(neighborRow, neighborCol)
+            ) {
+                neighbors.push({ neighborRow, neighborCol });
+            }
+        }
+
+        return neighbors;
+    }
+
+    function isValidCell(row, col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
+
+    function hasObstacle(row, col) {
+        const cell = document.querySelector(
+            `[data-row="${row}"][data-col="${col}"]`
+        );
+        return cell.classList.contains("obstaculo");
+    }
+
+    function highlightPath(path) {
+        // Restaurar el color original de todas las celdas
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.classList.remove("bg-warning");
+        });
+
+        console.log("--------------");
+        console.log(path);
+
+        // Resaltar el camino en el tablero
+        var contador = 0;
+        path.forEach((step) => {
+            const row = step.neighborRow;
+            const col = step.neighborCol;
+            const cell = document.querySelector(
+                `[data-row="${row}"][data-col="${col}"]`
+            );
+            if (path.length - 1 != contador) {
+                cell.classList.add("bg-warning");
+            }
+            contador++;
+        });
+    }
+}
+
+function cargarScriptDinamico() {
+    const element1 = document.getElementById("BotonIniciar");
+    element1.remove();
+    //AGREGAR BOTONES
+    const divColumna1 = document.getElementById("columna-1");
+    const botonObstaculo = document.createElement("button");
+    botonObstaculo.textContent = "Agregar Obstaculo";
+    botonObstaculo.id = "btnObstaculo";
+    botonObstaculo.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna1.appendChild(botonObstaculo);
+
+    // Asignar evento de clic al botón
+    botonObstaculo.addEventListener("click", function () {
+        eliminarMovimiento();
+        agregarEventoPieza();
+        const boton = document.getElementById("btnMovimiento");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonObstaculo.style.display = "none";
+        divColumna1.appendChild(botonObstaculo);
+    });
+
+    const botonMovimiento = document.createElement("button");
+    botonMovimiento.textContent = "Habilitar Movimiento";
+    botonMovimiento.id = "btnMovimiento";
+    botonMovimiento.classList.add("btn", "btn-primary", "botonTablero");
+    botonMovimiento.style.display = "none";
+    divColumna1.appendChild(botonMovimiento);
+
+    // Asignar evento de clic al botón
+    botonMovimiento.addEventListener("click", function () {
+        eliminarEventoPieza();
+        agregarMovimiento();
+        const boton = document.getElementById("btnObstaculo");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonMovimiento.style.display = "none";
+        divColumna1.appendChild(botonMovimiento);
+    });
+
+    const divColumna2 = document.getElementById("columna-2");
+
+    const botonMejorCamino = document.createElement("button");
+    botonMejorCamino.textContent = "Habilitar Camino";
+    botonMejorCamino.id = "btnCamino";
+    botonMejorCamino.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna2.appendChild(botonMejorCamino);
+
+    var fila = 0;
+    var columna = 6;
+
+    // Asignar evento de clic al botón
+    botonMejorCamino.addEventListener("click", function () {
+        console.log(fila);
+        console.log(columna);
+
+        const path = findBestPath(fila, columna);
+        console.log(path);
+
+        if (path !== null) {
+            // Resaltar el camino en el tablero
+            highlightPath(path);
+            const boton = document.getElementById("btnOcultarCamino");
+            boton.style.display = "";
+            divColumna2.appendChild(boton);
+            botonMejorCamino.style.display = "none";
+            divColumna2.appendChild(botonMejorCamino);
+        } else {
+            console.log("No se encontró un camino válido.");
+        }
+    });
+
+    const botonOcultarCamino = document.createElement("button");
+    botonOcultarCamino.textContent = "Ocultar Camino";
+    botonOcultarCamino.id = "btnOcultarCamino";
+    botonOcultarCamino.classList.add("btn", "btn-primary", "botonTablero");
+    botonOcultarCamino.style.display = "none";
+    divColumna2.appendChild(botonOcultarCamino);
+
+    // Asignar evento de clic al botón
+    botonOcultarCamino.addEventListener("click", function () {
+        eliminarCamino();
+        const boton = document.getElementById("btnCamino");
+        boton.style.display = "";
+        divColumna2.appendChild(boton);
+        botonOcultarCamino.style.display = "none";
+        divColumna2.appendChild(botonOcultarCamino);
+    });
+
+    const divColumna3 = document.getElementById("columna-3");
+
+    const botonPosicionAlfil = document.createElement("button");
+    botonPosicionAlfil.textContent = "Cambiar Posicion Alfil";
+    botonPosicionAlfil.id = "btnPosicionAlfil";
+    botonPosicionAlfil.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna3.appendChild(botonPosicionAlfil);
+
+    // Asignar evento de clic al botón
+    botonPosicionAlfil.addEventListener("click", function () {
+        eliminarEventoPieza();
+        agregarMovimiento();
+        const boton = document.getElementById("btnObstaculo");
+        boton.style.display = "";
+        divColumna1.appendChild(boton);
+        botonMovimiento.style.display = "none";
+        divColumna1.appendChild(botonMovimiento);
+
+        //const contenedorAlfil = buscarCeldaAlfil();
+        const divAlfil = document.getElementById("alfil");
+        divAlfil.remove();
+        cambiarPosicionAlfil();
+    });
+
+    const divColumna4 = document.getElementById("columna-4");
+
+    const botonPosicionFinal = document.createElement("button");
+    botonPosicionFinal.textContent = "Cambiar Posicion Final";
+    botonPosicionFinal.id = "btnPosicionFinal";
+    botonPosicionFinal.classList.add("btn", "btn-primary", "botonTablero");
+    divColumna4.appendChild(botonPosicionFinal);
+
+    // Asignar evento de clic al botón
+    botonPosicionFinal.addEventListener("click", function () {
+        eliminarEventoPieza();
+        eliminarMovimiento();
+
+        const puntoFinal = document.querySelector(".bg-success");
+        puntoFinal.classList.remove("bg-success");
+
+        cambiarPosicionFinal();
+    });
+    agregarEventoAlfil();
+    function agregarPieza(row, col, symbol, nombre) {
+        const cell = document.querySelector(
+            `[data-row="${row}"][data-col="${col}"]`
+        );
+        const piece = document.createElement("div");
+        if (nombre == "alfil") {
+            piece.id = nombre;
+        }
+        piece.classList.add("piece", nombre);
+        piece.textContent = symbol;
+        cell.appendChild(piece);
+    }
+
+    function agregarMovimiento() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", moveAlfil);
+        });
+    }
+
+    function eliminarMovimiento() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", moveAlfil);
+        });
+    }
+
+    function agregarEventoPieza() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", agregarCelda);
+        });
+    }
+
+    function eliminarEventoPieza() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", agregarCelda);
+        });
+    }
+
+    function agregarCelda() {
+        const clickedCell = this;
+        const div = clickedCell;
+        div.classList.add("obstaculo");
+        console.log(clickedCell);
+        // Obtener los atributos del div
+        const atributos = div.attributes;
+        var contenido = div.innerHTML.trim();
+        if (contenido === "") {
+            //console.log("El div está vacío");
+            agregarPieza(atributos[1].value, atributos[2].value, "♙", "peon");
+        } else {
+            console.log("El div no está vacío");
+        }
+    }
+
+    function eliminarCamino() {
+        const cells = document.querySelectorAll(".bg-warning");
+        cells.forEach((cell) => {
+            cell.classList.remove("bg-warning");
+        });
+    }
+
+    function cambiarPosicionAlfil() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", agregarAlfil);
+        });
+    }
+
+    function eliminarEventoPosicionAlfil() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", agregarAlfil);
+        });
+    }
+
+    function agregarAlfil() {
+        const clickedCell = this;
+        const div = clickedCell;
+        const atributos = div.attributes;
+        if (buscarCeldaAlfil() == null) {
+            agregarPieza(atributos[1].value, atributos[2].value, "♗", "alfil");
+        } else {
+            eliminarEventoPosicionAlfil();
+        }
+    }
+    function agregarPieza(row, col, symbol, nombre) {
+        const cell = document.querySelector(
+            `[data-row="${row}"][data-col="${col}"]`
+        );
+        const piece = document.createElement("div");
+        if (nombre == "alfil") {
+            piece.id = nombre;
+        }
+        piece.classList.add("piece", nombre);
+        piece.textContent = symbol;
+        cell.appendChild(piece);
+        agregarEventoAlfil();
+    }
+
+    function cambiarPosicionFinal() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.addEventListener("click", agregarMeta);
+        });
+    }
+
+    function eliminarEventoPosicionFinal() {
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.removeEventListener("click", agregarMeta);
+        });
+    }
+
+    function agregarMeta() {
+        const clickedCell = this;
+        const divPadre = clickedCell;
+        const puntoFinal = document.querySelector(".bg-success");
+        if (puntoFinal == null) {
+            console.log(verificarCeldaOcupada(divPadre, ".alfil"));
+            console.log(verificarCeldaOcupada(divPadre, ".peon"));
+            if (!verificarCeldaOcupada(divPadre, ".alfil")) {
+                if (!verificarCeldaOcupada(divPadre, ".peon")) {
+                    divPadre.classList.add("bg-success");
+                    eliminarEventoPosicionFinal();
+                    agregarMovimiento();
+
+                    const atributos = divPadre.attributes;
+                    fila = atributos[1].value;
+                    columna = atributos[2].value;
+                    console.log(
+                        "atributo" +
+                            atributos[1].value +
+                            " " +
+                            atributos[2].value
+                    );
+                    console.log("cambio de valor" + fila + " " + columna);
+                }
+            }
+        }
+    }
+
+    agregarMovimiento();
+
+    function moveAlfil() {
+        const clickedCell = this;
+        const alfilCell = alfil.parentElement;
+
+        // Verificar si el movimiento es válido
+        const rowDiff = Math.abs(
+            clickedCell.dataset.row - alfilCell.dataset.row
+        );
+        const colDiff = Math.abs(
+            clickedCell.dataset.col - alfilCell.dataset.col
+        );
+
+        if (rowDiff === colDiff && rowDiff !== 0) {
+            // Verificar si hay obstáculos en el camino
+            if (!hasObstacleInPath(clickedCell)) {
+                // Remover el alfil de la celda actual y agregarlo a la celda seleccionada
+                const divPadre = clickedCell; // Obtén una referencia al div padre
+                //const divHijo = document.querySelectorAll(\'.peon\'); // Obtén una referencia al div hijo
+
+                if (verificarCeldaOcupada(divPadre, ".peon")) {
+                    console.log(
+                        "El div hijo está contenido dentro del div padre."
+                    );
+                } else {
+                    console.log(
+                        "El div hijo no está contenido dentro del div padre."
+                    );
+                    numeroMovimientosAlfil++;
+                    clickedCell.appendChild(alfil);
+                }
+            } else {
+                console.log("Hay un obstáculo en el camino del alfil.");
+            }
+        }
+        mensajeExito();
+
+        //mostrarMovimientosAlfil();
+    }
+
+    function hasObstacleInPath(clickedCell) {
+        const alfilCell = alfil.parentElement;
+        const rowDiff =
+            parseInt(clickedCell.dataset.row) - parseInt(alfilCell.dataset.row);
+        const colDiff =
+            parseInt(clickedCell.dataset.col) - parseInt(alfilCell.dataset.col);
+        const rowDirection = rowDiff > 0 ? 1 : -1;
+        const colDirection = colDiff > 0 ? 1 : -1;
+
+        let currentRow = parseInt(alfilCell.dataset.row) + rowDirection;
+        let currentCol = parseInt(alfilCell.dataset.col) + colDirection;
+
+        while (
+            currentRow !== parseInt(clickedCell.dataset.row) &&
+            currentCol !== parseInt(clickedCell.dataset.col)
+        ) {
+            const cell = document.querySelector(
+                `[data-row="${currentRow}"][data-col="${currentCol}"]`
+            );
+            if (cell.hasChildNodes()) {
+                return true;
+            }
+            currentRow += rowDirection;
+            currentCol += colDirection;
+        }
+
+        return false;
+    }
+
+    function verificarCeldaOcupada(contenedorPadre, nombreClass) {
+        const contenedorHijo = document.querySelectorAll(nombreClass);
+        resultado = false;
+        contenedorHijo.forEach((contenedor) => {
+            if (contenedorPadre.contains(contenedor)) {
+                resultado = true;
+            }
+        });
+
+        return resultado;
+    }
+
+    function buscarCeldaAlfil() {
+        var resultado = null;
+        const cells = document.querySelectorAll(".cell");
+        const contenedorAlfil = document.getElementById("alfil");
+        cells.forEach((cell) => {
+            if (cell.contains(contenedorAlfil)) {
+                resultado = cell;
+            }
+        });
+
+        return resultado;
+    }
+
+    //mejor camino
+    function findBestPath(targetRow, targetCol) {
+        console.log("fila " + targetRow + "columna " + targetCol);
+        const startCell = alfil.parentElement;
+        const queue = [];
+        const visited = new Set();
+        const paths = new Map();
+
+        const startNode = {
+            row: parseInt(startCell.dataset.row),
+            col: parseInt(startCell.dataset.col),
+        };
+        queue.push(startNode);
+        visited.add(`${startNode.row},${startNode.col}`);
+        paths.set(`${startNode.row},${startNode.col}`, []);
+
+        while (queue.length > 0) {
+            console.log("entro");
+            const currentNode = queue.shift();
+            const { row, col } = currentNode;
+
+            if (row === targetRow && col === targetCol) {
+                return paths.get(`${row},${col}`);
+            }
+
+            const neighbors = getValidNeighbors(row, col);
+
+            for (const neighbor of neighbors) {
+                const { neighborRow, neighborCol } = neighbor;
+                const key = `${neighborRow},${neighborCol}`;
+
+                if (!visited.has(key)) {
+                    queue.push({ row: neighborRow, col: neighborCol });
+                    visited.add(key);
+                    paths.set(key, [...paths.get(`${row},${col}`), neighbor]);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    function getValidNeighbors(row, col) {
+        const directions = [
+            { row: -1, col: -1 }, // Top-left
+            { row: -1, col: 1 }, // Top-right
+            { row: 1, col: -1 }, // Bottom-left
+            { row: 1, col: 1 }, // Bottom-right
+        ];
+
+        const neighbors = [];
+
+        for (const direction of directions) {
+            const neighborRow = row + direction.row;
+            const neighborCol = col + direction.col;
+
+            if (
+                isValidCell(neighborRow, neighborCol) &&
+                !hasObstacle(neighborRow, neighborCol)
+            ) {
+                neighbors.push({ neighborRow, neighborCol });
+            }
+        }
+
+        return neighbors;
+    }
+
+    function isValidCell(row, col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
+    }
+
+    function hasObstacle(row, col) {
+        const cell = document.querySelector(
+            `[data-row="${row}"][data-col="${col}"]`
+        );
+        return cell.classList.contains("obstaculo");
+    }
+
+    function highlightPath(path) {
+        // Restaurar el color original de todas las celdas
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach((cell) => {
+            cell.classList.remove("bg-warning");
+        });
+
+        console.log("--------------");
+        console.log(path);
+
+        // Resaltar el camino en el tablero
+        var contador = 0;
+        path.forEach((step) => {
+            const row = step.neighborRow;
+            const col = step.neighborCol;
+            const cell = document.querySelector(
+                `[data-row="${row}"][data-col="${col}"]`
+            );
+            if (path.length - 1 != contador) {
+                cell.classList.add("bg-warning");
+            }
+            contador++;
+        });
+    }
+}
+
+
+</script>
+
+            <script>
+                function checkFileAPI() { //check if api is supported (req HTML5)
+                    if (window.File && window.FileReader && window.FileList && window.Blob) {
+                        return true;
+                    } else {
+                        alert(\'The File APIs are not fully supported by your browser. Use a better browser.\');
+                        return false;
+                    };
+                };
+        
+                $(document).ready(function() {
+                    checkFileAPI();
+        
+                    $("#fileInput").change(function() {
+                        if (this.files && this.files[0]) {
+                            reader = new FileReader();
+                            reader.onload = function(e) {
+                                // do parsing here. e.target.result is file contents
+        
+                                $("#hoja").html(e.target.result);
+                            };
+        
+                            reader.readAsText(this.files[0]);
+        
+                        };
+                        //botonObstaculoDinamico();
+                    });
+        
+                    $("#downloadInput").click(function() {
+                        if (document.getElementById(\'chessboard\')) {
+                            document.getElementById(\'BotonIniciar\')?.remove();
+                            document.getElementById(\'btnObstaculo\')?.remove();
+                            document.getElementById(\'btnMovimiento\')?.remove();
+                            document.getElementById(\'btnOcultarCamino\')?.remove();
+                            document.getElementById(\'btnCamino\')?.remove();
+                            document.getElementById(\'btnPosicionAlfil\')?.remove();
+                            document.getElementById(\'btnPosicionFinal\')?.remove();
+        
+        
+                            const contenedorDiv = document.querySelector(".hoja");
+                            const botonObstaculo = document.createElement("button");
+                            botonObstaculo.textContent = "Iniciar";
+                            botonObstaculo.id = "BotonIniciar";
+                            botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
+                            contenedorDiv.appendChild(botonObstaculo);
+        
+                        }
+                        var element = document.createElement(\'a\');
+        
+                        filecontents = $(\'#hoja\').html();
+                        // do scrubbing here
+                        //
+        
+                        element.setAttribute(\'href\', \'data:text/plain;charset=utf-8,\' + encodeURIComponent(
+                            filecontents));
+                        element.setAttribute(\'download\', \'output.html\');
+        
+                        element.style.display = \'none\';
+                        document.body.appendChild(element);
+        
+                        element.click();
+        
+                        document.body.removeChild(element);
+        
+                    });
+                    $(document).on(\'click\', \'#BotonIniciar\', function() {
+                        // Código para el evento click del contenido dinámico
+                        console.log("¡Haz hecho clic en el botón!");
+                        cargarScriptDinamico();
+        
+                    });
+                    $(document).on(\'click\', \'#AgregarMovAlfil\', function() {
+                        var rutaImagen = "{{ asset(\'img/alfil.jpg\') }}";
+                        var element = document.createElement(\'a\');
+        
+                        filecontents = $(\'#hoja\').html();
+                        element.setAttribute(\'href\', encodeURIComponent(filecontents));
+        
+        
+                        element.style.display = \'none\';
+                        document.body.appendChild(element);
+                        //
+                        var hrefValueInput = document.getElementById(\'hrefValueInput\');
+                        var hrefValue = element.getAttribute(\'href\');
+                        hrefValueInput.value = hrefValue;
+                        document.body.removeChild(element);
+                        var contenido = hrefValueInput.value;
+        
+                        var diapositivaInput = document.getElementById("diapositivaInput");
+                        diapositivaInput.value = \'Titulo\';
+                        addTablero();
+                        var element1 = document.getElementById("GuardarHoja");
+                        element1.disabled = false;
+                        //var element2 = document.getElementById("BorrarHoja");
+                        //element2.disabled = false;
+        
+                    });
+                    $(document).on(\'click\', \'.CambiarTexto\', function() {
+        
+                        var x = document.getElementById(\'miTitulo\');
+                        var y = document.getElementById(\'miTexto\');
+                        var z = document.getElementById(\'miSubTitulo\');
+                        if (x) {
+                            x.innerHTML = x.value;
+                        }
+                        if (y) {
+                            y.innerHTML = y.value;
+                        }
+                        if (z) {
+                            z.innerHTML = z.value;
+                        }
+        
+                    });
+        
+
+                    $(document).on(\'click\', \'#GuardarHoja\', function() {
+        
+                        if (document.querySelector(\'#chessboard\')) {
+                            console.log(\'El elemento con la clase "tablero" existe.\');
+                            document.querySelector(\'#btnObstaculo\')?.remove();
+                            document.querySelector(\'#btnMovimiento\')?.remove();
+                            document.querySelector(\'#btnOcultarCamino\')?.remove();
+                            document.querySelector(\'#btnCamino\')?.remove();
+                            document.querySelector(\'#btnPosicionAlfil\')?.remove();
+                            document.querySelector(\'#btnPosicionFinal\')?.remove();
+        
+        
+        
+                            const celdas = document.querySelectorAll(\'.cell\');
+                            celdas.forEach(celda => {
+                                celda.classList.remove(
+                                    \'movimientoPosible\'); // Remover clase CSS de movimientos previos
+                            });
+        
+                            const contenedorDiv = document.querySelector(".hoja");
+                            const botonObstaculo = document.createElement("button");
+                            botonObstaculo.textContent = "Iniciar";
+                            botonObstaculo.id = "BotonIniciar";
+                            botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
+                            if (!document.getElementById(\'BotonIniciar\')) {
+                                contenedorDiv.appendChild(botonObstaculo);
+                            }
+                            var rutaImagen = "img/alfil.jpg";
+        
+        
+                        }
+                        document.querySelector(\'.Cambiar\')?.remove();
+                        document.querySelector(\'.CambiarSubtitulo\')?.remove();
+                        //document.querySelector(\'.CambiarTexto\')?.remove();
+                        var element = document.createElement(\'a\');
+        
+                        filecontents = $(\'#hoja\').html();
+                        element.setAttribute(\'href\', encodeURIComponent(filecontents));
+        
+        
+                        element.style.display = \'none\';
+                        document.body.appendChild(element);
+                        //
+                        var hrefValueInput = document.getElementById(\'hrefValueInput\');
+                        var hrefValue = element.getAttribute(\'href\');
+                        hrefValueInput.value = hrefValue;
+                        document.body.removeChild(element);
+                        var contenido = hrefValueInput.value;
+                        var diapositivaInput = document.getElementById("diapositivaInput");
+                        var expr = diapositivaInput.value;
+        
+                        agregarImagen();
+        
+                        function agregarImagen() {
+                            addPlantilla(rutaImagen, contenido, expr);
+                        }
+        
+                    });
+        
+                    $(document).on(\'click\', \'#BorrarHoja\', function() {
+        
+                        alert(\'borradno\');
+                        document.getElementById(\'hoja\').innerHTML = \'\';
+                        var contadorInput = document.getElementById(\'contadorInput\');
+                        contadorInput.value = contadorInput.value - 1;
+        
+                        var diapoActual = document.querySelector(\'.onfocus\');
+                        if (diapoActual) {
+                            diapoActual.parentNode.removeChild(diapoActual);
+                        }
+                        var element2 = document.getElementById("BorrarHoja");
+                        element2.disabled = true;
+                    });
+        
+        
+                });
+            </script>
+            <script>
+                var outputDiv = document.getElementById(\'hoja\');
+                var iterador = 1;
+                var contenedor = document.getElementById(\'c1\');
+        
+                contenedor.addEventListener(\'click\', function(event) {
+                    var miniatura = event.target.closest(\'.miniatura\');
+                    if (miniatura) {
+                        var element2 = document.getElementById("BorrarHoja");
+                        element2.disabled = false;
+                        var divItems = document.getElementsByClassName(\'miniatura\');
+                        Array.from(divItems).forEach((divItem) => {
+                            divItem.classList.remove(\'onfocus\');
+                        });
+                        miniatura.classList.toggle("onfocus");
+                        var diapoActual = document.getElementById(\'actualInput\');
+        
+                        diapoActual.value = miniatura.querySelector(\'input.indiceDiapositiva[type="hidden"]\').value;
+                        console.log(diapoActual.value);
+                        var hiddenInput = miniatura.querySelector(\'input#oculto[type="hidden"]\');
+                        var hiddenInputValue = hiddenInput.value;
+                        outputDiv.innerHTML = decodeURIComponent(hiddenInputValue);
+                        console.log(\'Valor del hidden input:\', decodeURIComponent(hiddenInputValue));
+                    }
+                });
+            </script>';
+            
         // Agrega el archivo index.html al ZIP
+       $prueba2=`<div><p>hola mundo</p></div>`;
+        $contenidos='<div id="chessboard"><div class="cell white" data-row="0" data-col="0"></div><div class="cell black" data-row="0" data-col="1"></div><div class="cell white" data-row="0" data-col="2"></div><div class="cell black" data-row="0" data-col="3"></div><div class="cell white" data-row="0" data-col="4"></div><div class="cell black" data-row="0" data-col="5"></div><div class="cell white" data-row="0" data-col="6"></div><div class="cell black" data-row="0" data-col="7"></div><div class="cell black" data-row="1" data-col="0"></div><div class="cell white" data-row="1" data-col="1"></div><div class="cell black" data-row="1" data-col="2"></div><div class="cell white" data-row="1" data-col="3"></div><div class="cell black" data-row="1" data-col="4"></div><div class="cell white" data-row="1" data-col="5"></div><div class="cell black" data-row="1" data-col="6"></div><div class="cell white" data-row="1" data-col="7"></div><div class="cell white" data-row="2" data-col="0"></div><div class="cell black" data-row="2" data-col="1"></div><div class="cell white" data-row="2" data-col="2"></div><div class="cell black" data-row="2" data-col="3"></div><div class="cell white bg-success" data-row="2" data-col="4"></div><div class="cell black" data-row="2" data-col="5"></div><div class="cell white" data-row="2" data-col="6"></div><div class="cell black" data-row="2" data-col="7"></div><div class="cell black" data-row="3" data-col="0"></div><div class="cell white" data-row="3" data-col="1"></div><div class="cell black" data-row="3" data-col="2"></div><div class="cell white" data-row="3" data-col="3"></div><div class="cell black" data-row="3" data-col="4"></div><div class="cell white" data-row="3" data-col="5"></div><div class="cell black" data-row="3" data-col="6"></div><div class="cell white" data-row="3" data-col="7"></div><div class="cell white" data-row="4" data-col="0"></div><div class="cell black" data-row="4" data-col="1"></div><div class="cell white" data-row="4" data-col="2"></div><div class="cell black" data-row="4" data-col="3"></div><div class="cell white obstaculo" data-row="4" data-col="4"><div class="piece peon">♙</div></div><div class="cell black" data-row="4" data-col="5"></div><div class="cell white" data-row="4" data-col="6"></div><div class="cell black" data-row="4" data-col="7"></div><div class="cell black" data-row="5" data-col="0"></div><div class="cell white" data-row="5" data-col="1"></div><div class="cell black" data-row="5" data-col="2"></div><div class="cell white" data-row="5" data-col="3"></div><div class="cell black obstaculo" data-row="5" data-col="4"><div class="piece peon">♙</div></div><div class="cell white" data-row="5" data-col="5"></div><div class="cell black" data-row="5" data-col="6"></div><div class="cell white" data-row="5" data-col="7"></div><div class="cell white" data-row="6" data-col="0"></div><div class="cell black" data-row="6" data-col="1"></div><div class="cell white" data-row="6" data-col="2"></div><div class="cell black" data-row="6" data-col="3"></div><div class="cell white obstaculo" data-row="6" data-col="4"><div class="piece peon">♙</div></div><div class="cell black obstaculo" data-row="6" data-col="5"><div class="piece peon">♙</div></div><div class="cell white" data-row="6" data-col="6"></div><div class="cell black" data-row="6" data-col="7"></div><div class="cell black" data-row="7" data-col="0"></div><div class="cell white" data-row="7" data-col="1"></div><div class="cell black" data-row="7" data-col="2"></div><div class="cell white" data-row="7" data-col="3"><div id="alfil" class="piece alfil">♗</div></div><div class="cell black" data-row="7" data-col="4"></div><div class="cell white" data-row="7" data-col="5"></div><div class="cell black" data-row="7" data-col="6"></div><div class="cell white" data-row="7" data-col="7"></div></div><div id="contenedorBtn" class="row"><div id="columna-1" class="col-3"></div><div id="columna-2" class="col-3"></div><div id="columna-3" class="col-3"></div><div id="columna-4" class="col-3"></div></div><button id="BotonIniciar" class="btn btn-info botonTableroIniciar">Iniciar</button>';
         $indexContent = '<html>
         <head>
             <title>Cuestionario SCORM</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
+        </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="css/styleSimulador.css">
+        <link rel="stylesheet" href="css/style-plantilla.css">
         </head>
         <body>
             <h1>Cuestionario SCORM</h1>
@@ -174,10 +1761,27 @@ function createSCORMZip() {
                 ' . generarCuestionario($preguntas) . '
                 <input type="submit" name="enviar_respuestas" value="Enviar Respuestas">
             </form>
+            <div class="subcontedor c2">
+            <div id="hoja" class="hoja">
+            '.$contenidos.'</div>
+            </div>
+            <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-header">
+
+                    <h2>¡Objetivo alcanzado!</h2>
+                </div>
+                <div class="modal-body">
+                    <p class="textoNumeroDePasos" id="textoNumeroDePasos"></p>
+                </div>
+            </div>
+        </div>';
+         $final=' 
         </body>
         </html>';
-
-        $zip->addFromString('index.html', $indexContent);
+        $indexFinal = $indexContent. $script .$final;
+        $zip->addFromString('index.html', $indexFinal);
 
         // Cierra el archivo ZIP
         $zip->close();
@@ -206,39 +1810,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['generar_scorm'])) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Cuestionario</title>
 </head>
+
 <body>
     <h1>Cuestionario</h1>
-    
+
     <?php echo mostrarListaPreguntas($preguntas); ?>
-    
+
     <h2>Agregar Pregunta</h2>
     <form method="get" action="">
         <label for="pregunta">Pregunta:</label>
         <input type="text" name="pregunta" id="pregunta" required><br>
-        
+
         <label for="opcion1">Opción 1:</label>
         <input type="text" name="opcion1" id="opcion1" required><br>
-        
+
         <label for="opcion2">Opción 2:</label>
         <input type="text" name="opcion2" id="opcion2" required><br>
-        
+
         <label for="opcion3">Opción 3:</label>
         <input type="text" name="opcion3" id="opcion3" required><br>
-        
+
         <input type="submit" name="agregar_pregunta" value="Agregar Pregunta">
     </form>
-    
+
     <h2>Opciones</h2>
     <form method="get" action="">
         <input type="submit" name="eliminar_preguntas" value="Eliminar todas las preguntas">
     </form>
-    
+
     <h2>Generar Cuestionario SCORM</h2>
     <form method="get" action="">
         <input type="submit" name="generar_scorm" value="Generar Cuestionario SCORM">
     </form>
 </body>
+
 </html>
