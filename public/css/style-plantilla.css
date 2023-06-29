@@ -36,6 +36,10 @@ li {
 .movimientoPosible {
     background-color: yellow; /* Puedes ajustar el color según tus preferencias */
 }
+
+.onfocus{
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5);
+  }
 .movimientoPosible:hover {
     background-color: lightgray;
 }
@@ -135,6 +139,18 @@ li a:hover {
     background-color: lightgray;
     width:  100%;
 }
+.miniaturaSubTitulo{
+    text-align: center;
+    font-size: 20px;
+    background-color: lightgray;
+    width:  100%;
+}
+.miniaturaTexto{
+    text-align: start;
+    font-size: 12px;
+    background-color: lightgray;
+    width:  100%;
+}
 .miniatura {
     flex: 0 0 auto;
     background-color: white;
@@ -143,12 +159,16 @@ li a:hover {
     height: 215px;
     cursor: pointer;
     display: flex;
+    gap: 10px;
+    justify-content: space-around;
+    flex-direction: column;
     border: 1px solid black;
     align-items: center;
    
 }
-.miniatura:hover {
-    background-color: gray;
+.miniatura:hover,
+.miniatura:hover * {
+  background-color: gray;
 }
 .c1 {
     background-color: whitesmoke;

@@ -16,7 +16,11 @@ function addPlantilla(imagenRuta, contenido, expr) {
     var contadorInput = document.getElementById("contadorInput");
     numeroDiapositivas++;
     contadorInput.value = numeroDiapositivas
-
+    var indiceDiapositiva = document.createElement('input');
+    indiceDiapositiva.type='hidden';
+    indiceDiapositiva.value=numeroDiapositivas;
+    indiceDiapositiva.classList.add('indiceDiapositiva');
+    div.appendChild(indiceDiapositiva);
     if (typeof imagenRuta === "undefined") {
         
 
@@ -31,13 +35,45 @@ function addPlantilla(imagenRuta, contenido, expr) {
                 //addtitulo();
                 break;
             case "Titulo y subtitulo":
+                var mi = document.createElement("span");
+                mi.classList.add("miniaturaTitulo");
+                //mi.type = "text";
+                mi.textContent  = "Titulo";
+                div.appendChild(mi);
+
+                var Subtitulo = document.createElement("span");
+                Subtitulo.classList.add("miniaturaSubTitulo");           
+                Subtitulo.id = "miSubTitulo";
+                Subtitulo.textContent  = "Subtitulo";
+                div.appendChild(Subtitulo);
+
                 console.log("Titulo y subtitulo");
+                break;
             case "Subtitulo y texto":
                 console.log("add Subtitulo y texto");
+                var Subtitulo = document.createElement("span");
+                Subtitulo.classList.add("miniaturaSubTitulo");           
+                Subtitulo.classList.add("miSubTitulo");
+                Subtitulo.id = "miSubTitulo";
+                Subtitulo.textContent  = "Subtitulo";
+                div.appendChild(Subtitulo);
+                var texto = document.createElement("span");
+                texto.classList.add("miniaturaTexto");              
+                texto.classList.add("miTexto");
+                texto.id = "miTexto";
+                texto.textContent  = "Texto";
+                div.appendChild(texto);
                 // Expected output: "Mangoes and papayas are $2.79 a pound."
                 break;
             case "Texto":
                 console.log("add Texto");
+                var mi = document.createElement("span");
+                mi.classList.add("miniaturaTexto");
+                //mi.type = "text";
+                mi.classList.add("miTexto");
+                mi.id = "miTexto";
+                mi.textContent  = "Texto";
+                div.appendChild(mi);
                 // Expected output: "Mangoes and papayas are $2.79 a pound."
                 break;
             default:
@@ -53,6 +89,7 @@ function addPlantilla(imagenRuta, contenido, expr) {
     }
 }
 function limpiarBotonesAuxiliares(){
+    
     document.querySelector('.Cambiar')?.remove();
     document.querySelector('.CambiarTexto')?.remove();
     document.querySelector('.CambiarSubtitulo')?.remove();
@@ -63,7 +100,7 @@ function addTexto() {
     limpiarBotonesAuxiliares();
     
     var diapositivaInput = document.getElementById("diapositivaInput");
-    diapositivaInput.value = "Titulo";
+    diapositivaInput.value = "Texto";
     var element1 = document.getElementById("GuardarHoja");
     element1.disabled = false;
     cont_hoja.innerHTML = "";
@@ -92,7 +129,7 @@ function addSubtituloTexto() {
     limpiarBotonesAuxiliares();
     
     var diapositivaInput = document.getElementById("diapositivaInput");
-    diapositivaInput.value = "Titulo";
+    diapositivaInput.value = "Subtitulo y texto";
     var element1 = document.getElementById("GuardarHoja");
     element1.disabled = false;
     cont_hoja.innerHTML = "";
@@ -119,12 +156,6 @@ function addSubtituloTexto() {
     botonTexto.value = "Cambiar Texto";
 
     containerc3.appendChild(botonTexto);
-    var botonSubtitulo = document.createElement("input");
-    botonSubtitulo.classList.add("CambiarSubtitulo");
-    botonSubtitulo.type = "button";
-    botonSubtitulo.value = "Cambiar Subtitulo";
-    
-    containerc3.appendChild(botonSubtitulo);
     cont_hoja.appendChild(div);
 }
 
@@ -134,7 +165,7 @@ function addtituloSubtitulo() {
     limpiarBotonesAuxiliares();
     
     var diapositivaInput = document.getElementById("diapositivaInput");
-    diapositivaInput.value = "Titulo";
+    diapositivaInput.value = "Titulo y subtitulo";
     var element1 = document.getElementById("GuardarHoja");
     element1.disabled = false;
     cont_hoja.innerHTML = "";
@@ -154,16 +185,12 @@ function addtituloSubtitulo() {
     div.appendChild(mi);
     div.appendChild(miSubTitulo);
     const containerc3 = document.querySelector(".c3");
-    var boton = document.createElement("input");
-    boton.classList.add("Cambiar");
-    boton.type = "button";
-    boton.value = "Cambiar Titulo";
-    var botonSubtitulo = document.createElement("input");
-    botonSubtitulo.classList.add("CambiarSubtitulo");
-    botonSubtitulo.type = "button";
-    botonSubtitulo.value = "Cambiar Subtitulo";
-    containerc3.appendChild(boton);
-    containerc3.appendChild(botonSubtitulo);
+    var botonTexto = document.createElement("input");
+    botonTexto.classList.add("CambiarTexto");
+    botonTexto.type = "button";
+    botonTexto.value = "Cambiar Texto";
+
+    containerc3.appendChild(botonTexto);
     cont_hoja.appendChild(div);
 }
 function addtitulo() {
@@ -184,11 +211,12 @@ function addtitulo() {
     mi.textContent = "Titulo";
     div.appendChild(mi);
     const containerc3 = document.querySelector(".c3");
-    var boton = document.createElement("input");
-    boton.classList.add("Cambiar");
-    boton.type = "button";
-    boton.value = "Cambiar Titulo";
-    containerc3.appendChild(boton);
+    var botonTexto = document.createElement("input");
+    botonTexto.classList.add("CambiarTexto");
+    botonTexto.type = "button";
+    botonTexto.value = "Cambiar Texto";
+
+    containerc3.appendChild(botonTexto);
     cont_hoja.appendChild(div);
 }
 function addTablero() {

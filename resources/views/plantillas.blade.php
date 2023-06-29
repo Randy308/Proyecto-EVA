@@ -69,6 +69,7 @@
     <div>
         <input type="hidden" name="href_value" id="hrefValueInput">
         <input type="hidden" name="contador_value" id="contadorInput">
+        <input type="hidden" name="actual_value" id="actualInput">
         <input type="hidden" name="href_value" id="diapositivaInput">
     </div>
 
@@ -113,24 +114,24 @@
             });
 
             $("#downloadInput").click(function() {
-                if(document.getElementById('chessboard')){
-                document.getElementById('BotonIniciar')?.remove();
-                document.getElementById('btnObstaculo')?.remove();
-                document.getElementById('btnMovimiento')?.remove();
-                document.getElementById('btnOcultarCamino')?.remove();
-                document.getElementById('btnCamino')?.remove();
-                document.getElementById('btnPosicionAlfil')?.remove();
-                document.getElementById('btnPosicionFinal')?.remove();
+                if (document.getElementById('chessboard')) {
+                    document.getElementById('BotonIniciar')?.remove();
+                    document.getElementById('btnObstaculo')?.remove();
+                    document.getElementById('btnMovimiento')?.remove();
+                    document.getElementById('btnOcultarCamino')?.remove();
+                    document.getElementById('btnCamino')?.remove();
+                    document.getElementById('btnPosicionAlfil')?.remove();
+                    document.getElementById('btnPosicionFinal')?.remove();
 
 
-                const contenedorDiv = document.querySelector(".hoja");
+                    const contenedorDiv = document.querySelector(".hoja");
                     const botonObstaculo = document.createElement("button");
                     botonObstaculo.textContent = "Iniciar";
                     botonObstaculo.id = "BotonIniciar";
                     botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
                     contenedorDiv.appendChild(botonObstaculo);
-            
-            }
+
+                }
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();
@@ -203,43 +204,56 @@
                 addTablero();
                 var element1 = document.getElementById("GuardarHoja");
                 element1.disabled = false;
-                var element2 = document.getElementById("BorrarHoja");
-                element2.disabled = false;
+                //var element2 = document.getElementById("BorrarHoja");
+                //element2.disabled = false;
 
             });
-            $(document).on('click', '.Cambiar', function() {
-                var y = document.getElementById('miTitulo');
-                y.innerHTML = y.value;
-
-            });
-
-
             $(document).on('click', '.CambiarTexto', function() {
+
+                var x = document.getElementById('miTitulo');
                 var y = document.getElementById('miTexto');
-                y.innerHTML = y.value;
+                var z = document.getElementById('miSubTitulo');
+                if (x) {
+                    x.innerHTML = x.value;
+                }
+                if (y) {
+                    y.innerHTML = y.value;
+                }
+                if (z) {
+                    z.innerHTML = z.value;
+                }
 
             });
-            $(document).on('click', '.CambiarSubtitulo', function() {
-                var y = document.getElementById('miSubTitulo');
-                y.innerHTML = y.value;
 
-            });
+            /*
+                        $(document).on('click', '.CambiarTexto', function() {
+                            var y = document.getElementById('miTexto');
+                            if(y){
+                                y.innerHTML = y.value;}
+                                if(z){
+                                z.innerHTML = z.value;}
+                            
+
+                        });
+                        $(document).on('click', '.CambiarSubtitulo', function() {
+                            var z = document.getElementById('miSubTitulo');
+                            if(z){
+                                z.innerHTML = z.value;}
+                            //document.querySelector('#miSubTitulo')?.remove();
+                            
+
+                        });*/
             $(document).on('click', '#GuardarHoja', function() {
 
                 if (document.querySelector('#chessboard')) {
                     console.log('El elemento con la clase "tablero" existe.');
-                    const element1 = document.getElementById("btnObstaculo");
-                    element1.remove();
-                    const element2 = document.getElementById("btnMovimiento");
-                    element2.remove();
-                    const element3 = document.getElementById("btnOcultarCamino");
-                    element3.remove();
-                    const element4 = document.getElementById("btnCamino");
-                    element4.remove();
-                    const element5 = document.getElementById("btnPosicionAlfil");
-                    element5.remove();
-                    const element6 = document.getElementById("btnPosicionFinal");
-                    element6.remove();
+                    document.querySelector('#btnObstaculo')?.remove();
+                    document.querySelector('#btnMovimiento')?.remove();
+                    document.querySelector('#btnOcultarCamino')?.remove();
+                    document.querySelector('#btnCamino')?.remove();
+                    document.querySelector('#btnPosicionAlfil')?.remove();
+                    document.querySelector('#btnPosicionFinal')?.remove();
+
 
 
                     const celdas = document.querySelectorAll('.cell');
@@ -253,14 +267,15 @@
                     botonObstaculo.textContent = "Iniciar";
                     botonObstaculo.id = "BotonIniciar";
                     botonObstaculo.classList.add("btn", "btn-info", "botonTableroIniciar");
-                    contenedorDiv.appendChild(botonObstaculo);
+                    if(!document.getElementById('BotonIniciar')){
+                    contenedorDiv.appendChild(botonObstaculo);}
                     var rutaImagen = "{{ asset('img/alfil.jpg') }}";
 
 
                 }
                 document.querySelector('.Cambiar')?.remove();
                 document.querySelector('.CambiarSubtitulo')?.remove();
-                document.querySelector('.CambiarTexto')?.remove();
+                //document.querySelector('.CambiarTexto')?.remove();
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();
@@ -286,18 +301,47 @@
 
             });
 
+            $(document).on('click', '#BorrarHoja', function() {
+
+                alert('borradno');
+                document.getElementById('hoja').innerHTML = '';
+                var contadorInput = document.getElementById('contadorInput');
+                contadorInput.value = contadorInput.value - 1;
+                
+                var diapoActual = document.querySelector('.onfocus');
+                if (diapoActual) {
+                    diapoActual.parentNode.removeChild(diapoActual);
+                }
+                var element2 = document.getElementById("BorrarHoja");
+                element2.disabled = true;
+            });
+
+
         });
     </script>
     <script>
         var outputDiv = document.getElementById('hoja');
+        var iterador = 1;
         var contenedor = document.getElementById('c1');
+
         contenedor.addEventListener('click', function(event) {
             var miniatura = event.target.closest('.miniatura');
             if (miniatura) {
-                var hiddenInput = miniatura.querySelector('input[type="hidden"]');
+                var element2 = document.getElementById("BorrarHoja");
+                element2.disabled = false;
+                var divItems = document.getElementsByClassName('miniatura');
+                Array.from(divItems).forEach((divItem) => {
+                    divItem.classList.remove('onfocus');
+                });
+                miniatura.classList.toggle("onfocus");
+                var diapoActual = document.getElementById('actualInput');
+
+                diapoActual.value = miniatura.querySelector('input.indiceDiapositiva[type="hidden"]').value;
+                console.log(diapoActual.value);
+                var hiddenInput = miniatura.querySelector('input#oculto[type="hidden"]');
                 var hiddenInputValue = hiddenInput.value;
                 outputDiv.innerHTML = decodeURIComponent(hiddenInputValue);
-                console.log('Valor del hidden input:', decodeURIComponent(hiddenInputValue));
+                //console.log('Valor del hidden input:', decodeURIComponent(hiddenInputValue));
             }
         });
     </script>

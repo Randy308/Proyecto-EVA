@@ -3,7 +3,7 @@
 
 <head>
     <title>Basic File In/Out</title>
-    
+    <link rel="stylesheet" href="{{asset('css/style-vista.css')}}">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script>
@@ -64,6 +64,7 @@
     </div>
     <input type="file" id="fileInput" class="btn">
     <button type="button" id="downloadInput" class="btn">Download</button>
+    <div><input type="file" name="filechooser" id="filechooser"></div>
 </body>
 <script>
     var addHtmlButton = document.getElementById('addHtmlButton');
