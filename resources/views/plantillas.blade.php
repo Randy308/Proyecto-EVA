@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="pagina">
 
 <head>
     <meta charset="UTF-8">
@@ -17,6 +17,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/styleSimulador.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style-plantilla.css') }}">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <script src="{{ asset('js/jszip.umd.min.js') }}"></script>
     <title>Document</title>
 </head>
 
@@ -90,13 +94,15 @@
     <center>
         <div class="subcontainer">
             <input type="file" id="fileInput" class="btn">
-
             <button type="button" id="downloadInput" class="btn btn-primary ">Guardar Documento</button>
+            <button type="button" id="btnScorm" class="btn btn-primary ">Generar SCORM</button>
+            
         </div>
     </center>
 
 
     <script src="{{ asset('js/plantilla-app.js') }}"></script>
+    <script src="{{ asset('js/jszip.umd.min.js') }}"></script>
 
     <script>
         function checkFileAPI() { //check if api is supported (req HTML5)
@@ -145,6 +151,7 @@
                     contenedorDiv.appendChild(botonObstaculo);
 
                 }
+
                 var element = document.createElement('a');
 
                 filecontents = $('#hoja').html();
