@@ -105,7 +105,7 @@ function addTexto() {
     const div = document.createElement("div");
     div.id = "diapositiva";
     var mi = document.createElement("textarea");
-    mi.classList.add("miTexto");
+    mi.classList.add("miTexto", "miTextoDiapositiva");
     mi.id = "miTexto";
     mi.type = "text";
     mi.textContent = "texto";
@@ -115,7 +115,7 @@ function addTexto() {
     var botonTexto = document.createElement("input");
     botonTexto.classList.add("CambiarTexto");
     botonTexto.type = "button";
-    botonTexto.value = "Cambiar Texto";
+    botonTexto.value = "Modificar Texto";
 
     containerc3.appendChild(botonTexto);
     cont_hoja.appendChild(div);
@@ -134,7 +134,7 @@ function addSubtituloTexto() {
     const div = document.createElement("div");
     div.id = "diapositiva";
     var mi = document.createElement("textarea");
-    mi.classList.add("miTexto");
+    mi.classList.add("miTexto", "miTextoDiapositiva");
     mi.id = "miTexto";
     mi.type = "text";
     mi.textContent = "texto";
@@ -150,7 +150,7 @@ function addSubtituloTexto() {
     var botonTexto = document.createElement("input");
     botonTexto.classList.add("CambiarTexto");
     botonTexto.type = "button";
-    botonTexto.value = "Cambiar Texto";
+    botonTexto.value = "Modificar Texto";
 
     containerc3.appendChild(botonTexto);
     cont_hoja.appendChild(div);
@@ -185,7 +185,7 @@ function addtituloSubtitulo() {
     var botonTexto = document.createElement("input");
     botonTexto.classList.add("CambiarTexto");
     botonTexto.type = "button";
-    botonTexto.value = "Cambiar Texto";
+    botonTexto.value = "Modificar Texto";
 
     containerc3.appendChild(botonTexto);
     cont_hoja.appendChild(div);
@@ -211,7 +211,7 @@ function addtitulo() {
     var botonTexto = document.createElement("input");
     botonTexto.classList.add("CambiarTexto");
     botonTexto.type = "button";
-    botonTexto.value = "Cambiar Texto";
+    botonTexto.value = "Modificar Texto";
 
     containerc3.appendChild(botonTexto);
     cont_hoja.appendChild(div);
