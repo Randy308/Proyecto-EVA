@@ -62,7 +62,7 @@
         margin: 15% auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 80%;
+        width: 700px;
       }
       
       .close {
@@ -74,6 +74,20 @@
       
       .close:hover,
       .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .cerrar{
+        color: #aaa;
+        float: right;
+        width: 100%;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      
+      .cerrar:hover,
+      .cerrar:focus {
         color: black;
         text-decoration: none;
         cursor: pointer;

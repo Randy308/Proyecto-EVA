@@ -98,19 +98,54 @@
             <input type="file" id="fileInput" class="btn">
             <button type="button" id="downloadInput" class="btn btn-primary ">Exportar Diapositiva Actual</button>
             <button type="button" id="btnScorm" class="btn btn-primary ">Generar SCORM</button>
+            <button class="btn btn-primary" onclick="abrirModal()">Guardar Curso</button>
 
         </div>
         <div>
-            <form action='{{ route('guardarCurso.store') }}' method="post" class="form-register" id="miFormulario"
-                enctype="multipart/form-data">
-                @csrf
-                <button class="btn btn-primary" type="submit">Guardar Curso</button>
+            <div id="miModal" class="modal">
+                <div class="modal-content">
+                    <span class="cerrar">&times;</span>
+                    <div class="modal-header">
+                       <center> <h3>Guardar Curso</h3></center>
+                        
+                    </div>
+                    <div class="modal-body">
+                        <form action='{{ route('guardarCurso.store') }}' method="post" class="form-register"
+                        id="miFormulario" enctype="multipart/form-data">
+                        @csrf
+                        <label for="nombreCurso">Nombre Del Curso</label>
+                        <input type="text" name='nombreCurso' id="nombreCurso" class="nombreCurso" class="form-control form-control-lg">
+                        <button class="btn btn-primary" type="submit">Guardar</button>
 
-            </form>
+                    </form>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </center>
 
+    <script>
+        function abrirModal() {
+            var alfilElement = document.querySelector(".bg-success .alfil");
+            var modal = document.getElementById("miModal");
+            var span = document.getElementsByClassName("cerrar")[0];
+            modal.style.display = "block";
 
+            // Cerrar el modal al hacer clic en la "x"
+            span.onclick = function() {
+                modal.style.display = "none";
+            };
+
+            // Cerrar el modal al hacer clic fuera de él
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
+        }
+    </script>
     <script src="{{ asset('js/plantilla-app.js') }}"></script>
     <script src="{{ asset('js/jszip.umd.min.js') }}"></script>
 
@@ -119,7 +154,7 @@
 
         function toggleElementTextarea(element, elementType) {
             // Obtén el elemento por su ID
-            
+
 
             if (element.tagName.toLowerCase() === 'textarea') {
                 // Si el elemento es un <textarea>, conviértelo en un elemento HTML
@@ -258,16 +293,16 @@
                 var y = document.querySelector('div#diapositiva .miTextoDiapositiva');
                 var z = document.querySelector('div#diapositiva .subtituloDiapositiva');
                 if (x) {
-                    var elementType="h1";
+                    var elementType = "h1";
                     toggleElementTextarea(x, elementType)
                 }
                 if (y) {
-                    var elementType="p";
+                    var elementType = "p";
                     toggleElementTextarea(y, elementType)
 
                 }
                 if (z) {
-                    var elementType="h3";
+                    var elementType = "h3";
                     toggleElementTextarea(z, elementType)
 
                 }
