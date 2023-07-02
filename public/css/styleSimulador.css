@@ -94,3 +94,17 @@
         text-decoration: none;
         cursor: pointer;
       }
+
+      label{
+        text-align: initial;
+      }
+      
+      #miFormulario{
+        width: auto;
+        height: 100%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        justify-content: space-around;
+      }

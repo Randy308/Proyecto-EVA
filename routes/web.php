@@ -33,3 +33,4 @@ Route::get('/cuestionario', function () {
 })->name('cuestionario');
 
 Route::post('/guardarCurso',[CursoController::class,'store'])->name('guardarCurso.store');
+Route::get('/abrirCurso/{curso}',[CursoController::class,'edit'])->name('abrirCurso.edit');

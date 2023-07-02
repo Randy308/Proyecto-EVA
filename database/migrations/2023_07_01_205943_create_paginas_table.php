@@ -17,8 +17,11 @@ return new class extends Migration
             $table->string('nombre_pagina')->nullable();
             $table->text('contenido');
             $table->timestamps();
-
-            $table->foreign('curso_id')->references('id')->on('cursos')->onDelete('cascade');
+            $table->foreign('curso_id')
+                  ->references('id')
+                  ->on('cursos')
+                  ->onDelete('cascade')->onUpdate('cascade');
+           
         });
     }
 

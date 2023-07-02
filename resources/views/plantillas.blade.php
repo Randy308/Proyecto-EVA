@@ -114,7 +114,11 @@
                         id="miFormulario" enctype="multipart/form-data">
                         @csrf
                         <label for="nombreCurso">Nombre Del Curso</label>
-                        <input type="text" name='nombreCurso' id="nombreCurso" class="nombreCurso" class="form-control form-control-lg">
+                        <input type="text" class="form-control" name="nombreCurso" id="nombreCurso" class="nombreCurso" >
+                        <label for="descripcionCurso">Descripcion Del Curso</label>
+                        <input type="text" class="form-control form-control-lg" name="descripcionCurso" id="descripcionCurso" class="descripcionCurso" >
+                        <label for="duracionCurso">Duracion Del Curso</label>
+                        <input type="time" step="1" class="form-control form-control-lg" name="duracionCurso" id="duracionCurso" class="duracionCurso" >
                         <button class="btn btn-primary" type="submit">Guardar</button>
 
                     </form>

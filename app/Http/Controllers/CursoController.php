@@ -32,6 +32,8 @@ class CursoController extends Controller
         //
         $curso = new Curso();
         $curso->nombre_curso = $request['nombreCurso'];
+        $curso->descripcion = $request['descripcionCurso'];
+        $curso->duracion = $request['duracionCurso'];
         $curso->save();
         $hiddenValues = $request->all();
 
@@ -62,9 +64,14 @@ class CursoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Curso $curso)
     {
         //
+        
+        $curso_paginas = $curso->paginas()->get();
+        //$roles = Pag::all();
+        return view('visualizador',compact('curso','curso_paginas'));
+        //return $curso_paginas;
     }
 
     /**

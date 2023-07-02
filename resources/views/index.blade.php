@@ -17,6 +17,8 @@
       </ul>
       <div class="contenedor">
         <h1 class="cursos">Mis cursos</h1> 
+        
+        @livewire('cursos-index')
       </div>
     
 </body>

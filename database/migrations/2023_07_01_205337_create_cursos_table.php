@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_curso')->nullable();
             $table->text('descripcion')->nullable();
-            $table->integer('duracion')->nullable();
-            $table->date('fecha_inicio')->nullable();
-            $table->date('fecha_fin')->nullable();
+            $table->time('duracion')->nullable();
             $table->timestamps();
         });
     }
