@@ -81,6 +81,8 @@
       .cerrar{
         color: #aaa;
         float: right;
+        display: grid;
+        justify-content: flex-end;
         width: 100%;
         font-size: 28px;
         font-weight: bold;
