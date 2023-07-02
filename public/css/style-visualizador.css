@@ -9,7 +9,14 @@ ul {
     overflow: hidden;
     background-color: #161b22;
 }
-
+.contenedor{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+iframe{
+    width: 70%;
+}
 li {
     float: left;
 }
