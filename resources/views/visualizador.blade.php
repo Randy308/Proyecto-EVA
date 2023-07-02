@@ -47,7 +47,7 @@
         <small>Este usuario no podra iniciar sesion a menos que se le asigne un rol</small>
     @endif
             <center><p class="h4">Contenido</p></center>
-            <div class="container">
+            <div class="containeres">
                 @foreach ($curso_paginas as $curso_pagina)
                     <div class="contenedor">
                         <iframe width="900px" height="900px" frameborder="0"
