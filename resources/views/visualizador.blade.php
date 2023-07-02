@@ -53,7 +53,7 @@
                     <html>
                     <head>
                     <link rel="stylesheet" type="text/css" href="{{ asset('css/styleSimulador.css') }}">
-                    <link rel="stylesheet" href="{{ asset('css/style-plantilla.css') }}">
+                    <link rel="stylesheet" href="{{ asset('css/style-visualizador.css') }}">
                     </head>
                     <body>
                         <div class="container">
