@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SimuladorController;
 /*
@@ -30,3 +31,6 @@ Route::get('/vista', function () {
 Route::get('/cuestionario', function () {
     return view('cuestionario');
 })->name('cuestionario');
+
+Route::post('/guardarCurso',[CursoController::class,'store'])->name('guardarCurso.store');
+Route::get('/abrirCurso/{curso}',[CursoController::class,'edit'])->name('abrirCurso.edit');
