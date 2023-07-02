@@ -504,6 +504,7 @@ function cargarScriptDinamico() {
                 }
             }
         }
+        return null;
 
     }
 

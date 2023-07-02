@@ -31,33 +31,38 @@
     </ul>
 
     @if ($curso->count())
-        <p>{{ $curso }}</p>
+        <center>
+            <p class="h2" id="mititles">{{ $curso->nombre_curso }}</p>
+        </center>
+        <div class="descripcion" id="descripcion">
+            <div>
+                <p class="h5">Descripcion</p>
+                <p>{{ $curso->descripcion }}</p>
+            </div>
+
+            <p class="h4" id="demo"></p>
+        </div>
     @else
         <p class="h6">No existe roles asignados a este usuario</p>
         <small>Este usuario no podra iniciar sesion a menos que se le asigne un rol</small>
     @endif
-    <br>
-    <div class="card">
-        <button onclick="cargarScriptDinamico()">cargar</button>
-
-        <div class="card-body">
-            <p class="h4">Paginas del curso.-</p>
-
-            @foreach ($curso_paginas as $curso_pagina)
-                <div class="contenedor">            
-                    <iframe width="900px" height="900px" frameborder="0"
-                        srcdoc='    
+            <center><p class="h4">Contenido</p></center>
+            <div class="container">
+                @foreach ($curso_paginas as $curso_pagina)
+                    <div class="contenedor">
+                        <iframe width="900px" height="900px" frameborder="0"
+                            srcdoc='    
                     <html>
                     <head>
                         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+                            integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
 
 
                     <link rel="stylesheet" type="text/css" href="{{ asset('css/styleSimulador.css') }}">
                     <link rel="stylesheet" href="{{ asset('css/style-visualizador.css') }}">
                     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-                    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+                        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
                     </head>
                     <body>
                         <div class="container">
@@ -81,25 +86,78 @@
                     </div>
                     
                     <script src="{{ asset('js/visualizador.js') }}"></script>
-                    <script>                                       
-                        $(document).ready(function() {                                        
+                    <script>
+                        $(document).ready(function() {
                             $(document).on("click", "#BotonIniciar", function() {
                                 // Código para el evento click del contenido dinámico
                                 console.log("¡Haz hecho clic en el botón!");
                                 cargarScriptDinamico();
-                
-                            });                                                                             
+
+                            });
                         });
                     </script>
                     </body>
                     </html>'></iframe>
 
-                </div>
-            @endforeach
+                    </div>
+                @endforeach
+            </div>
 
-        </div>
 
 
+        <script>
+            // Set the date we're counting down to
+            var titulos = document.getElementById('mititles');
+            let text = titulos.innerHTML;
+            titulos.innerHTML = (text.toUpperCase());
+
+            var tiempo = "{{ $curso->duracion }}";
+            console.log(tiempo);
+            // Convierte el tiempo a segundos
+            var segundosTotales = obtenerSegundos(tiempo);
+
+            // Función para obtener los segundos totales a partir de una duración en formato hh:mm:ss
+            function obtenerSegundos(tiempo) {
+                var partesTiempo = tiempo.split(":");
+                var horas = parseInt(partesTiempo[0]);
+                var minutos = parseInt(partesTiempo[1]);
+                var segundos = parseInt(partesTiempo[2]);
+                return horas * 3600 + minutos * 60 + segundos;
+            }
+
+            // Función para mostrar el tiempo en formato hh:mm:ss
+            function mostrarTiempo(segundos) {
+                var horas = Math.floor(segundos / 3600);
+                var minutos = Math.floor((segundos % 3600) / 60);
+                var segundosRestantes = segundos % 60;
+                return (
+                    ("0" + horas).slice(-2) +
+                    ":" +
+                    ("0" + minutos).slice(-2) +
+                    ":" +
+                    ("0" + segundosRestantes).slice(-2)
+                );
+            }
+
+            // Función para realizar la cuenta regresiva
+            function cuentaRegresiva() {
+                var intervalo = setInterval(function() {
+                    segundosTotales--;
+
+                    // Muestra el tiempo restante
+                    //console.log(mostrarTiempo(segundosTotales));
+                    document.getElementById("demo").innerHTML = mostrarTiempo(segundosTotales);
+                    if (segundosTotales <= 0) {
+                        // Se ha alcanzado el final de la cuenta regresiva
+                        clearInterval(intervalo);
+                        console.log("¡Tiempo agotado!");
+                    }
+                }, 1000);
+            }
+
+            // Inicia la cuenta regresiva
+            cuentaRegresiva();
+        </script>
 </body>
 
 </html>
