@@ -38,7 +38,7 @@
             <div>
                 <p class="h5">Descripcion</p>
                 <p>{{ $curso->descripcion }}</p>
-                <button onclick="saveFilesAndIframesAsZip()" class="btn btn-primary">Generar SCORM</button>
+                <button onclick="saveFilesAndIframesAsZip()" class="btn btn-primary">Generar Comprimido</button>
             </div>
 
             <p class="h4" id="demo"></p>
@@ -52,7 +52,7 @@
     </center>
 
     <div class="myContaineres">
-
+        <div id="myBar" class="progress-bar"></div>
         <div class="containeres" onscroll="myFunction()">
             @foreach ($curso_paginas as $curso_pagina)
                 <div class="contenedor">
@@ -108,7 +108,7 @@
                 </div>
             @endforeach
         </div>
-        <div id="myBar" class="progress-bar"></div>
+        
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>

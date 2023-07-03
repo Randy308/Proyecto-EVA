@@ -32,7 +32,20 @@
     <center>
         <h5>Diseño</h5>
     </center>
-
+    @if (session('status'))
+        <div class="alert alert-success">
+            <strong>{{ session('status') }}</strong>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="container">
 
         <div id="c1" class="subcontedor c1">
@@ -211,7 +224,7 @@
         $(document).ready(function() {
             checkFileAPI();
 
-           
+
             $("#btnScorm").on("click", function() {
                 alert("Handler for `click` called.");
                 generarSCORMZip();

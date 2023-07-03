@@ -457,8 +457,10 @@ function prueba() {
     botonMejorCamino.addEventListener("click", function () {
         console.log(fila);
         console.log(columna);
-
-        const path = findBestPath(fila, columna);
+        const targetCell = document.querySelector(".bg-success");
+        const row = parseInt(targetCell.dataset.row);
+        const col = parseInt(targetCell.dataset.col);
+        const path = findBestPath(row, col);
         console.log(path);
 
         if (path !== null) {
@@ -923,8 +925,10 @@ function cargarScriptDinamico() {
     botonMejorCamino.addEventListener("click", function () {
         console.log(fila);
         console.log(columna);
-
-        const path = findBestPath(fila, columna);
+        const targetCell = document.querySelector(".bg-success");
+        const row = parseInt(targetCell.dataset.row);
+        const col = parseInt(targetCell.dataset.col);
+        const path = findBestPath(row, col);
         console.log(path);
 
         if (path !== null) {
