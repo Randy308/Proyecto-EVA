@@ -1,9 +1,13 @@
-<!DOCTYPE html>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Course Launch Page</title>
     <script src="scormfunctions.js" type="text/javascript"></script>
     <script type="text/javascript">
+    
+    /*************************************/
+    //functions for sizing the iFrame
+    /*************************************/
     function setIframeHeight(id, navWidth) {
         if ( document.getElementById ) {
             var theIframe = document.getElementById(id);
@@ -30,36 +34,71 @@
     }
     
     function SetupIFrame(){
+        //set our iFrame for the content to take up the full screen except for our navigation
         var navWidth = 40;
         setIframeHeight("contentFrame", navWidth);
+        //need this in a setTimeout to avoid a timing error in IE6
         window.setTimeout('window.onresize = function() { setIframeHeight("contentFrame", ' + navWidth + '); }', 1000);
     }
+    
+    /*************************************/
+    //content definition
+    /*************************************/
     var pageArray = new Array(15);
     
     pageArray[0] = "Playing/Playing.html";
     pageArray[1] = "Playing/Par.html";
-
+    pageArray[2] = "Playing/Scoring.html";
+    pageArray[3] = "Playing/OtherScoring.html";
+    pageArray[4] = "Playing/RulesOfGolf.html";
+    pageArray[5] = "Etiquette/Course.html";
+    pageArray[6] = "Etiquette/Distracting.html";
+    pageArray[7] = "Etiquette/Play.html";
+    pageArray[8] = "Handicapping/Overview.html";
+    pageArray[9] = "Handicapping/CalculatingHandicap.html";
+    pageArray[10] = "Handicapping/CalculatingScore.html";
+    pageArray[11] = "Handicapping/Example.html";
+    pageArray[12] = "HavingFun/HowToHaveFun.html";
+    pageArray[13] = "HavingFun/MakeFriends.html";
     pageArray[14] = "shared/assessmenttemplate.html?questions=Playing&questions=Etiquette&questions=Handicapping&questions=HavingFun";
+    
+    /*************************************/
+    //navigation functions
+    /*************************************/
+    
     var currentPage = null;
     var startTimeStamp = null;
     var processedUnload = false;
     var reachedEnd = false;
     
     function doStart(){
+        
+        //get the iFrame sized correctly and set up
         SetupIFrame();
+        
+        //record the time that the learner started the SCO so that we can report the total time
         startTimeStamp = new Date();
+        
+        //initialize communication with the LMS
         ScormProcessInitialize();
         
+        //it's a best practice to set the completion status to incomplete when
+        //first launching the course (if the course is not already completed)
         var completionStatus = ScormProcessGetValue("cmi.completion_status", true);
         if (completionStatus == "unknown"){
             ScormProcessSetValue("cmi.completion_status", "incomplete");
         }
         
+        //see if the user stored a bookmark previously (don't check for errors
+        //because cmi.location may not be initialized
         var bookmark = ScormProcessGetValue("cmi.location", false);
+        
+        //if there isn't a stored bookmark, start the user at the first page
         if (bookmark == ""){
             currentPage = 0;
         }
         else{
+            //if there is a stored bookmark, prompt the user to resume from the previous location
             if (confirm("Would you like to resume from where you previously left off?")){
                 currentPage = parseInt(bookmark, 10);
             }
@@ -76,7 +115,11 @@
         var theIframe = document.getElementById("contentFrame");
         var prevButton = document.getElementById("butPrevious");
         var nextButton = document.getElementById("butNext");
+        
+        //navigate the iFrame to the content
         theIframe.src = "../" + pageArray[currentPage];
+        
+        //disable the prev/next buttons if we are on the first or last page.
         if (currentPage == 0){
             nextButton.disabled = false;
             prevButton.disabled = true;
@@ -89,7 +132,11 @@
             nextButton.disabled = false;
             prevButton.disabled = false;
         }
+        
+        //save the current location as the bookmark
         ScormProcessSetValue("cmi.location", currentPage);
+     
+        //in this sample course, the course is considered complete when the last page is reached
         if (currentPage == (pageArray.length - 1)){
             reachedEnd = true;
             ScormProcessSetValue("cmi.completion_status", "completed");
@@ -97,15 +144,22 @@
     }
     
     function doUnload(pressedExit){
+        
+        //don't call this function twice
         if (processedUnload == true){return;}
         
         processedUnload = true;
+        
+        //record the session time
         var endTimeStamp = new Date();
         var totalMilliseconds = (endTimeStamp.getTime() - startTimeStamp.getTime());
         var scormTime = ConvertMilliSecondsIntoSCORM2004Time(totalMilliseconds);
         
         ScormProcessSetValue("cmi.session_time", scormTime);
         
+        //if the user just closes the browser, we will default to saving 
+        //their progress data. If the user presses exit, he is prompted.
+        //If the user reached the end, the exit normall to submit results.
         if (pressedExit == false && reachedEnd == false){
             ScormProcessSetValue("cmi.exit", "suspend");
         }
@@ -128,20 +182,33 @@
     }
     
     function doExit(){
-        
+
+        //note use of short-circuit AND. If the user reached the end, don't prompt.
+        //just exit normally and submit the results.
         if (reachedEnd == false && confirm("Would you like to save your progress to resume later?")){
+            //set exit to suspend
             ScormProcessSetValue("cmi.exit", "suspend");
+            
+            //issue a suspendAll navigation request
             ScormProcessSetValue("adl.nav.request", "suspendAll");
         }
         else{
+            //set exit to normal
             ScormProcessSetValue("cmi.exit", "");
+            
+            //issue an exitAll navigation request
             ScormProcessSetValue("adl.nav.request", "exitAll");
         }
         
+        //process the unload handler to close out the session.
+        //the presense of an adl.nav.request will cause the LMS to 
+        //take the content away from the user.
         doUnload(true);
         
     }
     
+    //called from the assessmenttemplate.html page to record the results of a test
+    //passes in score as a percentage
     function RecordTest(score){
         ScormProcessSetValue("cmi.score.raw", score);
         ScormProcessSetValue("cmi.score.min", "0");
@@ -149,6 +216,8 @@
         
         var scaledScore = score / 100;
         ScormProcessSetValue("cmi.score.scaled", scaledScore);
+        
+        //consider 70% to be passing
         if (score >= 70){
             ScormProcessSetValue("cmi.success_status", "passed");
         }
@@ -156,18 +225,20 @@
             ScormProcessSetValue("cmi.success_status", "failed");
         }
     }
+    
+    //SCORM requires time to be formatted in a specific way
     function ConvertMilliSecondsIntoSCORM2004Time(intTotalMilliseconds){
 	
 	    var ScormTime = "";
     	
-	    var HundredthsOfASecond;	
+	    var HundredthsOfASecond;	//decrementing counter - work at the hundreths of a second level because that is all the precision that is required
     	
-	    var Seconds;	
-	    var Minutes;	
-	    var Hours;		
-	    var Days;		
-	    var Months;		
-	    var Years;		
+	    var Seconds;	// 100 hundreths of a seconds
+	    var Minutes;	// 60 seconds
+	    var Hours;		// 60 minutes
+	    var Days;		// 24 hours
+	    var Months;		// assumed to be an "average" month (figures a leap year every 4 years) = ((365*4) + 1) / 48 days - 30.4375 days per month
+	    var Years;		// assumed to be 12 "average" months
     	
 	    var HUNDREDTHS_PER_SECOND = 100;
 	    var HUNDREDTHS_PER_MINUTE = HUNDREDTHS_PER_SECOND * 60;
@@ -205,6 +276,8 @@
 	    if (Days > 0){
 		    ScormTime += Days + "D";
 	    }
+    	
+	    //check to see if we have any time before adding the "T"
 	    if ((HundredthsOfASecond + Seconds + Minutes + Hours) > 0 ){
     		
 		    ScormTime += "T";

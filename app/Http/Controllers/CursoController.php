@@ -50,9 +50,7 @@ class CursoController extends Controller
             $pagina->curso_id = $curso->id;
             $pagina->save();
         }
-        //return $request;
-        return redirect()->back()->with('status','El curso se guardo exitosamente! ');
-
+        return $request;
     }
 
     /**

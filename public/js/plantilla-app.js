@@ -4,26 +4,16 @@ var autoIncrement = 1;
 var numeroDiapositivas = 0;
 var numeroMovimientosAlfil = 0;
 function addPlantilla(imagenRuta, contenido, expr) {
-    //const containerss = document.createElement("div");
     const div = document.createElement("div");
-
     div.classList.add("miniatura");
     div.id = "miniatura";
-    //div.draggable = true;
-   // containerss.id='container';
-    //containerss.addEventListener("dragover", allowDrop);
-    //containerss.addEventListener("drop", drop);
-    //div.addEventListener("dragstart", drag);
-
-    //containerss.appendChild(div);
-    container.appendChild(div);
     var mihidden = document.createElement("input");
     mihidden.classList.add("contenido");
     mihidden.type = "hidden";
     mihidden.id = "oculto";
     mihidden.value = contenido;
     div.appendChild(mihidden);
-    
+    container.appendChild(div);
     var contadorInput = document.getElementById("contadorInput");
     numeroDiapositivas++;
     contadorInput.value = numeroDiapositivas;
@@ -88,18 +78,14 @@ function addPlantilla(imagenRuta, contenido, expr) {
             default:
                 console.log(`Sorry, we are out of ${expr}.`);
         }
-        
     } else {
         var imagen = document.createElement("img");
         imagen.classList.add("imagen");
         // Paso 2: Establecer la ruta de la imagen
         imagen.src = imagenRuta;
         div.appendChild(imagen);
-        //container.appendChild(div);
+        container.appendChild(div);
     }
-    cont_hoja.innerHTML = "";
-    var element2 = document.getElementById("GuardarHoja");
-                element2.disabled = true;
 }
 function limpiarBotonesAuxiliares() {
     document.querySelector(".Cambiar")?.remove();
@@ -471,10 +457,8 @@ function prueba() {
     botonMejorCamino.addEventListener("click", function () {
         console.log(fila);
         console.log(columna);
-        const targetCell = document.querySelector(".bg-success");
-        const row = parseInt(targetCell.dataset.row);
-        const col = parseInt(targetCell.dataset.col);
-        const path = findBestPath(row, col);
+
+        const path = findBestPath(fila, columna);
         console.log(path);
 
         if (path !== null) {
@@ -939,10 +923,8 @@ function cargarScriptDinamico() {
     botonMejorCamino.addEventListener("click", function () {
         console.log(fila);
         console.log(columna);
-        const targetCell = document.querySelector(".bg-success");
-        const row = parseInt(targetCell.dataset.row);
-        const col = parseInt(targetCell.dataset.col);
-        const path = findBestPath(row, col);
+
+        const path = findBestPath(fila, columna);
         console.log(path);
 
         if (path !== null) {

@@ -60,9 +60,7 @@ li a:hover {
     background-color: whitesmoke;
 }
 .containers{
-    display: grid;
+    display: flex;
     gap: 20px;
     padding: 20px;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
 }

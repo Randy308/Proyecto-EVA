@@ -24,7 +24,7 @@
     <title>Document</title>
 </head>
 
-<body >
+<body>
     <ul>
         <li><a href="{{ route('index') }}">Inicio</a></li>
         <li><a class="active" href="{{ route('plantillas') }}">Crear Curso</a></li>
@@ -32,23 +32,11 @@
     <center>
         <h5>Diseño</h5>
     </center>
-    @if (session('status'))
-        <div class="alert alert-success">
-            <strong>{{ session('status') }}</strong>
-        </div>
-    @endif
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <div class="container" id="contenedorPrincipal">
+
+    <div class="container">
 
         <div id="c1" class="subcontedor c1">
+            <form action="po"></form>
 
 
 
@@ -107,8 +95,9 @@
 
     <center>
         <div class="subcontainer">
-            <!--<input type="file" id="fileInput" class="btn">
-            <button type="button" id="downloadInput" class="btn btn-primary ">Exportar Diapositiva Actual</button>-->
+            <input type="file" id="fileInput" class="btn">
+            <button type="button" id="downloadInput" class="btn btn-primary ">Exportar Diapositiva Actual</button>
+            <button type="button" id="btnScorm" class="btn btn-primary ">Generar SCORM</button>
             <button class="btn btn-primary" onclick="abrirModal()">Guardar Curso</button>
 
         </div>
@@ -117,27 +106,22 @@
                 <div class="modal-content">
                     <span class="cerrar">&times;</span>
                     <div class="modal-header">
-                        <center>
-                            <h3>Guardar Curso</h3>
-                        </center>
-
+                       <center> <h3>Guardar Curso</h3></center>
+                        
                     </div>
                     <div class="modal-body">
                         <form action='{{ route('guardarCurso.store') }}' method="post" class="form-register"
-                            id="miFormulario" enctype="multipart/form-data">
-                            @csrf
-                            <label for="nombreCurso">Nombre Del Curso</label>
-                            <input type="text" class="form-control" name="nombreCurso" id="nombreCurso"
-                                class="nombreCurso">
-                            <label for="descripcionCurso">Descripcion Del Curso</label>
-                            <input type="text" class="form-control form-control-lg" name="descripcionCurso"
-                                id="descripcionCurso" class="descripcionCurso">
-                            <label for="duracionCurso">Duracion Del Curso</label>
-                            <input type="time" step="1" class="form-control form-control-lg"
-                                name="duracionCurso" id="duracionCurso" class="duracionCurso">
-                            <button class="btn btn-primary" type="submit">Guardar</button>
+                        id="miFormulario" enctype="multipart/form-data">
+                        @csrf
+                        <label for="nombreCurso">Nombre Del Curso</label>
+                        <input type="text" class="form-control" name="nombreCurso" id="nombreCurso" class="nombreCurso" >
+                        <label for="descripcionCurso">Descripcion Del Curso</label>
+                        <input type="text" class="form-control form-control-lg" name="descripcionCurso" id="descripcionCurso" class="descripcionCurso" >
+                        <label for="duracionCurso">Duracion Del Curso</label>
+                        <input type="time" step="1" class="form-control form-control-lg" name="duracionCurso" id="duracionCurso" class="duracionCurso" >
+                        <button class="btn btn-primary" type="submit">Guardar</button>
 
-                        </form>
+                    </form>
                     </div>
                 </div>
             </div>
@@ -145,28 +129,7 @@
 
         </div>
     </center>
-    <script>
-        function allowDrop(ev) {
-          ev.preventDefault();
-        }
-        
-        function drag(ev) {
-          ev.dataTransfer.setData("text", ev.target.id);
-        }
-        
-        function drop(event) {
-      event.preventDefault();
-      const data = event.dataTransfer.getData("text/plain");
-      const target = event.target;
 
-      // Verificar si el elemento arrastrado es una miniatura
-      if (target.classList.contains("miniatura")) {
-        // Mover la miniatura al nuevo contenedor
-        target.parentNode.removeChild(target);
-        event.currentTarget.appendChild(target);
-      }
-    }
-        </script>
     <script>
         function abrirModal() {
             var alfilElement = document.querySelector(".bg-success .alfil");
@@ -191,21 +154,6 @@
     <script src="{{ asset('js/jszip.umd.min.js') }}"></script>
 
     <script>
-
-        function convertirElemento(elemento,nuevoElemento){
-            if(elemento.tagName.toLowerCase() === 'textarea'){
-                elemento.innerHTML = elemento.value;
-                    var textareaContent = elemento.value;
-                    var h1 = document.createElement(nuevoElemento);
-                    h1.textContent = textareaContent;
-                    h1.id = elemento.id;
-                    h1.className = elemento.className;
-                    elemento.parentNode.replaceChild(h1, elemento);
-                    }else{
-                        console.log('no es un textarea');
-                    }
-
-        }        
         var flagFormulario = 1;
 
         function toggleElementTextarea(element, elementType) {
@@ -254,15 +202,9 @@
             };
         };
 
-
         $(document).ready(function() {
             checkFileAPI();
 
-
-            $("#btnScorm").on("click", function() {
-                alert("Handler for `click` called.");
-                generarSCORMZip();
-            });
             $("#fileInput").change(function() {
                 if (this.files && this.files[0]) {
                     reader = new FileReader();
@@ -377,13 +319,31 @@
                 var y = document.querySelector('div#diapositiva .miTextoDiapositiva');
                 var z = document.querySelector('div#diapositiva .subtituloDiapositiva');
                 if (x) {
-                    convertirElemento(x,'h1');
+                    x.innerHTML = x.value;
+                    var textareaContent = x.value;
+                    var h1 = document.createElement('h1');
+                    h1.textContent = textareaContent;
+                    h1.id = x.id;
+                    h1.className = x.className;
+                    x.parentNode.replaceChild(h1, x);
                 }
                 if (y) {
-                    convertirElemento(y,'p');                   
+                    y.innerHTML = y.value;
+                    var h1 = document.createElement('p');
+                    var textareaContent = y.value;
+                    h1.textContent = textareaContent;
+                    h1.id = y.id;
+                    h1.className = y.className;
+                    y.parentNode.replaceChild(h1, y);
                 }
                 if (z) {
-                    convertirElemento(z,'h3');
+                    z.innerHTML = z.value;
+                    var h1 = document.createElement('h3');
+                    var textareaContent = z.value;
+                    h1.textContent = textareaContent;
+                    h1.id = z.id;
+                    h1.className = z.className;
+                    z.parentNode.replaceChild(h1, z);
                 }
 
                 if (document.querySelector('#chessboard')) {
@@ -400,7 +360,7 @@
                     const celdas = document.querySelectorAll('.cell');
                     celdas.forEach(celda => {
                         celda.classList.remove(
-                            'movimientoPosible','bg-warning');
+                            'movimientoPosible'); // Remover clase CSS de movimientos previos
                     });
 
                     const contenedorDiv = document.querySelector(".hoja");
@@ -438,20 +398,22 @@
 
                 function agregarAlFormulario() {
 
-
+                    // Step 1: Select the form element
                     var form = document.getElementById('miFormulario');
 
-
+                    // Step 2: Create a hidden input element
                     var hiddenInput = document.createElement('input');
 
+                    // Step 3: Set the type attribute to "hidden"
                     hiddenInput.setAttribute('type', 'hidden');
                     hiddenInput.value = numeroDiapositivas;
                     hiddenInput.classList.add("oculto");
                     hiddenInput.id = 'oculto';
-
+                    // Step 4: Set additional attributes and values
                     hiddenInput.setAttribute('name', 'myHiddenField' + flagFormulario);
                     hiddenInput.setAttribute('value', contenido);
 
+                    // Step 5: Append the hidden input to the form
                     form.appendChild(hiddenInput);
                     flagFormulario++;
                 }
@@ -467,7 +429,7 @@
 
             $(document).on('click', '#BorrarHoja', function() {
 
-                
+                alert('borradno');
                 document.getElementById('hoja').innerHTML = '';
                 var contadorInput = document.getElementById('contadorInput');
                 contadorInput.value = contadorInput.value - 1;
