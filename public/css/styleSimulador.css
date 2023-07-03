@@ -2,7 +2,7 @@
     width: auto;
     height: 90%;
     display: grid;
-    
+
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
 }
@@ -16,16 +16,15 @@
 }
 
 .white {
-    background-color: #F0D9B5;
+    background-color: #f0d9b5;
     cursor: pointer;
 }
 
 .black {
-    background-color: #B58863;
+    background-color: #b58863;
 }
 
 .piece {
-
     transform: scale(3.5);
     text-align: center;
 }
@@ -44,67 +43,67 @@
     height: auto;
 }
 
-    /* Estilos para el modal */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-      
-      .modal-content {
-        background-color: #fefefe;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 700px;
-      }
-      
-      .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-      }
-      
-      .close:hover,
-      .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      .cerrar{
-        color: #aaa;
-        float: right;
-        display: grid;
-        justify-content: flex-end;
-        width: 100%;
-        font-size: 28px;
-        font-weight: bold;
-      }
-      
-      .cerrar:hover,
-      .cerrar:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-      }
+/* Estilos para el modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
 
-      label{
-        text-align: initial;
-      }
-      
-      #miFormulario{
-        width: auto;
-        height: 100%;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        justify-content: space-around;
-      }
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 700px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.cerrar {
+    color: #aaa;
+    float: right;
+    display: grid;
+    justify-content: flex-end;
+    width: 100%;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+label {
+    text-align: initial;
+}
+
+#miFormulario {
+    width: auto;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: space-around;
+}

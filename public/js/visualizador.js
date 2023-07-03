@@ -158,26 +158,9 @@ function cargarScriptDinamico() {
     const element1 = document.getElementById("BotonIniciar");
     element1.remove();
     //AGREGAR BOTONES
-    const divColumna4 = document.getElementById("columna-4");
+    
 
-    const botonPosicionFinal = document.createElement("button");
-    botonPosicionFinal.textContent = "Cambiar Posicion Final";
-    botonPosicionFinal.id = "btnPosicionFinal";
-    botonPosicionFinal.classList.add("btn", "btn-primary", "botonTablero");
-    divColumna4.appendChild(botonPosicionFinal);
-
-    // Asignar evento de clic al botón
-    botonPosicionFinal.addEventListener("click", function () {
-        eliminarEventoPieza();
-        eliminarMovimiento();
-
-        const puntoFinal = document.querySelector(".bg-success");
-        puntoFinal.classList.remove("bg-success");
-
-        cambiarPosicionFinal();
-    });
-
-    const divColumna2 = document.querySelector("#columna-1");
+    const divColumna2 = document.querySelector("#contenedorBtn");
 
     const botonMejorCamino = document.createElement("button");
     botonMejorCamino.textContent = "Habilitar Camino";
