@@ -24,7 +24,7 @@
     <title>Document</title>
 </head>
 
-<body>
+<body >
     <ul>
         <li><a href="{{ route('index') }}">Inicio</a></li>
         <li><a class="active" href="{{ route('plantillas') }}">Crear Curso</a></li>
@@ -46,7 +46,7 @@
             </ul>
         </div>
     @endif
-    <div class="container">
+    <div class="container" id="contenedorPrincipal">
 
         <div id="c1" class="subcontedor c1">
             <form action="po"></form>
