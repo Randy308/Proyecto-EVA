@@ -170,12 +170,6 @@ li a:hover {
 .miniatura:hover * {
   background-color: gray;
 }
-.subcontainer{
-    display: grid;
-   grid-template-columns: 1fr;
-   width: 30%;
-    justify-content: space-around;
-}
 .c1 {
     background-color: whitesmoke;
     display: flex;
