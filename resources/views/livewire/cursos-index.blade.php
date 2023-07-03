@@ -1,10 +1,10 @@
 <div>
     {{-- Care about people's approval and you will be their prisoner. --}}
-    <div class="card">
+    <div class="card"  >
         @if ($cursos->count())
             <div class="card-body containers">
                 @foreach ($cursos as $curso)
-                    <div class="card" style="width: 19rem;">
+                    <div class="card" style="width: 20rem;">
                         <img class="card-img-top" src="{{ asset('img/alfil.jpg') }}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">{{ $curso->nombre_curso }}</h5>
