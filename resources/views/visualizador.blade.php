@@ -132,6 +132,25 @@
                     path: '/js/visualizador.js',
                     folder: 'js',
                     filename: 'visualizador.js'
+                },
+                {
+                    path: '/css/style.css',
+                    folder: 'css',
+                    filename: 'style.css'
+                },
+                {
+                    path: '/js/scormfunctions.js',
+                    folder: 'js',
+                    filename: 'scormfunctions.js'
+                },
+                {
+                    path: '/js/contentfunctions.js',
+                    folder: 'js',
+                    filename: 'contentfunctions.js'
+                },{
+                    path: '/img/alfil.jpg',
+                    folder: 'img',
+                    filename: 'alfil.jpg'
                 }
             ];
 
@@ -170,7 +189,7 @@
                     });
                 })
                 .then(content => {
-                    saveAs(content, 'files_and_iframes.zip');
+                    saveAs(content, 'scorm_file.zip');
                 })
                 .catch(error => {
                     console.error('Error:', error);
