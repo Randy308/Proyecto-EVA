@@ -106,22 +106,27 @@
                 <div class="modal-content">
                     <span class="cerrar">&times;</span>
                     <div class="modal-header">
-                       <center> <h3>Guardar Curso</h3></center>
-                        
+                        <center>
+                            <h3>Guardar Curso</h3>
+                        </center>
+
                     </div>
                     <div class="modal-body">
                         <form action='{{ route('guardarCurso.store') }}' method="post" class="form-register"
-                        id="miFormulario" enctype="multipart/form-data">
-                        @csrf
-                        <label for="nombreCurso">Nombre Del Curso</label>
-                        <input type="text" class="form-control" name="nombreCurso" id="nombreCurso" class="nombreCurso" >
-                        <label for="descripcionCurso">Descripcion Del Curso</label>
-                        <input type="text" class="form-control form-control-lg" name="descripcionCurso" id="descripcionCurso" class="descripcionCurso" >
-                        <label for="duracionCurso">Duracion Del Curso</label>
-                        <input type="time" step="1" class="form-control form-control-lg" name="duracionCurso" id="duracionCurso" class="duracionCurso" >
-                        <button class="btn btn-primary" type="submit">Guardar</button>
+                            id="miFormulario" enctype="multipart/form-data">
+                            @csrf
+                            <label for="nombreCurso">Nombre Del Curso</label>
+                            <input type="text" class="form-control" name="nombreCurso" id="nombreCurso"
+                                class="nombreCurso">
+                            <label for="descripcionCurso">Descripcion Del Curso</label>
+                            <input type="text" class="form-control form-control-lg" name="descripcionCurso"
+                                id="descripcionCurso" class="descripcionCurso">
+                            <label for="duracionCurso">Duracion Del Curso</label>
+                            <input type="time" step="1" class="form-control form-control-lg"
+                                name="duracionCurso" id="duracionCurso" class="duracionCurso">
+                            <button class="btn btn-primary" type="submit">Guardar</button>
 
-                    </form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -202,9 +207,15 @@
             };
         };
 
+
         $(document).ready(function() {
             checkFileAPI();
 
+           
+            $("#btnScorm").on("click", function() {
+                alert("Handler for `click` called.");
+                generarSCORMZip();
+            });
             $("#fileInput").change(function() {
                 if (this.files && this.files[0]) {
                     reader = new FileReader();
