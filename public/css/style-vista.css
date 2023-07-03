@@ -1,9 +1,0 @@
-body{
-    gap: 20px;
-    padding: 10px;
-    align-items: flex-start;
-    display: grid;
-    grid-template-columns: auto;
-    align-content: space-around;
-    background-color: gray;
-}
