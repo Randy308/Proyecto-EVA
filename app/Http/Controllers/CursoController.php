@@ -52,6 +52,7 @@ class CursoController extends Controller
         }
         //return $request;
         return redirect()->back()->with('status','El curso se guardo exitosamente! ');
+
     }
 
     /**
