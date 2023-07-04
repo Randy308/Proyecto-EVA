@@ -82,7 +82,7 @@
             <script>
                 function addSubtituloImagen() {
                     limpiarBotonesAuxiliares();
-                    var imagenRuta = "{{ asset('img/mov-alfi.jpg') }}";
+                    var imagenRuta = "{{ asset('img/partida_de_ajedrez.jpg') }}";
                     var diapositivaInput = document.getElementById("diapositivaInput");
                     diapositivaInput.value = "Subtitulo e imagen";
                     cont_hoja.innerHTML = "";
@@ -101,9 +101,7 @@
 
                         var imagen = document.createElement("img");
                         imagen.src = imagenRuta;
-                        imagen.classList.add("miTexto", "miTextoDiapositiva");
-                        imagen.id = "miTexto";
-                        imagen.type = "text";
+
 
                         div.appendChild(imagen);
                     }

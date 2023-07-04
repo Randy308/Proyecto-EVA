@@ -107,3 +107,8 @@ label {
     gap: 20px;
     justify-content: space-around;
 }
+img{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
