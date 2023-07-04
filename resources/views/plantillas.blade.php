@@ -24,7 +24,7 @@
     <title>Document</title>
 </head>
 
-<body >
+<body>
     <ul>
         <li><a href="{{ route('index') }}">Inicio</a></li>
         <li><a class="active" href="{{ route('plantillas') }}">Crear Curso</a></li>
@@ -72,10 +72,56 @@
                     <button id="item3" onclick="addSubtituloTexto()" class="dropdown-item" type="button">Subtitulo
                         y texto</button>
                     <button id="item4" onclick="addTexto()" class="dropdown-item" type="button">Texto</button>
+                    <button id="item5" onclick="addSubtituloImagen()" class="dropdown-item" type="button">Subtitulo
+                        e Imagen</button>
                 </ul>
             </div>
+            @php
+            $videoRuta = asset('img/Coronacion.mp4');
+            @endphp
+            <script>
+                function addSubtituloImagen() {
+                    limpiarBotonesAuxiliares();
+                    var imagenRuta = "{{ asset('img/mov-alfi.jpg') }}";
+                    var diapositivaInput = document.getElementById("diapositivaInput");
+                    diapositivaInput.value = "Subtitulo e imagen";
+                    cont_hoja.innerHTML = "";
+
+                    const div = document.createElement("div");
+                    div.id = "diapositiva";
+                    var miSubTitulo = document.createElement("textarea");
+                    miSubTitulo.classList.add("miSubTitulo", "subtituloDiapositiva");
+                    miSubTitulo.id = "miSubTitulo";
+                    miSubTitulo.type = "text";
+                    miSubTitulo.textContent = "Subtítulo";
+
+                    div.appendChild(miSubTitulo);
+
+                    if (typeof imagenRuta !== "undefined") {
+
+                        var imagen = document.createElement("img");
+                        imagen.src = imagenRuta;
+                        imagen.classList.add("miTexto", "miTextoDiapositiva");
+                        imagen.id = "miTexto";
+                        imagen.type = "text";
+
+                        div.appendChild(imagen);
+                    }
+                    var element1 = document.getElementById("GuardarHoja");
+                    element1.disabled = false;
 
 
+                    //agregar boton
+                    const containerc3 = document.querySelector(".c3");
+                    var botonTexto = document.createElement("input");
+                    botonTexto.classList.add("CambiarTexto");
+                    botonTexto.type = "button";
+                    botonTexto.value = "Modificar Texto";
+
+                    containerc3.appendChild(botonTexto);
+                    cont_hoja.appendChild(div);
+                }
+            </script>
 
             <button type="button" id="AgregarMovAlfil" class="btn btn-primary">Agregar Movimiento Alfil</button>
             <button type="button" id="GuardarHoja" disabled class="btn btn-success">Guardar</button>
@@ -145,28 +191,7 @@
 
         </div>
     </center>
-    <script>
-        function allowDrop(ev) {
-          ev.preventDefault();
-        }
-        
-        function drag(ev) {
-          ev.dataTransfer.setData("text", ev.target.id);
-        }
-        
-        function drop(event) {
-      event.preventDefault();
-      const data = event.dataTransfer.getData("text/plain");
-      const target = event.target;
 
-      // Verificar si el elemento arrastrado es una miniatura
-      if (target.classList.contains("miniatura")) {
-        // Mover la miniatura al nuevo contenedor
-        target.parentNode.removeChild(target);
-        event.currentTarget.appendChild(target);
-      }
-    }
-        </script>
     <script>
         function abrirModal() {
             var alfilElement = document.querySelector(".bg-success .alfil");
@@ -191,21 +216,20 @@
     <script src="{{ asset('js/jszip.umd.min.js') }}"></script>
 
     <script>
-
-        function convertirElemento(elemento,nuevoElemento){
-            if(elemento.tagName.toLowerCase() === 'textarea'){
+        function convertirElemento(elemento, nuevoElemento) {
+            if (elemento.tagName.toLowerCase() === 'textarea') {
                 elemento.innerHTML = elemento.value;
-                    var textareaContent = elemento.value;
-                    var h1 = document.createElement(nuevoElemento);
-                    h1.textContent = textareaContent;
-                    h1.id = elemento.id;
-                    h1.className = elemento.className;
-                    elemento.parentNode.replaceChild(h1, elemento);
-                    }else{
-                        console.log('no es un textarea');
-                    }
+                var textareaContent = elemento.value;
+                var h1 = document.createElement(nuevoElemento);
+                h1.textContent = textareaContent;
+                h1.id = elemento.id;
+                h1.className = elemento.className;
+                elemento.parentNode.replaceChild(h1, elemento);
+            } else {
+                console.log('no es un textarea');
+            }
 
-        }        
+        }
         var flagFormulario = 1;
 
         function toggleElementTextarea(element, elementType) {
@@ -253,14 +277,14 @@
                 return false;
             };
         };
+        
 
 
         $(document).ready(function() {
             checkFileAPI();
 
-
             $("#btnScorm").on("click", function() {
-                alert("Handler for `click` called.");
+                //alert("Handler for `click` called.");
                 generarSCORMZip();
             });
             $("#fileInput").change(function() {
@@ -377,13 +401,13 @@
                 var y = document.querySelector('div#diapositiva .miTextoDiapositiva');
                 var z = document.querySelector('div#diapositiva .subtituloDiapositiva');
                 if (x) {
-                    convertirElemento(x,'h1');
+                    convertirElemento(x, 'h1');
                 }
                 if (y) {
-                    convertirElemento(y,'p');                   
+                    convertirElemento(y, 'p');
                 }
                 if (z) {
-                    convertirElemento(z,'h3');
+                    convertirElemento(z, 'h3');
                 }
 
                 if (document.querySelector('#chessboard')) {
@@ -400,7 +424,7 @@
                     const celdas = document.querySelectorAll('.cell');
                     celdas.forEach(celda => {
                         celda.classList.remove(
-                            'movimientoPosible','bg-warning');
+                            'movimientoPosible', 'bg-warning');
                     });
 
                     const contenedorDiv = document.querySelector(".hoja");
@@ -467,7 +491,7 @@
 
             $(document).on('click', '#BorrarHoja', function() {
 
-                
+
                 document.getElementById('hoja').innerHTML = '';
                 var contadorInput = document.getElementById('contadorInput');
                 contadorInput.value = contadorInput.value - 1;

@@ -4,18 +4,9 @@ var autoIncrement = 1;
 var numeroDiapositivas = 0;
 var numeroMovimientosAlfil = 0;
 function addPlantilla(imagenRuta, contenido, expr) {
-    //const containerss = document.createElement("div");
     const div = document.createElement("div");
-
     div.classList.add("miniatura");
     div.id = "miniatura";
-    //div.draggable = true;
-   // containerss.id='container';
-    //containerss.addEventListener("dragover", allowDrop);
-    //containerss.addEventListener("drop", drop);
-    //div.addEventListener("dragstart", drag);
-
-    //containerss.appendChild(div);
     container.appendChild(div);
     var mihidden = document.createElement("input");
     mihidden.classList.add("contenido");
@@ -23,7 +14,6 @@ function addPlantilla(imagenRuta, contenido, expr) {
     mihidden.id = "oculto";
     mihidden.value = contenido;
     div.appendChild(mihidden);
-    
     var contadorInput = document.getElementById("contadorInput");
     numeroDiapositivas++;
     contadorInput.value = numeroDiapositivas;
@@ -32,33 +22,69 @@ function addPlantilla(imagenRuta, contenido, expr) {
     indiceDiapositiva.value = numeroDiapositivas;
     indiceDiapositiva.classList.add("indiceDiapositiva");
     div.appendChild(indiceDiapositiva);
-    if (typeof imagenRuta === "undefined") {
-        switch (expr) {
-            case "Titulo":
-                console.log("add Titulo.");
-                var mi = document.createElement("span");
-                mi.classList.add("miniaturaTitulo");
-                //mi.type = "text";
-                mi.textContent = "Titulo";
-                div.appendChild(mi);
-                //addtitulo();
-                break;
-            case "Titulo y subtitulo":
-                var mi = document.createElement("span");
-                mi.classList.add("miniaturaTitulo");
-                //mi.type = "text";
-                mi.textContent = "Titulo";
-                div.appendChild(mi);
 
-                var Subtitulo = document.createElement("span");
-                Subtitulo.classList.add("miniaturaSubTitulo");
-                Subtitulo.id = "miSubTitulo";
-                Subtitulo.textContent = "Subtitulo";
-                div.appendChild(Subtitulo);
+    switch (expr) {
+        case "Titulo":
+            console.log("add Titulo.");
+            var mi = document.createElement("span");
+            mi.classList.add("miniaturaTitulo");
+            //mi.type = "text";
+            mi.textContent = "Titulo";
+            div.appendChild(mi);
+            //addtitulo();
+            break;
+        case "Titulo y subtitulo":
+            var mi = document.createElement("span");
+            mi.classList.add("miniaturaTitulo");
+            //mi.type = "text";
+            mi.textContent = "Titulo";
+            div.appendChild(mi);
 
-                console.log("Titulo y subtitulo");
-                break;
-            case "Subtitulo y texto":
+            var Subtitulo = document.createElement("span");
+            Subtitulo.classList.add("miniaturaSubTitulo");
+            Subtitulo.id = "miSubTitulo";
+            Subtitulo.textContent = "Subtitulo";
+            div.appendChild(Subtitulo);
+
+            console.log("Titulo y subtitulo");
+            break;
+        case "Subtitulo y texto":
+            console.log("add Subtitulo y texto");
+            var Subtitulo = document.createElement("span");
+            Subtitulo.classList.add("miniaturaSubTitulo");
+            Subtitulo.classList.add("miSubTitulo");
+            Subtitulo.id = "miSubTitulo";
+            Subtitulo.textContent = "Subtitulo";
+            div.appendChild(Subtitulo);
+            var texto = document.createElement("span");
+            texto.classList.add("miniaturaTexto");
+            texto.classList.add("miTexto");
+            texto.id = "miTexto";
+            texto.textContent = "Texto";
+            div.appendChild(texto);
+            // Expected output: "Mangoes and papayas are $2.79 a pound."
+            break;
+        case "Texto":
+            console.log("add Texto");
+            var mi = document.createElement("span");
+            mi.classList.add("miniaturaTexto");
+            //mi.type = "text";
+            mi.classList.add("miTexto");
+            mi.id = "miTexto";
+            mi.textContent = "Texto";
+            div.appendChild(mi);
+            // Expected output: "Mangoes and papayas are $2.79 a pound."
+            break;
+        case "Tablero":
+            console.log("add Tablero");
+            var imagen = document.createElement("img");
+            imagen.classList.add("imagen");
+            // Paso 2: Establecer la ruta de la imagen
+            imagen.src = imagenRuta;
+            div.appendChild(imagen);
+            //container.appendChild(div);
+            break;
+        case "Subtitulo e imagen":
                 console.log("add Subtitulo y texto");
                 var Subtitulo = document.createElement("span");
                 Subtitulo.classList.add("miniaturaSubTitulo");
@@ -70,36 +96,17 @@ function addPlantilla(imagenRuta, contenido, expr) {
                 texto.classList.add("miniaturaTexto");
                 texto.classList.add("miTexto");
                 texto.id = "miTexto";
-                texto.textContent = "Texto";
+        
                 div.appendChild(texto);
                 // Expected output: "Mangoes and papayas are $2.79 a pound."
-                break;
-            case "Texto":
-                console.log("add Texto");
-                var mi = document.createElement("span");
-                mi.classList.add("miniaturaTexto");
-                //mi.type = "text";
-                mi.classList.add("miTexto");
-                mi.id = "miTexto";
-                mi.textContent = "Texto";
-                div.appendChild(mi);
-                // Expected output: "Mangoes and papayas are $2.79 a pound."
-                break;
-            default:
-                console.log(`Sorry, we are out of ${expr}.`);
-        }
-        
-    } else {
-        var imagen = document.createElement("img");
-        imagen.classList.add("imagen");
-        // Paso 2: Establecer la ruta de la imagen
-        imagen.src = imagenRuta;
-        div.appendChild(imagen);
-        //container.appendChild(div);
+            break;
+        default:
+            console.log(`Sorry, we are out of ${expr}.`);
     }
+
     cont_hoja.innerHTML = "";
     var element2 = document.getElementById("GuardarHoja");
-                element2.disabled = true;
+    element2.disabled = true;
 }
 function limpiarBotonesAuxiliares() {
     document.querySelector(".Cambiar")?.remove();
@@ -231,6 +238,8 @@ function addtitulo() {
     cont_hoja.appendChild(div);
 }
 function addTablero() {
+    var diapositivaInput = document.getElementById("diapositivaInput");
+    diapositivaInput.value = "Tablero";
     cont_hoja.innerHTML = "";
     const div = document.createElement("div");
     div.id = "chessboard";
@@ -378,8 +387,8 @@ function mensajeExito() {
     // Verificar si el elemento existe
     if (alfilElement) {
         // Mostrar el modal de éxito
-        var mensaje =document.getElementById('textoNumeroDePasos');
-        mensaje.textContent  = `El alfil ha llegado a su objetivo en el tablero después de ${numeroMovimientosAlfil} movimientos.`;
+        var mensaje = document.getElementById("textoNumeroDePasos");
+        mensaje.textContent = `El alfil ha llegado a su objetivo en el tablero después de ${numeroMovimientosAlfil} movimientos.`;
         var modal = document.getElementById("myModal");
         var span = document.getElementsByClassName("close")[0];
         console.log(numeroMovimientosAlfil);

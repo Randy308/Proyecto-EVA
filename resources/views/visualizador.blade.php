@@ -109,8 +109,36 @@
                 </div>
             @endforeach
         </div>
-        
+        <button onclick="extraerSRC()">extraer</button>
     </div>
+    <script>
+        function extraerSRC() {
+            var iframes = document.getElementsByTagName("iframe");
+            for (var i = 0; i < iframes.length; i++) {
+                var iframe = iframes[i];
+                var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                var iframeId = iframe.id;
+
+                // Obtener el contenido del iframe
+                var htmlContent = iframeDocument.documentElement.outerHTML;
+
+                // Eliminar todas las instancias de la URL
+                var cleanedContent = htmlContent.replace(/http:\/\/127\.0\.0\.1:8000\//g, '');
+                var regex = /src=["']([^"']+)["']/g;
+                var matches;
+                var srcList = [];
+
+                while ((matches = regex.exec(cleanedContent)) !== null) {
+                    var src = matches[1];
+                    if (!src.endsWith('.js')) {
+                        srcList.push(src);
+                    }
+                }
+
+                console.log(srcList[0]);
+            }
+        }
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/FileSaver.js"></script>
@@ -138,21 +166,16 @@
                     path: '/css/style.css',
                     folder: 'Curso/css',
                     filename: 'style.css'
-                },
-                {
+                }
+            ];
+            var images = [{
                     path: '/img/alfil.jpg',
-                    folder: 'img',
+                    folder: 'Curso/img',
                     filename: 'alfil.jpg'
                 }
             ];
 
-            var filePromises = files.map(file => {
-                return fetch(file.path)
-                    .then(response => response.text())
-                    .then(content => {
-                        zip.folder(file.folder).file(file.filename, content);
-                    });
-            });
+
 
             // Guardar contenido de los iframes
             var iframes = document.getElementsByTagName("iframe");
@@ -167,10 +190,47 @@
 
                 // Eliminar todas las instancias de la URL
                 var cleanedContent = htmlContent.replace(/http:\/\/127\.0\.0\.1:8000\//g, '');
+                var regex = /src=["']([^"']+)["']/g;
+                var matches;
+                var srcList = [];
 
+                while ((matches = regex.exec(cleanedContent)) !== null) {
+                    var src = matches[1];
+                    if (!src.endsWith('.js')) {
+                        srcList.push(src);
+                    }
+                }
+                srcList.forEach(element => {
+                    var nombreArchivo = element.substring(element.lastIndexOf('/') + 1);
+                    images.push({
+                        path: '/' + element,
+                        folder: 'Curso/img',
+                        filename: nombreArchivo
+                    });
+                });
+                console.log(srcList[0]);
+
+                console.log(srcList);
                 // Guardar el contenido modificado del iframe en el zip
-                zip.file("Curso/"+iframeId + ".html", cleanedContent);
+                zip.file("Curso/" + iframeId + ".html", cleanedContent);
             }
+            var imagePromises = images.map(file => {
+                return fetch(file.path)
+                    .then(response => response.arrayBuffer())
+                    .then(content => {
+                        var uint8Array = new Uint8Array(content);
+                        zip.folder(file.folder).file(file.filename, uint8Array);
+                    });
+            });
+
+            var filePromises = files.map(file => {
+                return fetch(file.path)
+                    .then(response => response.text())
+                    .then(content => {
+                        zip.folder(file.folder).file(file.filename, content);
+                    });
+            });
+
             zip.file('Curso/index.html', generarIndex());
             zip.file('Curso/imsmanifest.xml', generarXml());
 
@@ -187,122 +247,116 @@
                     console.error('Error:', error);
                 });
         }
+    </script>
+    <script src="{{ asset('js/scorm.js') }}"></script>
+    <script>
+        function saveIframesContentAsZip() {
+            var iframes = document.getElementsByTagName("iframe");
+            var zip = new JSZip();
+
+            for (var i = 0; i < iframes.length; i++) {
+                var iframe = iframes[i];
+                var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                var iframeId = iframe.id;
+
+                // Obtener el contenido del iframe
+                var htmlContent = iframeDocument.documentElement.outerHTML;
+
+                // Eliminar todas las instancias de la URL
+                var cleanedContent = htmlContent.replace(/http:\/\/127\.0\.0\.1:8000\//g, '');
+
+                // Guardar el contenido modificado del iframe en el zip
+                zip.file(iframeId + ".html", cleanedContent);
+            }
+
+            zip.generateAsync({
+                type: "blob"
+            }).then(function(content) {
+                saveAs(content, "iframes_content.zip");
+            });
+        }
+    </script>
 
 
-
-        
-
-
-</script>
-<script src="{{asset('js/scorm.js')}}"></script>
-<script>
-    function saveIframesContentAsZip() {
-        var iframes = document.getElementsByTagName("iframe");
-        var zip = new JSZip();
-
-        for (var i = 0; i < iframes.length; i++) {
-            var iframe = iframes[i];
-            var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            var iframeId = iframe.id;
-
-            // Obtener el contenido del iframe
-            var htmlContent = iframeDocument.documentElement.outerHTML;
-
-            // Eliminar todas las instancias de la URL
-            var cleanedContent = htmlContent.replace(/http:\/\/127\.0\.0\.1:8000\//g, '');
-
-            // Guardar el contenido modificado del iframe en el zip
-            zip.file(iframeId + ".html", cleanedContent);
+    <script>
+        function myFunction() {
+            var container = document.querySelector(".myContaineres");
+            var content = document.querySelector(".containeres");
+            var scrollPosition = content.scrollTop;
+            var height = content.scrollHeight - content.clientHeight;
+            var scrolled = (scrollPosition / height) * 100;
+            document.getElementById("myBar").style.width = scrolled + "%";
         }
 
-        zip.generateAsync({
-            type: "blob"
-        }).then(function(content) {
-            saveAs(content, "iframes_content.zip");
-        });
-    }
-</script>
-
-
-<script>
-    function myFunction() {
-        var container = document.querySelector(".myContaineres");
         var content = document.querySelector(".containeres");
-        var scrollPosition = content.scrollTop;
-        var height = content.scrollHeight - content.clientHeight;
-        var scrolled = (scrollPosition / height) * 100;
-        document.getElementById("myBar").style.width = scrolled + "%";
-    }
+        content.addEventListener('scroll', myFunction);
+        myFunction(); // Llamada inicial a la función
 
-    var content = document.querySelector(".containeres");
-    content.addEventListener('scroll', myFunction);
-    myFunction(); // Llamada inicial a la función
+        function getIframeHtml(iframe) {
+            const s = new XMLSerializer();
+            let html = '';
+            let e = iframe.contentDocument.firstChild;
+            do {
+                html += 'outerHTML' in e ? e.outerHTML : s.serializeToString(e);
+                e = e.nextSibling;
+            } while (e);
+            return html;
+        }
+    </script>
 
-    function getIframeHtml(iframe) {
-        const s = new XMLSerializer();
-        let html = '';
-        let e = iframe.contentDocument.firstChild;
-        do {
-            html += 'outerHTML' in e ? e.outerHTML : s.serializeToString(e);
-            e = e.nextSibling;
-        } while (e);
-        return html;
-    }
-</script>
+    <script>
+        // Set the date we're counting down to
+        var titulos = document.getElementById('mititles');
+        let text = titulos.innerHTML;
+        titulos.innerHTML = (text.toUpperCase());
 
-<script>
-    // Set the date we're counting down to
-    var titulos = document.getElementById('mititles');
-    let text = titulos.innerHTML;
-    titulos.innerHTML = (text.toUpperCase());
+        var tiempo = "{{ $curso->duracion }}";
+        console.log(tiempo);
+        // Convierte el tiempo a segundos
+        var segundosTotales = obtenerSegundos(tiempo);
 
-    var tiempo = "{{ $curso->duracion }}";
-    console.log(tiempo);
-    // Convierte el tiempo a segundos
-    var segundosTotales = obtenerSegundos(tiempo);
+        // Función para obtener los segundos totales a partir de una duración en formato hh:mm:ss
+        function obtenerSegundos(tiempo) {
+            var partesTiempo = tiempo.split(":");
+            var horas = parseInt(partesTiempo[0]);
+            var minutos = parseInt(partesTiempo[1]);
+            var segundos = parseInt(partesTiempo[2]);
+            return horas * 3600 + minutos * 60 + segundos;
+        }
 
-    // Función para obtener los segundos totales a partir de una duración en formato hh:mm:ss
-    function obtenerSegundos(tiempo) {
-        var partesTiempo = tiempo.split(":");
-        var horas = parseInt(partesTiempo[0]);
-        var minutos = parseInt(partesTiempo[1]);
-        var segundos = parseInt(partesTiempo[2]);
-        return horas * 3600 + minutos * 60 + segundos;
-    }
+        // Función para mostrar el tiempo en formato hh:mm:ss
+        function mostrarTiempo(segundos) {
+            var horas = Math.floor(segundos / 3600);
+            var minutos = Math.floor((segundos % 3600) / 60);
+            var segundosRestantes = segundos % 60;
+            return (
+                ("0" + horas).slice(-2) +
+                ":" +
+                ("0" + minutos).slice(-2) +
+                ":" +
+                ("0" + segundosRestantes).slice(-2)
+            );
+        }
 
-    // Función para mostrar el tiempo en formato hh:mm:ss
-    function mostrarTiempo(segundos) {
-        var horas = Math.floor(segundos / 3600);
-        var minutos = Math.floor((segundos % 3600) / 60);
-        var segundosRestantes = segundos % 60;
-        return (
-            ("0" + horas).slice(-2) +
-            ":" +
-            ("0" + minutos).slice(-2) +
-            ":" +
-            ("0" + segundosRestantes).slice(-2)
-        );
-    }
+        // Función para realizar la cuenta regresiva
+        function cuentaRegresiva() {
+            var intervalo = setInterval(function() {
+                segundosTotales--;
 
-    // Función para realizar la cuenta regresiva
-    function cuentaRegresiva() {
-        var intervalo = setInterval(function() {
-            segundosTotales--;
+                // Muestra el tiempo restante
+                //console.log(mostrarTiempo(segundosTotales));
+                document.getElementById("demo").innerHTML = mostrarTiempo(segundosTotales);
+                if (segundosTotales <= 0) {
+                    // Se ha alcanzado el final de la cuenta regresiva
+                    clearInterval(intervalo);
+                    console.log("¡Tiempo agotado!");
+                }
+            }, 1000);
+        }
 
-            // Muestra el tiempo restante
-            //console.log(mostrarTiempo(segundosTotales));
-            document.getElementById("demo").innerHTML = mostrarTiempo(segundosTotales);
-            if (segundosTotales <= 0) {
-                // Se ha alcanzado el final de la cuenta regresiva
-                clearInterval(intervalo);
-                console.log("¡Tiempo agotado!");
-            }
-        }, 1000);
-    }
-
-    // Inicia la cuenta regresiva
-    cuentaRegresiva();
-</script>
+        // Inicia la cuenta regresiva
+        cuentaRegresiva();
+    </script>
 </body>
 
 </html>
