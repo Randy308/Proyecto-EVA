@@ -117,7 +117,12 @@ function doNext(){
 
     return  textos+contenido+faltante;
 }
-function generarXml() {
+function generarXml(srcList) {
+    var contenido =` `;
+    srcList.forEach(element => {
+        var img = ` '<file href="` +element+` " />\n ' + ` 
+        contenido += img;
+    });
     return `
 <?xml version="1.0" encoding="UTF-8"?>\n' +
 '<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
@@ -144,7 +149,7 @@ xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 http://www.imsglobal
 </resource>\n' +
 ' <resource identifier="imagen" type="webcontent" adlcp:scormType="asset">\n' +
 '
-<file href="img/alfil.jpg" />\n' +
+<file href="img/alfil.jpg" />\n' + `+contenido+`
 '
 </resource>\n' +
 ' </resources>\n' +

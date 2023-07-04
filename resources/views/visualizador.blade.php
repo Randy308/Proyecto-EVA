@@ -232,7 +232,7 @@
             });
 
             zip.file('Curso/index.html', generarIndex());
-            zip.file('Curso/imsmanifest.xml', generarXml());
+            zip.file('Curso/imsmanifest.xml', generarXml(srcList));
 
             Promise.all(filePromises)
                 .then(() => {
