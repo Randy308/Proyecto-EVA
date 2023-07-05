@@ -135,6 +135,11 @@
                     filename: 'visualizador.js'
                 },
                 {
+                    path: '/js/scormfunctions.js',
+                    folder: 'Curso',
+                    filename: 'scormfunctions.js'
+                },
+                {
                     path: '/css/style.css',
                     folder: 'Curso/css',
                     filename: 'style.css'

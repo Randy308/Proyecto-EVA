@@ -4,7 +4,7 @@ var autoIncrement = 1;
 var numeroDiapositivas = 0;
 var numeroMovimientosAlfil = 0;
 
-  
+window.metodoActivado = true;
   
 function addTablero() {
     cont_hoja.innerHTML = "";
